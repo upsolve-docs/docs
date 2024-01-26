@@ -3,7 +3,8 @@
   "name": "Upsolve AI",
   "logo": {
     "dark": "/logo/dark_logo.svg",
-    "light": "/logo/light_logo.svg"
+    "light": "/logo/light_logo.svg",
+    "href":"https://upsolve.ai"
   },
   "favicon": "/favicon.svg",
   "colors": {
