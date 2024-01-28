@@ -49,7 +49,14 @@
     {
       "group": "Charts",
       "pages": [
-        "chart-creation/chart-building"
+        {
+          "group": "Chart Building",
+          "pages": [
+            "charts/create-chart",
+            "charts/point-and-click-interface",
+            "charts/archie-by-upsolve"
+          ]
+        }
       ]
     }
   ],
