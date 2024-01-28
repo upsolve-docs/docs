@@ -54,7 +54,21 @@
           "pages": [
             "charts/create-chart",
             "charts/point-and-click-interface",
-            "charts/archie-by-upsolve"
+            "charts/dash-by-upsolve",
+            "charts/possible-configuration"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Dashboards",
+      "pages": [
+        {
+          "group": "Dashboard Building",
+          "pages": [
+            "dashboards/create-dashboard",
+            "dashboards/point-and-click-interface",
+            "dashboards/dash-by-upsolve"
           ]
         }
       ]
