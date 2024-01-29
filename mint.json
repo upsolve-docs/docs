@@ -26,6 +26,16 @@
     "name": "Request Access",
     "url": "https://upsolve.ai/"
   },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true
+  },
+  "tabs": [
+    {
+      "name": "Integrations",
+      "url": "integrations"
+    }
+  ],
   "anchors": [
     {
       "name": "Impact Studies",
@@ -49,28 +59,29 @@
     {
       "group": "Charts",
       "pages": [
-        {
-          "group": "Chart Building",
-          "pages": [
-            "charts/create-chart",
-            "charts/point-and-click-interface",
-            "charts/dash-by-upsolve",
-            "charts/possible-configuration"
-          ]
-        }
+        "charts/create-chart",
+        "charts/point-and-click-interface",
+        "charts/dash-by-upsolve"
       ]
     },
     {
       "group": "Dashboards",
       "pages": [
-        {
-          "group": "Dashboard Building",
-          "pages": [
-            "dashboards/create-dashboard",
-            "dashboards/point-and-click-interface",
-            "dashboards/dash-by-upsolve"
-          ]
-        }
+        "dashboards/create-dashboard",
+        "dashboards/point-and-click-interface",
+        "dashboards/dash-by-upsolve"
+      ]
+    },
+    {
+      "group": "Deploy Dashboards",
+      "pages": [
+        "deploy-dashboards/overview"
+      ]
+    },
+    {
+      "group": "integrations",
+      "pages": [
+        "integrations/overview"
       ]
     }
   ],
