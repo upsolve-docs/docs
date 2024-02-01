@@ -1,0 +1,121 @@
+openapi: 3.1.0
+info:
+  title: Upsolve API
+  version: 1.0.0
+paths:
+  /v1/api/tenant/register-tenant:
+    post:
+      operationId: PostApiTenantRegisterTenant
+      responses:
+        "200":
+          description: POST /v1/api/tenant/register-tenant Positive response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: Result of the API returned as a message.
+                    required:
+                      - message
+                required:
+                  - status
+                  - data
+        "400":
+          description: POST /v1/api/tenant/register-tenant Negative response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - error
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - status
+                  - error
+              examples:
+                example1:
+                  value:
+                    status: error
+                    error:
+                      message: Sample error message
+      description: Use this endpoint to securely register a tenant to Upsolve and pass
+        metadata relating to the tenant. This metadata payload will be used to
+        secure data when the user accesses an Upsolve dashboard.
+      summary: Register tenant to Upsolve
+      requestBody:
+        description: POST /v1/api/tenant/register-tenant Request body
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                api_key:
+                  type: string
+                  minLength: 1
+                  description: Upsolve API key, generated in the Deploy tab of the Upsolve Hub.
+                  examples:
+                    - up_embed_************
+                displayName:
+                  type: string
+                  description: Display name for this user. This will appear in the Upsolve Hub.
+                  examples:
+                    - Google Inc
+                key:
+                  type: string
+                  minLength: 1
+                  description: Unique key to identify this tenant. Ideally something complex like
+                    a UUID.
+                  examples:
+                    - org_1234-abcd-5678-efgh
+                prefilters:
+                  type: object
+                  additionalProperties:
+                    type: string
+                    description: Value to filter on
+                  examples:
+                    - company_id: company-google
+                      company_class: tech
+              required:
+                - api_key
+                - displayName
+                - key
+                - prefilters
+      security:
+        - APIKEY_1: []
+components:
+  schemas: {}
+  responses: {}
+  parameters: {}
+  examples: {}
+  requestBodies: {}
+  headers: {}
+  securitySchemes:
+    APIKEY_1:
+      type: apiKey
+      in: query
+      name: api_key
+      x-in-actual: body
+      description: api_key MUST be supplied within the request body instead of query
+  links: {}
+  callbacks: {}
+tags: []
+servers:
+  - url: https://api.upsolve.ai

@@ -34,6 +34,10 @@
     {
       "name": "Integrations",
       "url": "integrations"
+    },
+    {
+      "name": "API Reference",
+      "url": "api-reference"
     }
   ],
   "anchors": [
@@ -83,11 +87,21 @@
       "pages": [
         "integrations/overview"
       ]
+    },
+    {
+      "group": "API Documentation",
+      "pages": [
+        "api-reference/endpoint/register-tenant-to-upsolve"
+      ]
     }
   ],
   "footerSocials": {
     "website": "https://upsolve.ai/",
     "linkedin": "https://www.linkedin.com/company/upsolveai",
     "hacker-news": "https://www.ycombinator.com/companies/upsolve-ai"
+  },
+  "openapi": ["/api-reference/upsolve.documentation.yaml"],
+  "api": {
+    "baseUrl": "https://api.upsolve.ai"
   }
 }
