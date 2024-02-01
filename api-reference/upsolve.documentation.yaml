@@ -67,7 +67,7 @@ paths:
             schema:
               type: object
               properties:
-                api_key:
+                apiKey:
                   type: string
                   minLength: 1
                   description: Upsolve API key, generated in the Deploy tab of the Upsolve Hub.
@@ -94,7 +94,7 @@ paths:
                     - company_id: company-google
                       company_class: tech
               required:
-                - api_key
+                - apiKey
                 - displayName
                 - key
                 - prefilters
@@ -111,9 +111,9 @@ components:
     APIKEY_1:
       type: apiKey
       in: query
-      name: api_key
+      name: apiKey
       x-in-actual: body
-      description: api_key MUST be supplied within the request body instead of query
+      description: apiKey MUST be supplied within the request body instead of query
   links: {}
   callbacks: {}
 tags: []
