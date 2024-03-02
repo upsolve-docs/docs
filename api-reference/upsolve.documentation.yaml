@@ -3,9 +3,61 @@ info:
   title: Upsolve API
   version: 1.0.0
 paths:
+  /v1/health:
+    get:
+      operationId: GetV1Health
+      responses:
+        "200":
+          description: GET /v1/health Positive response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    type: object
+                    properties:
+                      ok:
+                        type: boolean
+                    required:
+                      - ok
+                required:
+                  - status
+                  - data
+        "400":
+          description: GET /v1/health Negative response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - error
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - status
+                  - error
+              examples:
+                example1:
+                  value:
+                    status: error
+                    error:
+                      message: Sample error message
   /v1/api/tenant/register-tenant:
     post:
-      operationId: PostApiTenantRegisterTenant
+      operationId: PostV1ApiTenantRegisterTenant
       responses:
         "200":
           description: POST /v1/api/tenant/register-tenant Positive response
@@ -24,11 +76,29 @@ paths:
                       message:
                         type: string
                         description: Result of the API returned as a message.
+                        examples:
+                          - Tenant Google Inc registered.
+                      token:
+                        type: string
+                        description: A JWT identifying this tenant
+                        examples:
+                          - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InBhcmVudE9yZ0lkIjoiYWJkZTZmMjQtYWYwZi00Zjg3LWI4NzEtNzk0NGIyYzhjM2IzIiwiZGlzcGxheU5hbWUiOiJEZW1vIChBZG1pbikiLCJwYXlsb2FkIjp7fX0sImlhdCI6MTcwOTI2NTcyOSwiZXhwIjoxNzA5MjY5MzI5fQ.nfMwGbPe7zwCwlky079PVjA-ox0G2OtTuFo_0MXoLCE
                     required:
                       - message
+                      - token
+                    examples:
+                      - message: Tenant Google Inc registered.
+                        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InBhcmVudE9yZ0lkIjoiYWJkZTZmMjQtYWYwZi00Zjg3LWI4NzEtNzk0NGIyYzhjM2IzIiwiZGlzcGxheU5hbWUiOiJEZW1vIChBZG1pbikiLCJwYXlsb2FkIjp7fX0sImlhdCI6MTcwOTI2NTcyOSwiZXhwIjoxNzA5MjY5MzI5fQ.nfMwGbPe7zwCwlky079PVjA-ox0G2OtTuFo_0MXoLCE
                 required:
                   - status
                   - data
+              examples:
+                example1:
+                  value:
+                    status: success
+                    data:
+                      message: Tenant Google Inc registered.
+                      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InBhcmVudE9yZ0lkIjoiYWJkZTZmMjQtYWYwZi00Zjg3LWI4NzEtNzk0NGIyYzhjM2IzIiwiZGlzcGxheU5hbWUiOiJEZW1vIChBZG1pbikiLCJwYXlsb2FkIjp7fX0sImlhdCI6MTcwOTI2NTcyOSwiZXhwIjoxNzA5MjY5MzI5fQ.nfMwGbPe7zwCwlky079PVjA-ox0G2OtTuFo_0MXoLCE
         "400":
           description: POST /v1/api/tenant/register-tenant Negative response
           content:
@@ -56,7 +126,8 @@ paths:
                     status: error
                     error:
                       message: Sample error message
-      description: Use this endpoint to securely register a tenant to Upsolve and pass
+      description:
+        Use this endpoint to securely register a tenant to Upsolve and pass
         metadata relating to the tenant. This metadata payload will be used to
         secure data when the user accesses an Upsolve dashboard.
       summary: Register tenant to Upsolve
@@ -73,6 +144,14 @@ paths:
                   description: Upsolve API key, generated in the Deploy tab of the Upsolve Hub.
                   examples:
                     - up_embed_************
+                orgId:
+                  type: string
+                  description:
+                    "[Optional] The ID of the org the API key is being used with. Only
+                    needed if the API key is being used for an organization
+                    other than the org that generated it."
+                  examples:
+                    - do-not-use
                 displayName:
                   type: string
                   description: Display name for this user. This will appear in the Upsolve Hub.
@@ -81,7 +160,8 @@ paths:
                 key:
                   type: string
                   minLength: 1
-                  description: Unique key to identify this tenant. Ideally something complex like
+                  description:
+                    Unique key to identify this tenant. Ideally something complex like
                     a UUID.
                   examples:
                     - org_1234-abcd-5678-efgh
