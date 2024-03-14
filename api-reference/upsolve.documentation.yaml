@@ -180,6 +180,207 @@ paths:
                 - prefilters
       security:
         - APIKEY_1: []
+  /v1/api/chart:
+    get:
+      operationId: GetV1ApiChart
+      responses:
+        "200":
+          description: GET /v1/api/chart Positive response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    type: object
+                    properties:
+                      charts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                          required:
+                            - id
+                    required:
+                      - charts
+                required:
+                  - status
+                  - data
+        "400":
+          description: GET /v1/api/chart Negative response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - error
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - status
+                  - error
+              examples:
+                example1:
+                  value:
+                    status: error
+                    error:
+                      message: Sample error message
+      description:
+        Gets the ids of all charts marked as published by either an org
+        admin tenant, or the current tenant. Does not duplicate ids if the
+        current tenant is an admin.
+      summary: Get available published charts
+      security:
+        - APIKEY_2: []
+    delete:
+      operationId: DeleteV1ApiChart
+      responses:
+        "200":
+          description: DELETE /v1/api/chart Positive response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - status
+                  - data
+        "400":
+          description: DELETE /v1/api/chart Negative response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - error
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - status
+                  - error
+              examples:
+                example1:
+                  value:
+                    status: error
+                    error:
+                      message: Sample error message
+      description: Completely delete a chart from the charts database.
+      summary: Delete a chart forever.
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: DELETE /v1/api/chart Parameter
+          schema:
+            type: string
+      security:
+        - APIKEY_2: []
+  /v1/api/chart/unpublish-chart:
+    post:
+      operationId: PostV1ApiChartUnpublishChart
+      responses:
+        "200":
+          description: POST /v1/api/chart/unpublish-chart Positive response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - status
+                  - data
+        "400":
+          description: POST /v1/api/chart/unpublish-chart Negative response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - error
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - status
+                  - error
+              examples:
+                example1:
+                  value:
+                    status: error
+                    error:
+                      message: Sample error message
+      description:
+        Mark a chart as no longer published. It will still be visible in
+        the upsolve hub, but will not be returned as part of a GET request
+      summary: Mark a chart as no longer published.
+      requestBody:
+        description: POST /v1/api/chart/unpublish-chart Request body
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chartId:
+                  type: string
+              required:
+                - chartId
+            examples:
+              example1:
+                value:
+                  chartId: 550e8400-e29b-41d4-a716-446655440000
+      security:
+        - APIKEY_2: []
 components:
   schemas: {}
   responses: {}
@@ -194,6 +395,10 @@ components:
       name: apiKey
       x-in-actual: body
       description: apiKey MUST be supplied within the request body instead of query
+    APIKEY_2:
+      type: apiKey
+      in: header
+      name: authorization
   links: {}
   callbacks: {}
 tags: []
