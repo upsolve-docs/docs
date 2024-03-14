@@ -4,7 +4,7 @@
   "logo": {
     "dark": "/logo/dark_logo.svg",
     "light": "/logo/light_logo.svg",
-    "href":"https://upsolve.ai"
+    "href": "https://upsolve.ai"
   },
   "favicon": "/favicon.svg",
   "colors": {
@@ -50,15 +50,11 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": [
-        "introduction"
-      ]
+      "pages": ["introduction"]
     },
     {
       "group": "Data Connection",
-      "pages": [
-        "data-connection/data-connection"
-      ]
+      "pages": ["data-connection/data-connection"]
     },
     {
       "group": "Charts",
@@ -78,20 +74,18 @@
     },
     {
       "group": "Deploy Dashboards",
-      "pages": [
-        "deploy-dashboards/overview"
-      ]
+      "pages": ["deploy-dashboards/overview"]
     },
     {
       "group": "integrations",
-      "pages": [
-        "integrations/overview"
-      ]
+      "pages": ["integrations/overview"]
     },
     {
       "group": "API Documentation",
       "pages": [
-        "api-reference/endpoint/register-tenant-to-upsolve"
+        "api-reference/endpoint/register-tenant-to-upsolve",
+        "api-reference/endpoint/get-all-published-charts",
+        "api-reference/endpoint/unpublish-chart"
       ]
     }
   ],
