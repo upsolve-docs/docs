@@ -201,17 +201,27 @@ paths:
                       charts:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            id:
-                              type: string
-                          required:
-                            - id
+                          type: string
+                        examples:
+                          - - 550e8400-e29b-41d4-a716-446655440000
+                            - e29b8400-550e-41d4-a716-446655440000
                     required:
                       - charts
+                    examples:
+                      - charts:
+                          - 550e8400-e29b-41d4-a716-446655440000
+                          - e29b8400-550e-41d4-a716-446655440000
                 required:
                   - status
                   - data
+              examples:
+                example1:
+                  value:
+                    status: success
+                    data:
+                      charts:
+                        - 550e8400-e29b-41d4-a716-446655440000
+                        - e29b8400-550e-41d4-a716-446655440000
         "400":
           description: GET /v1/api/chart Negative response
           content:
@@ -241,8 +251,7 @@ paths:
                       message: Sample error message
       description:
         Gets the ids of all charts marked as published by either an org
-        admin tenant, or the current tenant. Does not duplicate ids if the
-        current tenant is an admin.
+        admin tenant, or the current tenant.
       summary: Get available published charts
       security:
         - APIKEY_2: []
@@ -306,6 +315,81 @@ paths:
           description: DELETE /v1/api/chart Parameter
           schema:
             type: string
+      security:
+        - APIKEY_2: []
+  /v1/api/chart/create-chart:
+    post:
+      operationId: PostV1ApiChartCreateChart
+      responses:
+        "200":
+          description: POST /v1/api/chart/create-chart Positive response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    type: object
+                    properties:
+                      chartId:
+                        type: string
+                        description: The newly created chart id
+                        examples:
+                          - 550e8400-e29b-41d4-a716-446655440000
+                    required:
+                      - chartId
+                    examples:
+                      - chartId: 550e8400-e29b-41d4-a716-446655440000
+                required:
+                  - status
+                  - data
+              examples:
+                example1:
+                  value:
+                    status: success
+                    data:
+                      chartId: 550e8400-e29b-41d4-a716-446655440000
+        "400":
+          description: POST /v1/api/chart/create-chart Negative response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - error
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - status
+                  - error
+              examples:
+                example1:
+                  value:
+                    status: error
+                    error:
+                      message: Sample error message
+      description:
+        Creates a new blank chart that can be used as a starting point for
+        additional operations
+      summary: Create a new chart
+      requestBody:
+        description: POST /v1/api/chart/create-chart Request body
+        content:
+          application/json:
+            schema:
+              type: object
       security:
         - APIKEY_2: []
   /v1/api/chart/unpublish-chart:
@@ -381,6 +465,86 @@ paths:
                   chartId: 550e8400-e29b-41d4-a716-446655440000
       security:
         - APIKEY_2: []
+  /v1/api/ai/ask-dash-sql:
+    post:
+      operationId: PostV1ApiAiAskDashSql
+      responses:
+        "200":
+          description: POST /v1/api/ai/ask-dash-sql Positive response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    type: object
+                    properties:
+                      sql:
+                        type: string
+                    required:
+                      - sql
+                required:
+                  - status
+                  - data
+        "400":
+          description: POST /v1/api/ai/ask-dash-sql Negative response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - error
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - status
+                  - error
+              examples:
+                example1:
+                  value:
+                    status: error
+                    error:
+                      message: Sample error message
+      requestBody:
+        description: POST /v1/api/ai/ask-dash-sql Request body
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input:
+                  type: string
+                  description: Text input prompt for query
+                  examples:
+                    - Filter sales table by date, keep last 7 days only
+                connectionId:
+                  type: string
+                  description:
+                    Optional connection ID. If not provided, first created connection
+                    will be used
+                  examples:
+                    - 550e8400-e29b-41d4-a716-446655440000
+              required:
+                - input
+            examples:
+              example1:
+                value:
+                  input: Filter sales table by date, keep last 7 days only
+                  connectionId: 550e8400-e29b-41d4-a716-446655440000
+      security:
+        - APIKEY_2: []
 components:
   schemas: {}
   responses: {}
@@ -396,9 +560,9 @@ components:
       x-in-actual: body
       description: apiKey MUST be supplied within the request body instead of query
     APIKEY_2:
-      type: apiKey
-      in: header
-      name: authorization
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   links: {}
   callbacks: {}
 tags: []
