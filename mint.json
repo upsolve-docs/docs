@@ -85,7 +85,8 @@
       "pages": [
         "api-reference/endpoint/register-tenant-to-upsolve",
         "api-reference/endpoint/get-all-published-charts",
-        "api-reference/endpoint/unpublish-chart"
+        "api-reference/endpoint/unpublish-chart",
+        "api-reference/endpoint/run-ai-sql"
       ]
     }
   ],
