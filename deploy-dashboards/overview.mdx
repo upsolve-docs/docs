@@ -101,9 +101,9 @@ If you are using `npm` or `yarn v1`, add your key to your `.npmrc`. _DO NOT COMM
 //npm.pkg.github.com/:_authToken={YOUR_UPSOLVE_TOKEN}
 ```
 
-If you are using `yarn v2+`, add your key to your `yarnrc.yml`. _DO NOT COMMIT_ this file (more details [here](https://yarnpkg.com/configuration/yarnrc)):
+If you are using `yarn v2+`, add your key to your `.yarnrc.yml`. _DO NOT COMMIT_ this file (more details [here](https://yarnpkg.com/configuration/yarnrc)):
 
-```yml yarnrc.yml
+```yml .yarnrc.yml
 nodeLinker: node-modules
 
 # Use the correct yarn path here based on your version
@@ -112,7 +112,7 @@ yarnPath: .yarn/releases/yarn-4.1.0.cjs
 npmScopes:
   upsolve-labs:
     npmRegistryServer: "https://npm.pkg.github.com/"
-    npmAuthToken: { YOUR_UPSOLVE_TOKEN }
+    npmAuthToken: "{YOUR_UPSOLVE_TOKEN}"
 ```
 
 Now you may run `npm i @upsolve-labs/sdk` or `yarn add @upsolve-labs/sdk` to install the SDK.
@@ -159,7 +159,7 @@ const Analytics: React.FC = () => {
   // Embed the component into your app
   return (
     <>
-      {upsolveToken != null && typeof upsolveToken === "string" && (
+      {upsolveToken !== null && typeof upsolveToken === "string" && (
         <UpsolveDashboard
           dashboardId={"4cc12f51-1db4-474c-ac14-ba7574ed4ff3"}
           tenantJWT={upsolveToken}
@@ -174,4 +174,4 @@ export default Analytics;
 
 ### Deploy to production
 
-Make sure that your `.npmrc` or `yarnrc.yml` values are provided to your deployment as env variables, otherwise the deployment will not work.
+Make sure that your `.npmrc` or `.yarnrc.yml` values are provided to your deployment as env variables, otherwise the deployment will not work.
