@@ -159,7 +159,7 @@ const Analytics: React.FC = () => {
   // Embed the component into your app
   return (
     <>
-      {upsolveToken !== null && typeof upsolveToken === "string" && (
+      {upsolveToken != null && typeof upsolveToken === "string" && (
         <UpsolveDashboard
           dashboardId={"4cc12f51-1db4-474c-ac14-ba7574ed4ff3"}
           tenantJWT={upsolveToken}
