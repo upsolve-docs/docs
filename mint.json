@@ -32,6 +32,10 @@
   },
   "tabs": [
     {
+      "name": "Chart Configuration",
+      "url": "content"
+    },
+    {
       "name": "Integrations",
       "url": "integrations"
     },
@@ -75,6 +79,16 @@
     {
       "group": "Deploy Dashboards",
       "pages": ["deploy-dashboards/overview"]
+    },
+    {
+      "group": "Chart Types",
+      "pages": [
+        "content/charts/area-line-chart",
+        "content/charts/line-chart",
+        "content/charts/donut-chart",
+        "content/charts/pie-chart",
+        "content/charts/table"
+      ]
     },
     {
       "group": "integrations",

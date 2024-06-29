@@ -1,0 +1,25 @@
+---
+title: "Donut Chart"
+description: "Shows proportional data and the relative sizes of parts to a whole as a circular graph with a blank center"
+icon: "chart-pie"
+---
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/content/charts/donut-chart-light.png"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/content/charts/donut-chart-dark.png"
+/ >
+</Frame>
+
+## Configuration
+
+<ResponseField name="Category" type="string or numeric" required>
+  Category to group the donut chart by
+</ResponseField>
+
+<ResponseField name="Aggregation" type="numeric" required>
+  Column to aggregate the donut chart on
+</ResponseField>
