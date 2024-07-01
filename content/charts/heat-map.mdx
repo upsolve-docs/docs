@@ -1,0 +1,29 @@
+---
+title: "Heat Map"
+description: "Uses color gradients to represent data values across a matrix, highlighting variations and patterns at a glance"
+icon: "chart-tree-map"
+---
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/content/charts/heat-map-light.png"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/content/charts/heat-map-dark.png"
+/ >
+</Frame>
+
+## Configuration
+
+<ResponseField name="X-Axis" type="string or numeric" required>
+  Category to group the chart by
+</ResponseField>
+
+<ResponseField name="Y-Axis" type="numeric" required>
+  Column to aggregate the chart on. You could select multiple columns by **Add Series**
+</ResponseField>
+
+<ResponseField name="Segment by">
+  Divides series into meaningful subgroups. The data in each subgroups can then be aggregated via one of `Distinct count`, `Count`, `Sub`, `Average`, `Min`, `Max`
+</ResponseField>
