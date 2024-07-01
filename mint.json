@@ -42,6 +42,10 @@
     {
       "name": "API Reference",
       "url": "api-reference"
+    },
+    {
+      "name": "Demo",
+      "url": "demo"
     }
   ],
   "anchors": [
@@ -85,9 +89,20 @@
       "pages": [
         "content/charts/area-line-chart",
         "content/charts/line-chart",
-        "content/charts/donut-chart",
+        {
+          "group": "Bar Chart",
+          "pages": [
+            "content/charts/grouped-bar-chart",
+            "content/charts/stacked-bar-chart"
+          ]
+        },
+        "content/charts/bar-list",
         "content/charts/pie-chart",
-        "content/charts/table"
+        "content/charts/donut-chart",
+        "content/charts/stat-card",
+        "content/charts/table",
+        "content/charts/map",
+        "content/charts/heat-map"
       ]
     },
     {
@@ -101,6 +116,13 @@
         "api-reference/endpoint/get-all-published-charts",
         "api-reference/endpoint/unpublish-chart",
         "api-reference/endpoint/run-ai-sql"
+      ]
+    },
+    {
+      "group": "Demo",
+      "pages": [
+        "demo/product-walkthrough",
+        "demo/demo-dashboard"
       ]
     }
   ],

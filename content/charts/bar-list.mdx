@@ -1,0 +1,25 @@
+---
+title: "Bar List"
+description: "A vertical list of horizontal bars representing data values, used to compare multiple items' magnitudes visually"
+icon: "chart-simple-horizontal"
+---
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/content/charts/bar-list-light.png"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/content/charts/bar-list-dark.png"
+/ >
+</Frame>
+
+## Configuration
+
+<ResponseField name="X-Axis" type="string or numeric" required>
+  Category to group the list by
+</ResponseField>
+
+<ResponseField name="Y-Axis" type="numeric" required>
+  Column to aggregate the chart on
+</ResponseField>

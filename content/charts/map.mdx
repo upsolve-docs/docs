@@ -1,0 +1,29 @@
+---
+title: "Map"
+description: "Uses color gradients to represent data values across a matrix, highlighting variations and patterns at a glance"
+icon: "map"
+---
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/content/charts/map-light.png"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/content/charts/map-dark.png"
+/ >
+</Frame>
+
+## Configuration
+
+<ResponseField name="Latitude" type="numeric" required>
+  Latitude of the data points
+</ResponseField>
+
+<ResponseField name="Longtitude" type="numeric" required>
+  Longtitude of the data points
+</ResponseField>
+
+<ResponseField name="Layer" type="string or numeric" required>
+  Name of the data point layer
+</ResponseField>

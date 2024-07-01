@@ -1,0 +1,26 @@
+---
+title: "Stat Card"
+description: "Presents a key metric or statistic in a visually concise format"
+icon: "rectangle"
+---
+<Frame>
+ <img
+    className="block dark:hidden"
+    noZoom src="/images/content/charts/stat-card-light.png"
+  />
+  <img
+    className="hidden dark:block"
+    noZoom src="/images/content/charts/stat-card-dark.png"
+  />
+</Frame>
+
+
+## Configuration
+
+<ResponseField name="Stat" type="numeric" required>
+  Value of the metric or statistic. If there are multiple rows in the backing data, the value will be the summation across all the rows
+</ResponseField>
+
+<ResponseField name="Stat Unit" type="string">
+  The name of the column will be used to display as unit
+</ResponseField>
