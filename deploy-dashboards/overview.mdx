@@ -9,16 +9,16 @@ icon: "rocket"
 To deploy your dashboard, you will need to take the following steps.
 These are required for a _one time setup_ that should take no longer than 30 minutes!
 
-1. Authorize users (register tenants)
+#### [1. Authorize users (register tenants)](#authorize-users-register-tenants)
 
 In your product's authentication flow, you will need to hit the [/register-tenant](/api-reference/endpoint/register-tenant-to-upsolve) endpoint.
 This is a "refresh" endpoint that issues a 1h short-lived JWT, so you should be hitting it every time you re-auth the user in your app.
 
-2. Import Upsolve SDK
+#### [2. Import Upsolve SDK](#import-upsolve-sdk)
 
 The Upsolve team will provide you with a key to use in your `.npmrc` or `.yarnrc` file. You can then import the SDK into your application.
 
-3. Deploy dashboard
+#### [3. Deploy dashboard](#deploy-dashboard)
 
 With the JWT from step (1) and the SDK from step (2) you can call the `<UpsolveDashboard />` component in your app to render it!
 
