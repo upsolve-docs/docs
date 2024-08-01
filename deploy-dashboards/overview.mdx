@@ -140,6 +140,22 @@ module.exports = {
 
 And make sure, [per the instructions](https://tailwindcss.com/docs/installation), that in your root .tsx file you have import './output.css' with the output.css file you generated in step 4 of the tailwind setup
 
+### Configure global CSS
+
+In your main `layout.tsx` or `page.tsx`, add this line to import the Upsolve CSS. For example, if you have a `RootLayout` it will look like this:
+
+```typescript layout.tsx
+"use client";
+...
+import '@upsolve-labs/common/styles/global.css';
+...
+
+export default function RootLayout({
+  children,
+}:
+...
+```
+
 ### Deploy component with JWT
 
 You will need to get the JWT for the current user and the dashboard ID to render the correct dashboard.
