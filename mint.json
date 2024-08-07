@@ -66,19 +66,18 @@
     },
     {
       "group": "Charts",
-      "pages": [
-        "charts/create-chart",
-        "charts/point-and-click-interface",
-        "charts/dash-by-upsolve"
-      ]
+      "pages": ["charts/create-chart", "charts/point-and-click-interface"]
     },
     {
       "group": "Dashboards",
       "pages": [
         "dashboards/create-dashboard",
-        "dashboards/point-and-click-interface",
-        "dashboards/dash-by-upsolve"
+        "dashboards/point-and-click-interface"
       ]
+    },
+    {
+      "group": "Filtering",
+      "pages": ["filters/filters-in-depth"]
     },
     {
       "group": "Deploy Dashboards",
@@ -120,10 +119,7 @@
     },
     {
       "group": "Demo",
-      "pages": [
-        "demo/product-walkthrough",
-        "demo/demo-dashboard"
-      ]
+      "pages": ["demo/product-walkthrough", "demo/demo-dashboard"]
     }
   ],
   "footerSocials": {
