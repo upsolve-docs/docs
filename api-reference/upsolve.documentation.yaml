@@ -74,7 +74,8 @@ paths:
                     status: error
                     error:
                       message: Sample error message
-      description: Use this endpoint to securely register a tenant to Upsolve and pass
+      description:
+        Use this endpoint to securely register a tenant to Upsolve and pass
         metadata relating to the tenant. This metadata payload will be used to
         secure data when the user accesses an Upsolve dashboard.
       summary: Register tenant to Upsolve
@@ -93,7 +94,8 @@ paths:
                     - up_embed_************
                 orgId:
                   type: string
-                  description: "[Optional] The ID of the org the API key is being used with. Only
+                  description:
+                    "[Optional] The ID of the org the API key is being used with. Only
                     needed if the API key is being used for an organization
                     other than the org that generated it."
                   examples:
@@ -106,7 +108,8 @@ paths:
                 key:
                   type: string
                   minLength: 1
-                  description: Unique key to identify this tenant. Ideally something complex like
+                  description:
+                    Unique key to identify this tenant. Ideally something complex like
                     a UUID.
                   examples:
                     - org_1234-abcd-5678-efgh
@@ -194,7 +197,8 @@ paths:
                     status: error
                     error:
                       message: Sample error message
-      description: Gets the ids of all charts marked as published by either an org
+      description:
+        Gets the ids of all charts marked as published by either an org
         admin tenant, or the current tenant.
       summary: Get available published charts
       parameters:
@@ -401,7 +405,8 @@ paths:
                                 description: The name of the table.
                               tableNameOverride:
                                 type: string
-                                description: The override name of the table, used for clashing table names
+                                description:
+                                  The override name of the table, used for clashing table names
                                   across schemas.
                               schemaName:
                                 type: string
@@ -659,11 +664,13 @@ paths:
                                     - quarter
                                     - year
                                     - ""
-                                  description: User-driven value indicating how a particular axis should be
+                                  description:
+                                    User-driven value indicating how a particular axis should be
                                     bucketed.
                                 dateFormat:
                                   type: string
-                                  description: Valid format string for a date column such as 'MMM DD, YYYY'.
+                                  description:
+                                    Valid format string for a date column such as 'MMM DD, YYYY'.
                                     Should be set by user. Unless explicitly
                                     required, this should always be undefined or
                                     'MMM DD, YYYY'
@@ -679,7 +686,8 @@ paths:
                           enum:
                             - horizontal
                             - vertical
-                          description: 'Indicates whether a bar chart should be laid out horizontally or
+                          description:
+                            'Indicates whether a bar chart should be laid out horizontally or
                             vertically. A horizontal layout means that the bars
                             are arrayed horizontally along the X axis and extend
                             up. A vertical layout means the bars are stacked
@@ -703,16 +711,17 @@ paths:
                             properties:
                               color:
                                 type: string
-                                description: "Color for the series on the chart. If this chart is AI generated,
+                                description:
+                                  'Color for the series on the chart. If this chart is AI generated,
                                   hexcodes that correspond to a custom color
                                   palette will be provided to choose from. If no
                                   hexcodes are provided the AI should use ONLY
-                                  one of the following color strings: \"cyan\",
-                                  \"red\", \"orange\", \"green\", \"teal\",
-                                  \"blue\", \"purple\", \"pink\", \"yellow\",
-                                  \"lime\", \"indigo\", \"violet\", \"fuchsia\",
-                                  or \"gray\". It doesn't matter if these colors
-                                  end up needing to be repeated"
+                                  one of the following color strings: "cyan",
+                                  "red", "orange", "green", "teal",
+                                  "blue", "purple", "pink", "yellow",
+                                  "lime", "indigo", "violet", "fuchsia",
+                                  or "gray". It doesn''t matter if these colors
+                                  end up needing to be repeated'
                               typeOverride:
                                 type: string
                                 enum:
@@ -730,7 +739,8 @@ paths:
                                 description: Type override for the series on the chart.
                               percentage:
                                 type: boolean
-                                description: Optional flag to indicate whether the series represents a
+                                description:
+                                  Optional flag to indicate whether the series represents a
                                   percentage.
                               curveType:
                                 type: string
@@ -758,11 +768,13 @@ paths:
                                       - quarter
                                       - year
                                       - ""
-                                    description: User-driven value indicating how a particular axis should be
+                                    description:
+                                      User-driven value indicating how a particular axis should be
                                       bucketed.
                                   dateFormat:
                                     type: string
-                                    description: Valid format string for a date column such as 'MMM DD, YYYY'.
+                                    description:
+                                      Valid format string for a date column such as 'MMM DD, YYYY'.
                                       Should be set by user. Unless explicitly
                                       required, this should always be undefined
                                       or 'MMM DD, YYYY'
@@ -777,7 +789,8 @@ paths:
                                     description: User-driven flag to indicate whether to segment this series.
                                   segmentBy:
                                     type: string
-                                    description: Column name of column used for segmentation. The AI should set this
+                                    description:
+                                      Column name of column used for segmentation. The AI should set this
                                       value to the name of one of the available
                                       columns to produce a segmented chart. This
                                       value MUST be set to the name of an actual
@@ -791,13 +804,15 @@ paths:
                                       - Average
                                       - Min
                                       - Max
-                                    description: Aggregation logic for segments. The AI is allowed to set this
+                                    description:
+                                      Aggregation logic for segments. The AI is allowed to set this
                                       value.
                                   segmentNames:
                                     type: array
                                     items:
                                       type: string
-                                    description: Query-generated segment names after segmentBy is provided. The AI
+                                    description:
+                                      Query-generated segment names after segmentBy is provided. The AI
                                       should NEVER generate or alter these
                                       values. They depend on the actual data
                                       fetched from the database.
@@ -811,30 +826,33 @@ paths:
                                           description: User-driven name for the segment. The AI can also set this value.
                                         color:
                                           type: string
-                                          description: "Color for the series on the chart. If this chart is AI generated,
+                                          description:
+                                            'Color for the series on the chart. If this chart is AI generated,
                                             hexcodes that correspond to a custom
                                             color palette will be provided to
                                             choose from. If no hexcodes are
                                             provided the AI should use ONLY one
                                             of the following color strings:
-                                            \"cyan\", \"red\", \"orange\",
-                                            \"green\", \"teal\", \"blue\",
-                                            \"purple\", \"pink\", \"yellow\",
-                                            \"lime\", \"indigo\", \"violet\",
-                                            \"fuchsia\", or \"gray\". It doesn't
+                                            "cyan", "red", "orange",
+                                            "green", "teal", "blue",
+                                            "purple", "pink", "yellow",
+                                            "lime", "indigo", "violet",
+                                            "fuchsia", or "gray". It doesn''t
                                             matter if these colors end up
-                                            needing to be repeated"
+                                            needing to be repeated'
                                       required:
                                         - name
                                         - color
-                                    description: User-driven array of segments where each Segment.name comes from
+                                    description:
+                                      User-driven array of segments where each Segment.name comes from
                                       segmentNames. This should NEVER be
                                       generated by an AI. Instead this will be
                                       created based on available data depending
                                       on which column is chosen to segment by.
                                   segmentsLocked:
                                     type: boolean
-                                    description: Whether to lock the segments from live reloading on each chart
+                                    description:
+                                      Whether to lock the segments from live reloading on each chart
                                       render. The AI should NEVER change this
                                       value, and should never set it to true
                                       when generating a new chart.
@@ -973,7 +991,8 @@ paths:
                               hexcode:
                                 type: string
                                 pattern: ^#([A-Fa-f0-9]{6})$
-                                description: A hexcode schema that matches to an externally set list of valid
+                                description:
+                                  A hexcode schema that matches to an externally set list of valid
                                   hexcodes. These would be set manually by the
                                   user. Automated coloring should use the
                                   tailwind presets.
@@ -1014,18 +1033,21 @@ paths:
                           required:
                             - column
                             - direction
-                          description: Configuration block to handle ordering. Charts may be ordered by
+                          description:
+                            Configuration block to handle ordering. Charts may be ordered by
                             either axis, in either ascending or descending.
                         formatConfig:
                           type: object
                           properties:
                             formatLocale:
                               type: string
-                              description: The locale of the formatting, will default to 'en-US' if not
+                              description:
+                                The locale of the formatting, will default to 'en-US' if not
                                 specified
                             formatConfig:
                               type: string
-                              description: Valid JSON to pass into Intl.NumberFormat() as 'options'. Defaults
+                              description:
+                                Valid JSON to pass into Intl.NumberFormat() as 'options'. Defaults
                                 to '{}'
                             formatPrefix:
                               type: string
@@ -1043,7 +1065,8 @@ paths:
                             properties:
                               column:
                                 type: string
-                                description: The output column relevant to this layer. Features are grouped on
+                                description:
+                                  The output column relevant to this layer. Features are grouped on
                                   this column.
                               layerInfo:
                                 type: object
@@ -1091,7 +1114,8 @@ paths:
                                   description: The text of the info tooltip
                                 showInfoTooltip:
                                   type: boolean
-                                  description: Whether or not to include an info tooltip on the top right of the
+                                  description:
+                                    Whether or not to include an info tooltip on the top right of the
                                     chart
                                 showXAxisLabel:
                                   type: boolean
@@ -1104,11 +1128,13 @@ paths:
                                   format: double
                                   minimum: -1.7976931348623157e+308
                                   maximum: 1.7976931348623157e+308
-                                  description: Number of items to show in the chart. Useful for questions like
+                                  description:
+                                    Number of items to show in the chart. Useful for questions like
                                     'top 10' or 'bottom 5'
                                 customCSSClass:
                                   type: string
-                                  description: A custom CSS class that should appear on this chart for easier
+                                  description:
+                                    A custom CSS class that should appear on this chart for easier
                                     customization.
                               description: Optional advanced options for tremor charts.
                             tremor:
@@ -1116,7 +1142,8 @@ paths:
                               properties:
                                 startEndOnly:
                                   type: boolean
-                                  description: When set to true, the chart will only display the first and last
+                                  description:
+                                    When set to true, the chart will only display the first and last
                                     label on the x axis
                                 showXAxis:
                                   type: boolean
@@ -1144,7 +1171,8 @@ paths:
                                   description: Whether or not to display the grid lines on a chart.
                                 connectNulls:
                                   type: boolean
-                                  description: When connectNulls is true, a chart series that contains null values
+                                  description:
+                                    When connectNulls is true, a chart series that contains null values
                                     will draw a line through the gap.
                                 enableLegendSlider:
                                   type: boolean
@@ -1171,18 +1199,21 @@ paths:
                                   type: boolean
                                 maxValue:
                                   type: string
-                                  description: The maximum value that will be displayed on the Y axis, stored as a
+                                  description:
+                                    The maximum value that will be displayed on the Y axis, stored as a
                                     string for UI purposes
                                 minValue:
                                   type: string
-                                  description: The minimum value that will be displayed on the Y axis, stored as a
+                                  description:
+                                    The minimum value that will be displayed on the Y axis, stored as a
                                     string for UI purposes
                                 pageOn:
                                   type: number
                                   format: double
                                   minimum: -1.7976931348623157e+308
                                   maximum: 1.7976931348623157e+308
-                                  description: The number of columns that should appear on each page of the heat
+                                  description:
+                                    The number of columns that should appear on each page of the heat
                                     map.
                               description: Optional advanced options for tremor charts.
                             heatmap:
@@ -1190,18 +1221,21 @@ paths:
                               properties:
                                 labelCells:
                                   type: boolean
-                                  description: An option for heat maps, indicates whether the heat map should
+                                  description:
+                                    An option for heat maps, indicates whether the heat map should
                                     attempt to label the cells.
                                 pageOn:
                                   type: number
                                   format: double
                                   minimum: -1.7976931348623157e+308
                                   maximum: 1.7976931348623157e+308
-                                  description: The number of columns that should appear on each page of the heat
+                                  description:
+                                    The number of columns that should appear on each page of the heat
                                     map.
                                 startEndOnly:
                                   type: boolean
-                                  description: When set to true, the chart will only display the first and last
+                                  description:
+                                    When set to true, the chart will only display the first and last
                                     label on the x axis
                                 showXAxis:
                                   type: boolean
@@ -1412,7 +1446,8 @@ paths:
                                               - Scan
                                         required:
                                           - filterType
-                                    description: "Method to compute the restrictions for this Select filter.
+                                    description:
+                                      "Method to compute the restrictions for this Select filter.
                                       Defaults to {filterType: 'Scan'} to scan
                                       the column it is pointing at"
                                   defaultValue:
@@ -2030,7 +2065,8 @@ paths:
                                         - type: boolean
                                         - type:
                                             - "null"
-                                    description: An array is used when multiple values are selected, as with the
+                                    description:
+                                      An array is used when multiple values are selected, as with the
                                       date range filter, or with a multi-select
                                       filter.
                             required:
@@ -2109,7 +2145,8 @@ paths:
                     status: error
                     error:
                       message: Sample error message
-      description: Creates a new blank chart that can be used as a starting point for
+      description:
+        Creates a new blank chart that can be used as a starting point for
         additional operations
       summary: Create a new chart
       requestBody:
@@ -2175,7 +2212,8 @@ paths:
                     status: error
                     error:
                       message: Sample error message
-      description: Mark a chart as no longer published. It will still be visible in
+      description:
+        Mark a chart as no longer published. It will still be visible in
         the upsolve hub, but will not be returned as part of a GET request
       summary: Mark a chart as no longer published.
       requestBody:
@@ -2258,7 +2296,8 @@ paths:
               properties:
                 connectionId:
                   type: string
-                  description: Optional connection ID. If not provided, first created connection
+                  description:
+                    Optional connection ID. If not provided, first created connection
                     will be used
                   examples:
                     - 550e8400-e29b-41d4-a716-446655440000
