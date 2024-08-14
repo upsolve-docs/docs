@@ -77,7 +77,7 @@
     },
     {
       "group": "Filtering",
-      "pages": ["filters/filters-in-depth"]
+      "pages": ["filters/filters-in-depth", "filters/controlled-filters"]
     },
     {
       "group": "Deploy Dashboards",
