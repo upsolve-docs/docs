@@ -1,0 +1,47 @@
+---
+title: 'Controlled Filters'
+description: 'Controlling filters from your app'
+icon: 'arrow-down-to-bracket'
+---
+
+## Overview
+
+It is possible to control dashboard level filters from your application. This requires setup in the Upsolve Hub to configure a filter key, and then a prop to be set in your application to pass a filter value down to the filter through the key.
+
+Controlled filters and their set values are not visible to your end users. They are meant to be exclusively for your access.
+
+## Configuration in Upsolve Hub
+
+To make a filter controlled, first have a dashboard with a filter configured for it.
+
+![Controlled Filter 1](/images/filters/controlled-filters-1.png)
+
+Next, click the "code" icon on the filter
+
+![Controlled Filter 2](/images/filters/controlled-filters-2.png)
+
+Then, configure a key for the filter. In this case, we have chosen `city`
+
+![Controlled Filter 3](/images/filters/controlled-filters-3.png)
+
+Finally, when the control is added, note that the filter label changes color and the icon indicates that this filter will not be visible to your users
+
+![Controlled Filter 3](/images/filters/controlled-filters-4.png)
+
+## Configuration in your application
+
+Refer back to the in-product guide:
+
+![Controlled Filter 3](/images/filters/controlled-filters-3.png)
+
+Following this guide, configure a prop on your `UpsovlveDashboard` component. Pass into the prop an object, where each key refers to a controlled filter key you have configured, and each value is the value the controlled filter should take.
+
+In this example, the prop would be:
+```
+<UpsolveDashboard
+    ...,
+    controlledFilterValues={{
+        city: 'Abu Dhabi'
+    }}
+/>
+```
