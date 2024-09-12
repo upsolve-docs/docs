@@ -46,6 +46,10 @@
     {
       "name": "Demo",
       "url": "demo"
+    },
+    {
+      "name": "Dashboard Example",
+      "url": "dashboard-example"
     }
   ],
   "anchors": [
@@ -105,7 +109,7 @@
       ]
     },
     {
-      "group": "integrations",
+      "group": "Integrations",
       "pages": ["integrations/overview"]
     },
     {
