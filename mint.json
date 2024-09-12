@@ -127,7 +127,7 @@
     },
     {
       "group": "Demo",
-      "pages": ["demo/product-walkthrough", "demo/personal-workspace"]
+      "pages": ["demo/personal-workspace", "demo/product-walkthrough"]
     },
     {
       "group": "Dashboard Example",
