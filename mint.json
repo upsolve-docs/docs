@@ -124,6 +124,10 @@
     {
       "group": "Demo",
       "pages": ["demo/product-walkthrough", "demo/personal-workspace"]
+    },
+    {
+      "group": "Dashboard Example",
+      "pages": ["dashboard-example/demo-dashboard"]
     }
   ],
   "footerSocials": {
