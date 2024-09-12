@@ -123,7 +123,7 @@
     },
     {
       "group": "Demo",
-      "pages": ["demo/product-walkthrough", "demo/demo-dashboard"]
+      "pages": ["demo/product-walkthrough", "demo/personal-workspace"]
     }
   ],
   "footerSocials": {
