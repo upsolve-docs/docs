@@ -116,3 +116,64 @@ A **tenant** refers to a distinct group or organisation that has its own isolate
 <Note>
 Using customer groups ensures that each tenant’s experience is secure, relevant, and tailored to their needs while simplifying management for yourselves.
 </Note>
+
+
+### To set up tenancy there are two options:
+
+<Accordion
+  title="Low-code"
+  description="Follow these steps to set up the tenants with a fully integrated solution."
+>
+  - **Create your deploy key**
+      - Please go to the **Deploy page** and specifically the **Deploy keys section**.
+
+      ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f03c063e-a1bd-4167-a318-e5ccdd45dddb/eb6f1347-006a-470a-ad8a-937ca7ecc31d/image.png)
+
+      - Generate an API Key, and please remember to store this safely.
+
+  - **Register your tenants**
+
+      Before getting your Upsolve Dashboard for a given customer, you will have to register a tenant with the Register Tenant Endpoint.
+
+      [Register Tenant - Upsolve AI](https://docs.upsolve.ai/api-reference/endpoint/register-tenant-to-upsolve)
+
+      ```bash
+      curl --request POST \
+        --url https://api.upsolve.ai/v1/api/tenant/register-tenant \
+        --header 'Content-Type: application/json' \
+        --data '{
+        "apiKey": "up_embed_************",
+        "orgId": "do-not-use",
+        "displayName": "Google Inc",
+        "key": "org_1234-abcd-5678-efgh",
+        "prefilters": {
+          "company_id": "company-google",
+          "company_class": "tech"
+        }
+      }'
+      ```
+
+  <Info>
+    A tenant JWT is only valid for one hour. You will need to register the tenant whenever a customer wants to access the dashboard.
+  </Info>
+</Accordion>
+
+<Accordion
+  title="No-code"
+  description="Enable a preview of what a customer can see. Not suitable for production."
+>
+  - Go to the **Deploy** page.
+  - Click on **create a tenant**, and the following modal will open:
+
+  ![Screenshot 2024-10-14 at 13.26.23 (2).png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f03c063e-a1bd-4167-a318-e5ccdd45dddb/a35b86d9-a3b5-47d8-ba3e-0c2158d3b155/Screenshot_2024-10-14_at_13.26.23_(2).png)
+
+  Please fill in the details for one or two test customer groups. The filter column is a column in your dataset that contains a unique identifier for your customer.
+
+  If you are using the sample dataset, you can use the following to simulate creating a tenant:
+
+
+
+  <Info>
+    Note: This is for previews only. These tenants will not work in production.
+  </Info>
+</Accordion>
