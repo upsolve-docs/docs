@@ -62,7 +62,8 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction"]
+      "pages": ["introduction","self-serve" ]
+      
     },
     {
       "group": "Data Connection",
