@@ -1,0 +1,85 @@
+---
+title: "Backend Setup"
+description: "Set up user authoization in the backend for dashboard deployment"
+icon: "computer-mouse"
+---
+
+## User Authorization (Tenant Registration)
+
+The purpose of user authorization set up in the backend is for Upsolve AI to provide appropriate data access based on your user permissioning set up.
+
+In your product's authentication flow, you will need to call the [/register-tenant](/api-reference/endpoint/register-tenant-to-upsolve) endpoint to authorize users/register [tenants](/data-permissioning/tenancy-management#tenants).
+This endpoint allows you to tell Upsolve AI who the authorized user is and what data permission they have via a payload.
+
+The endpoint is a "refresh" endpoint that consumes the payload and issues a 1h short-lived JWT. This endpoint should be hit every time you re-authorize the user in your app. 
+This JWT is then used to provide your authorized users the appropriate access to the dashboard and underlying data.
+
+Please refer to the documentation for the [/register-tenant](/api-reference/endpoint/register-tenant-to-upsolve) endpoint.
+You will need to call this endpoint in your auth flow.
+
+<Accordion title="Example: Calling the /register-tenant using Clerk middleware">
+Here is an example of doing this using [Clerk middleware](https://clerk.com/docs/references/nextjs/auth-middleware#use-after-auth-for-fine-grained-control):
+  ```typescript middleware.ts
+// This example protects all routes including api/trpc routes
+// Please edit this to allow other routes to be public as needed.
+// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
+export default authMiddleware({
+  async afterAuth(auth, req, evt) {
+    console.log("Starting login");
+
+    // Handle users who aren't authenticated
+    ...
+
+    // Register users to Upsolve
+    if (auth.userId && auth.orgId) { // Use this if you need user and org id in your tenant
+      console.log("Starting tenant registration");
+
+      // Add Upsolve tenant registration
+      const upsolvePayload = {
+        displayName: auth.orgSlug, // The public display name for this tenant. Can be user's name, their org, or anything else
+        key: auth.orgId, // Private tenant identifier. Could be user id, org id, or anything else
+        prefilters: { // Column names to pre-filter raw data on
+          store_id: Math.random() > 0.5 ? "1" : "2",
+          organization_id: auth.orgSlug,
+        },
+        apiKey: "up_embed_3...bL9", // Make sure this begind with up_embed_
+      };
+
+      // Hit the endpoint
+      const upsolveToken = await fetch(
+        `https://api.upsolve.ai/v1/api/tenant/register-tenant`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(upsolvePayload),
+        }
+      ).then((res) => res.json())
+       .then((data) => data?.["data"]?.["token"]); // Extract the JWT from the response
+
+      // Save the JWT to the user's public metadata, to be used client side!
+      await clerkClient.users.updateUser(auth.userId, {
+        publicMetadata: { upsolveToken },
+      });
+      console.log(`Upsolve registration done`);
+    }
+
+    // If the user is logged in and trying to access a protected route, allow them to access route
+    ...
+
+    // Allow users visiting public routes to access them
+    ...
+  },
+});
+```
+</Accordion>
+
+## Setup Inspection
+You could inspect whether the user authorization is setup successfully. Navigate to the **Deploy** application using the side navigation bar.
+
+![upsolve-deploy](/images/deploy-dashboards/upsolve-deploy.png)
+
+If the endpoint is successfully called, you should see your new tenants in the **Deploy** application:
+
+![tenants](/images/deploy-dashboards/tenants.png)
