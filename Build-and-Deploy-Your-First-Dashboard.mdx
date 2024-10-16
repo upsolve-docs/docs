@@ -15,12 +15,12 @@ To view this connection, please go to the **Connect** tab as seen below:
 <Frame>
 <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/data-connection-hero.png"
+  src="/images/build-your-first-dashboard/light/data-connection-hero.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/data-connection-hero-dark.png"
+  src="/images/build-your-first-dashboard/dark/data-connection-hero-dark.png"
   alt="Hero Dark"
 />
 </Frame>
@@ -45,12 +45,12 @@ It requires four steps to build your first chart:
     <Frame>
 <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/select-raw-tables.png"
+  src="/images/build-your-first-dashboard/light/select-raw-tables.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/select-raw-tables-dark.png"
+  src="/images/build-your-first-dashboard/dark/select-raw-tables-dark.png"
   alt="Hero Dark"
 />
 </Frame>
@@ -72,12 +72,12 @@ Click on **Preview data** to run the SQL and **Next** once you see the preview d
 
   <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/query-builder-dark.png"
+  src="/images/build-your-first-dashboard/light/query-builder.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/query-builder-dark.png"
+  src="/images/build-your-first-dashboard/dark/query-builder-dark.png"
   alt="Hero Dark"
 />
     </Frame>
@@ -102,12 +102,12 @@ Click on **Preview data** to run the SQL and **Next** once you see the preview d
 
   <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/chart-builder-dark.png"
+  src="/images/build-your-first-dashboard/light/chart-builder-dark.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/chart-builder-dark.png"
+  src="/images/build-your-first-dashboard/dark/chart-builder-dark.png"
   alt="Hero Dark"
 />
      </Frame>
@@ -115,7 +115,7 @@ Click on **Preview data** to run the SQL and **Next** once you see the preview d
 </Accordion>
 
   <Accordion title="4. Configure filters">
-    You can set up 
+    You can set up filters by clicking on **configure filters** and selecting the relevant column and filter type.
     ![configure-filters](/images/filters/filters-guide-4.png)
 
   Click **Save and add to dashboard** when you are happy with your chart, this will save the chart. You could also
@@ -143,12 +143,12 @@ To add a dashboard filter please click on **New Filter**
 
   <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/example-dashboard-filter-dark.png"
+  src="/images/build-your-first-dashboard/light/example-dashboard-filter-dark.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/example-dashboard-filter-dark.png"
+  src="/images/build-your-first-dashboard/dark/example-dashboard-filter-dark.png"
   alt="Hero Dark"
 />
      </Frame>
@@ -162,12 +162,12 @@ Alternatively if you have already built a chart you can click on **Add Chart** t
 
   <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/add-chart-dark.png"
+  src="/images/build-your-first-dashboard/light/add-chart-dark.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/add-chart-dark.png"
+  src="/images/build-your-first-dashboard/dark/add-chart-dark.png"
   alt="Hero Dark"
 />
      </Frame>
@@ -184,12 +184,12 @@ Your team members will be invited to your dashboard by sharing your dashboard th
 <Frame>
 <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/share.png"
+  src="/images/build-your-first-dashboard/light/share.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/share-dark.png"
+  src="/images/build-your-first-dashboard/dark/share-dark.png"
   alt="Hero Dark"
 />
 </Frame>
@@ -213,12 +213,12 @@ If you are using the **sample dataset** we have provided two sample tenants, whi
 
   <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/preview-as-dark.png"
+  src="/images/build-your-first-dashboard/light/preview-as-dark.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/preview-as-dark.png"
+  src="/images/build-your-first-dashboard/dark/preview-as-dark.png"
   alt="Hero Dark"
 />
      </Frame>
@@ -236,28 +236,65 @@ If you are using the **sample dataset** we have provided two sample tenants, whi
 
   <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/create-tenant.png"
+  src="/images/build-your-first-dashboard/light/create-tenant.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/create-tenant-dark.png"
+  src="/images/build-your-first-dashboard/dark/create-tenant-dark.png"
   alt="Hero Dark"
 />
  </Frame>
 
 
 ## Deploy your dashboard
+
+
+Please click on the Deploy button in the Hub.
  <Frame>
 
   <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/deploy.png"
+  src="/images/build-your-first-dashboard/light/deploy.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/deploy-dark.png"
+  src="/images/build-your-first-dashboard/dark/deploy-dark.png"
   alt="Hero Dark"
 />
  </Frame>
+
+
+You will need to get the JWT for the current user and the dashboard ID to render the correct dashboard. The JWT is generated by following the steps in Backend Setup. The dashboard ID could be found in the URL when you are viewing the dashboard you want to embed.
+
+Below is an example of deploying component with JWT  using [**Clerk middleware**](https://clerk.com/docs/references/nextjs/auth-middleware#use-after-auth-for-fine-grained-control):
+
+```javascript
+"use client";
+import React from "react";
+import { useUser } from "@clerk/nextjs";
+
+const Analytics: React.FC = () => {
+  // Get the user information from Clerk and extract the Upsolve token from the metadata
+  const { user } = useUser();
+  const upsolveToken = user?.publicMetadata?.["upsolveToken"];
+
+  // Embed the component into your app
+  return (
+    <>
+      {upsolveToken != null && typeof upsolveToken === "string" && (
+        <iframe
+          id="c5da5cb3-fedb-4656-9170-0cc65c9db29a"
+          title="Example Dashboard"
+          width="1000"
+          height="1000"
+          src="https://hub.upsolve.ai/share/dashboard/c5da5cb3-fedb-4656-9170-0cc65c9db29a?theme=light&jwt=<upsolveToken>"
+        />
+      )}
+    </>
+  );
+};
+
+export default Analytics;
+```
