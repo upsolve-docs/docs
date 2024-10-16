@@ -84,8 +84,16 @@
       "pages": ["filters/filters-in-depth", "filters/controlled-filters"]
     },
     {
-      "group": "Deploy Dashboards",
-      "pages": ["deploy-dashboards/overview"]
+      "group": "Data Permissioning",
+      "pages": ["data-permissioning/tenancy-management"]
+    },
+    {
+      "group": "Dashboard Deployment",
+      "pages": ["deploy-dashboards/overview", "deploy-dashboards/backend-setup", "deploy-dashboards/frontend-setup"]
+    },
+    {
+      "group": "Sharing and Export",
+      "pages": ["sharing-and-export/dashboard-link-sharing"]
     },
     {
       "group": "Chart Types",
