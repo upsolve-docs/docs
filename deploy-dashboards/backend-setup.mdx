@@ -11,7 +11,7 @@ The purpose of user authorization set up in the backend is for Upsolve AI to pro
 In your product's authentication flow, you will need to call the [/register-tenant](/api-reference/endpoint/register-tenant-to-upsolve) endpoint to authorize users/register [tenants](/data-permissioning/tenancy-management#tenants).
 This endpoint allows you to tell Upsolve AI who the authorized user is and what data permission they have via a payload.
 
-The endpoint is a "refresh" endpoint that consumes the payload and issues a 1h short-lived JWT. This endpoint should be hit every time you re-authorize the user in your app. 
+The endpoint is a "refresh" endpoint that consumes the payload and issues an one-hour short-lived JWT. This endpoint should be hit every time you re-authorize the user in your app. 
 This JWT is then used to provide your authorized users the appropriate access to the dashboard and underlying data.
 
 Please refer to the documentation for the [/register-tenant](/api-reference/endpoint/register-tenant-to-upsolve) endpoint.
