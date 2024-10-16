@@ -62,7 +62,8 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction"]
+      "pages": ["introduction", "Build-and-Deploy-Your-First-Dashboard"]
+      
     },
     {
       "group": "Data Connection",

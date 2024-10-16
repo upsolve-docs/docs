@@ -4,24 +4,119 @@ description: 'Set up connection to your data sources to get started'
 icon: 'database'
 ---
 
+<Frame>
 <img
   className="block dark:hidden"
-  src="/images/data-connection/data-connection.png"
+  src="/images/data-connection/data-connection-hero.png"
   alt="Hero Light"
 />
+</Frame>
 <img
   className="hidden dark:block"
-  src="/images/data-connection/data-connection.png"
+  src="/images/data-connection/data-connection-hero-dark.png"
   alt="Hero Dark"
 />
+
+
+
 
 ## Connect to your data sources
 
 1. Navigate to the **Connect** application using the side navigation bar.
 2. Select your data source type.
+<AccordionGroup>
+
+<Accordion title="Postgres" icon="database">
+To connect to a Postgres database, you'll need:
+
+- **Host:** The server address of the Postgres instance.
+- **Port:** The port number where Postgres is running (default: 5432).
+- **Database Name:** The specific Postgres database to connect to.
+- **User:** The Postgres username.
+- **Password:** The corresponding password for the user.
+- **Pool Size (optional):** Number of active connections to maintain (default: 10).
+- **Concurrency Limit (optional):** Maximum number of concurrent queries.
+- **Interval Limit (optional):** Maximum number of operations in a time interval.
+- **Interval Time (optional):** Time interval in milliseconds (e.g., 1000 ms for 1 second).
+</Accordion>
+
+<Accordion title="Clickhouse" icon="database">
+To connect to Clickhouse, you'll need:
+
+- **Host:** The Clickhouse server address (e.g., `https://clickhouse-host`).
+- **Port:** The port number (default: 8443 for HTTPS connections).
+- **User:** The Clickhouse username.
+- **Password:** The corresponding password for the user.
+- **Database Name:** The Clickhouse database to connect to.
+- **Concurrency Limit (optional):** Maximum number of simultaneous queries.
+- **Interval Limit (optional):** Maximum operations allowed during a time interval.
+- **Interval Time (optional):** Time interval in milliseconds.
+</Accordion>
+
+<Accordion title="Snowflake 🔒" icon="database" >
+To connect to Snowflake, you'll need:
+
+- **Account:** The Snowflake account identifier (e.g., `account_name.region.cloud_provider`).
+- **User:** Your Snowflake username.
+- **Password:** Your Snowflake password.
+- **Database Name:** The specific Snowflake database to connect to.
+</Accordion>
+
+<Accordion title="MySQL 🔒" icon="database" >
+To connect to a MySQL database:
+
+- **Host:** The MySQL server address.
+- **Port:** The port number (default: 3306).
+- **Database Name:** The MySQL database to connect to.
+- **User:** The MySQL username.
+- **Password:** The password for the user.
+</Accordion>
+
+<Accordion title="MS SQL 🔒"icon="database" >
+To connect to Microsoft SQL Server:
+
+- **Host:** The MS SQL server address.
+- **Port:** The port number (default: 1433).
+- **Database Name:** The MS SQL database to connect to.
+- **User:** The MS SQL username.
+- **Password:** The corresponding password for the user.
+</Accordion>
+
+<Accordion title="DynamoDB 🔒" icon="database" >
+For AWS DynamoDB:
+
+- **Region:** The AWS region where DynamoDB is hosted (e.g., `us-east-1`).
+- **AWS Access Key:** The access key from your AWS IAM user.
+- **AWS Secret Key:** The secret key from your AWS IAM user.
+</Accordion>
+
+<Accordion title="Redshift 🔒" icon="database" >
+To connect to Amazon Redshift:
+
+- **Host:** The Redshift cluster endpoint.
+- **Port:** The port number (default: 5439).
+- **Database Name:** The Redshift database to connect to.
+- **User:** The Redshift username.
+- **Password:** The password for the user.
+</Accordion>
+
+<Accordion title="Timescale 🔒" icon="database">
+To connect to TimescaleDB (Postgres with time-series capabilities):
+
+- **Host:** The server address where Timescale is running.
+- **Port:** The port number (default: 5432).
+- **Database Name:** The Timescale/Postgres database to connect to.
+- **User:** The database username.
+- **Password:** The password for the user.
+</Accordion>
+</AccordionGroup>
+
+<Note>
+For enterprise features, look for the 🔒 symbol. These features are available in our Enterprise plan. Please contact us for more information.
+</Note>
+
 3. Input the corresponding credentials for the data source.
-4. Click **Test connection** to see if connection is set up successfully. 
-5. If the connection is successful, click **Compute metadata**.
+4. Click **Save** to see if connection is set up successfully. 
 
 ![data-connection-setup](/images/data-connection/data-connection-setup.png)
 

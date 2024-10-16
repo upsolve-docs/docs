@@ -1,0 +1,236 @@
+
+
+
+Welcome to **Upsolve AI**, your go-to platform for enabling **embedded business intelligence** for your customers. By following this example we will walk you through the essentials of connecting your data, setting up tenancy, building your first dashboard, sharing your insights, and deploying your dashboards in your product.
+
+
+## Connecting data:
+
+
+We’ve already set up a **sample dataset** to help you quickly explore and test the platform without needing to connect your own data source. 
+
+To view this connection, please go to the **Connect** tab as seen below:
+
+
+<Frame>
+<img
+  className="block dark:hidden"
+  src="/images/data-connection/data-connection-hero.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/data-connection/data-connection-hero-dark.png"
+  alt="Hero Dark"
+/>
+</Frame>
+
+If you would like to connect to a different data source, please go to the [Set up your connection](data-connection/data-connection).
+
+
+## Build your first dashboard
+
+In order to build your first dashboard you should begin by creating your first chart before adding to the dashboard. 
+
+
+### Build your first chart
+
+It requires four steps to build your first chart:
+
+<AccordionGroup>
+  <Accordion title="1. Select raw table(s)">
+
+    Search and select the **aggregations** table. 
+
+    <Frame>
+<img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/select-raw-tables.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/select-raw-tables-dark.png"
+  alt="Hero Dark"
+/>
+</Frame>
+    <Tip>
+
+    The list of available raw table(s) is generated after the [data connection](/data-connection/data-connection) is set up.
+
+    </Tip>
+
+  </Accordion>
+
+{" "}
+<Accordion title="2. Prepare data">
+Click on the **+ aggregations** , this will create ```SQL SELECT * FROM "aggregations" ```   
+in the SQL editor.
+
+Click on **Preview data** to run the SQL and **Next** once you see the preview data.
+     <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/query-builder-dark.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/query-builder-dark.png"
+  alt="Hero Dark"
+/>
+    </Frame>
+
+
+ <Tip>
+    If you are more advanced with SQL, you can add more tables and customise your SQL.
+    </Tip>
+  </Accordion>
+
+{" "}
+<Accordion title="3. Build chart">
+  
+  For your first chart select a **Grouped bar**, and choose **country** as the x-axis and  **demand** as the y-axis.
+  the corresponding x- & y-axis
+  
+  For future charts see **BROKEN LINK** [Chart Configuration](/content/charts/area-line-chart-a) for all chart settings. 
+  
+  
+
+     <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/chart-builder-dark.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/chart-builder-dark.png"
+  alt="Hero Dark"
+/>
+     </Frame>
+
+</Accordion>
+
+  <Accordion title="4. Configure filters">
+    You can set up 
+    ![configure-filters](/images/filters/filters-guide-4.png)
+
+  Click **Save and add to dashboard** when you are happy with your chart, this will save the chart. You could also
+  create a copy of the chart by clicking **Duplicate**.
+    <Tip>
+    For a more comprehensive overview, check out our [in-depth filtering guide](/filters/filters-in-depth).
+    </Tip>
+    
+  </Accordion>
+</AccordionGroup>
+
+### Configure your dashboard
+
+You are able to customise your dashboard by adding dashboard filters, controlled filters and additional charts. 
+
+To resize charts you can simply drag the chart to the size you would like.
+
+To move a chart simply drag and drop the chart.
+
+#### Add dashboard filters
+
+To add a dashboard filter please click on **New Filter**
+
+   <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/example-dashboard-filter-dark.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/example-dashboard-filter-dark.png"
+  alt="Hero Dark"
+/>
+     </Frame>
+
+#### Add charts
+
+To add additional charts you can go to through the steps of creating a new chart. 
+
+Alternatively if you have already built a chart you can click on **Add Chart** to use on your dashboard.
+ <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/add-chart-dark.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/add-chart-dark.png"
+  alt="Hero Dark"
+/>
+     </Frame>
+
+
+
+
+## Share your dashboard
+
+You can share your dashboard via email with anyone in by clicking on the share button and sharing it as follows, if you would like a preview of the dashboard please click on the preview.
+
+Your team members will be invited to your dashboard by sharing your dashboard they will become a team member.
+
+<Warning>This raises a warning to watch out for</Warning>
+
+
+## User Authorization (Tenant Registration)
+
+To set up **tenant registration** please follow the steps outlined in [Backend Setup](deploy-dashboards/backend-setup). 
+
+Alternatively if you are using our **sample dataset** and do not intend to **go live** with the dashboard this step is optional and you can move to the next step.
+### Preview dashboard as your designated end users
+
+If you have completed the [Backend Setup](deploy-dashboards/backend-setup), you are able to view the dashboard as one of your customers.
+
+If you are using the **sample dataset** we have provided two sample tenants, which you are able to preview in the hub below. 
+
+ <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/preview-as-dark.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/preview-as-dark.png"
+  alt="Hero Dark"
+/>
+     </Frame>
+
+     If you are using the **sample dataset** and want to add more to add more **Preview Tenants**, please click on **Home**, then **Deploy** and then **Registered Tenants**
+     
+     Click on **Create tenant**
+     You can use the following values to simulate creating a tenant:
+
+- **Tenant Display Name**: `{customer-1}`
+- **Filter Column**: `{CustomerID}`
+- **Filter Value**: `{User_1}`
+
+ <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/create-tenant.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/create-tenant-dark.png"
+  alt="Hero Dark"
+/>
+ </Frame>
+
+
+## Deploy your dashboard
