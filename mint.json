@@ -114,7 +114,8 @@
         "content/charts/stat-card",
         "content/charts/table",
         "content/charts/map",
-        "content/charts/heat-map"
+        "content/charts/heat-map",
+        "content/charts/scatter-plot"
       ]
     },
     {
