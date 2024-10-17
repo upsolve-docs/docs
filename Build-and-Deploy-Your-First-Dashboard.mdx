@@ -33,15 +33,17 @@ If you would like to connect to a different data source, please have a look at h
 In order to build your first dashboard you should begin by creating your first chart before adding to the dashboard. 
 
 
+
 ### Build your first chart
 
-It requires five steps to build your first chart:
 
+It requires five steps to build your first chart. In the below example, you will build a grouped bar chart using the aggregations table.
 <AccordionGroup>
   <Accordion title="1. Select raw table(s)">
+  To begin click on ** + New Chart ** to open the interface.
 
-    Search and select the **aggregations** table. 
 
+Search and select the table(s) that contain the relevant data for the chart you want to create, in this case, aggregations table.
     <Frame>
 <img
   className="block dark:hidden"
@@ -64,7 +66,11 @@ It requires five steps to build your first chart:
 
 {" "}
 <Accordion title="2. Prepare data">
-Click on the **+ aggregations** , this will create ```SQL SELECT * FROM "aggregations" ```   
+
+Write any SQL query to transform the table(s) you selected to a single table that you will consume in Step 3 for chart building. You could write SQL to join, filter on table(s) and more.
+
+
+For this example, you simply want to use the whole **aggregations** table for chart building. Click on the **+ aggregations**,  this will create ```SQL SELECT * FROM "aggregations" ```   
 in the SQL editor.
 
 Click on **Preview data** to run the SQL and **Next** once you see the preview data.
@@ -90,8 +96,10 @@ Click on **Preview data** to run the SQL and **Next** once you see the preview d
 
 {" "}
 <Accordion title="3. Build chart">
+
+Select the relevant chart type, and choose the corresponding x- & y-axis columns for the charting. This chart will be consumed in step 4 when you create your Chart Filters.
   
-  For your first chart select a **Grouped bar**, and choose **country** as the x-axis and  **demand** as the y-axis.
+  In this example, select a **Grouped bar**, and choose **country** as the x-axis and  **demand** as the y-axis.
   the corresponding x- & y-axis
   
   For future charts see [Chart Configuration](/charts/create-chart) for all chart settings. 
@@ -115,6 +123,9 @@ Click on **Preview data** to run the SQL and **Next** once you see the preview d
 </Accordion>
 
   <Accordion title="4. Add chart filters">
+
+
+
   To add chart filters you will undertake two steps, firstly deciding the table to filter on and secondly configuring the filter. In this example, we will guide you through both of these steps.
 
     <Steps>
@@ -122,9 +133,9 @@ Click on **Preview data** to run the SQL and **Next** once you see the preview d
 
       In this example we will select the **Computed Table**
 
-      **1. Raw backing tables:** filter any column in the raw data that is powering this specific chart
+      **1. Selected backing tables:** The list of selected backing tables in Step 1 is surfaced here. Filter any column in any selected backing table(s) that is powering this specific chart
 
-**2. Computed table:** filter any column from the data table that was computed by the SQL written for this chart
+**2. Table:** filter any column from the table that was computed by the SQL written in Step 3.
 
 **3. Variables in the chart SQL:** inject variables into the SQL code that is backing this chart
 
@@ -212,9 +223,9 @@ Click on **Preview data** to run the SQL and **Next** once you see the preview d
 
 You are able to customise your dashboard by adding dashboard filters, controlled filters and additional charts. 
 
-To resize charts you can simply drag the chart to the size you would like.
+To resize charts you can hover over the dashboard, and then simply drag the chart to the size you would like. 
 
-To move a chart simply drag and drop the chart.
+To move a chart you can hover over the dashboard, and then simply drag and drop the chart.
 
 #### Add dashboard filters
 
@@ -222,22 +233,21 @@ To add a dashboard filter please click on **New Filter**,
 
 <AccordionGroup>
 <Accordion title="1. Add Filter">
-Click on the **+ aggregations** , this will create ```SQL SELECT * FROM "aggregations" ```   
-in the SQL editor.
+Give your filter a name, and set the type and subtype. In this case, we are going to set a Select filter with single options allowed.
 
-Click on **Preview data** to run the SQL and **Next** once you see the preview data.
+
      <Frame>
 
    <Frame>
 
   <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/light/example-dashboard-filter-dark.png"
+  src="/images/build-your-first-dashboard/dark/dashboard-malaysia.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/dark/example-dashboard-filter-dark.png"
+  src="/images/build-your-first-dashboard/dark/dashboard-malaysia-dark.png"
   alt="Hero Dark"
 />
      </Frame>
@@ -247,42 +257,23 @@ Click on **Preview data** to run the SQL and **Next** once you see the preview d
 
   </Accordion>
 
-  <Accordion title="2. Set filter type">
-
-
-
-   <Frame>
-
-  <img
-  className="block dark:hidden"
-  src="/images/build-your-first-dashboard/light/example-dashboard-filter-dark.png"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/build-your-first-dashboard/dark/example-dashboard-filter-dark.png"
-  alt="Hero Dark"
-/>
-     </Frame>
-
-
-
-  </Accordion>
 
     <Accordion title="2. Select charts">
 
+Select the charts you would like to pass a dashboard filter to. The available charts must have the same chart filter type as your dashboard filter type. Click the green (+) button next to each filter you want to target:
 
+In this example, the Example Chart has a **Select** Filter so we will use this chart. 
 
    <Frame>
 
   <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/light/example-dashboard-filter-dark.png"
+  src="/images/build-your-first-dashboard/dark/dashboard-select-charts.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/dark/example-dashboard-filter-dark.png"
+  src="/images/build-your-first-dashboard/dark/dashboard-select-charts-dark.png"
   alt="Hero Dark"
 />
      </Frame>
@@ -290,23 +281,22 @@ Click on **Preview data** to run the SQL and **Next** once you see the preview d
 
 
   </Accordion>
-    <Accordion title="4. Filter Preview">
+    <Accordion title="3. Filter Preview">
+Once you have created your filter, you will be able to add the filter to the dashboard.
 
-
-
-   <Frame>
-
-  <img
+You are able to test this by using example values, in this instance we will use **Malaysia**.
+ <img
   className="block dark:hidden"
-  src="/images/build-your-first-dashboard/light/example-dashboard-filter-dark.png"
+  src="/images/build-your-first-dashboard/light/dashboard-filter-preview.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/build-your-first-dashboard/dark/example-dashboard-filter-dark.png"
+  src="/images/build-your-first-dashboard/dark/dashboard-filter-preview-dark.png"
   alt="Hero Dark"
 />
-     </Frame>
+
+
 
 
 
@@ -339,11 +329,11 @@ Alternatively if you have already built a chart you can click on **Add Chart** t
 
 
 
-## Share your dashboard
+## Share your dashboard and collaborate
 
-You can share your dashboard via email with anyone in by clicking on the share button and sharing it as follows, if you would like a preview of the dashboard please click on the preview.
+You can share your dashboard via email **with anyone** by clicking on the share button and sharing it, if you would like a preview of the dashboard please click on the preview.
 
-Your team members will be invited to your dashboard. By sharing your dashboard they will become a team member and can collaborate on future dashboards with you.
+By sharing your dashboard, they will become a team member of your organization and can view, edit and collaborate on the dashboard(s) with you.
 
 <Frame>
 <img
@@ -369,9 +359,10 @@ To set up **tenant registration** please follow the steps outlined in [Backend S
 Alternatively if you are using our **sample database** and do **not intend to go live** with the dashboard this step is optional.
 ### Preview dashboard as your designated end users
 
-If you have completed the [Backend Setup](deploy-dashboards/backend-setup), you are able to view the dashboard as one of your customers.
 
-If you are using the **sample database** we have provided two sample tenants, which you are able to preview in the hub below. 
+If you have completed the [Backend Setup](deploy-dashboards/backend-setup), you are able to view the dashboard as one of your customers. Please click on the **View As** button in your hub.
+
+If you do not intend to go live with the dashboard, and thus did not setup your backend accordingly, you could use the platform to create a testing tenant instead and preview the dashboard as the testing tenant. We have provided two sample testing tenants for you for the sample database, which you could use to preview the example dashboard built as the tenant.
 
  <Frame>
 
@@ -396,6 +387,7 @@ If you are using the **sample database** we have provided two sample tenants, wh
 - **Filter Column**: `{CustomerID}`
 - **Filter Value**: `{User_1}`
 
+
  <Frame>
 
   <img
@@ -409,6 +401,9 @@ If you are using the **sample database** we have provided two sample tenants, wh
   alt="Hero Dark"
 />
  </Frame>
+
+ <Warning> Any created testing tenant would not be available in live environment. They are only for testing purpose within Upsolve AI's purpose. </Warning> 
+
 
 
 ## Deploy your dashboard
@@ -430,7 +425,7 @@ Please click on the Deploy button in the Hub.
  </Frame>
 
 
-You will need to get the JWT for the current user and the dashboard ID to render the correct dashboard. The JWT is generated by following the steps in Backend Setup. The dashboard ID could be found in the URL when you are viewing the dashboard you want to embed.
+You will need to get the JWT for the current user and the dashboard ID to render the correct dashboard. The JWT is generated by following the steps in [Backend Setup](deploy-dashboards/backend-setup). The dashboard ID could be found in the URL when you are viewing the dashboard you want to embed.
 
 Below is an example of deploying component with JWT  using [**Clerk middleware**](https://clerk.com/docs/references/nextjs/auth-middleware#use-after-auth-for-fine-grained-control):
 
