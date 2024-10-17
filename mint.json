@@ -62,7 +62,8 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction"]
+      "pages": ["introduction", "Build-and-Deploy-Your-First-Dashboard"]
+      
     },
     {
       "group": "Data Connection",
@@ -113,7 +114,8 @@
         "content/charts/stat-card",
         "content/charts/table",
         "content/charts/map",
-        "content/charts/heat-map"
+        "content/charts/heat-map",
+        "content/charts/scatter-plot"
       ]
     },
     {

@@ -1,0 +1,29 @@
+---
+title: "Scatter Plot"
+description: "Uses color gradients to represent data values across a matrix, highlighting variations and patterns at a glance"
+icon: "map"
+---
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/content/charts/scatter-plot.png"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/content/charts/scatter-plot-dark.png"
+/ >
+</Frame>
+
+## Configuration
+
+<ResponseField name="X-axis" type="numeric" required>
+  The independent variable
+</ResponseField>
+
+<ResponseField name="Y-axis" type="numeric" required>
+  The dependent variable
+</ResponseField>
+
+<ResponseField name="Layer" type="string or numeric" required>
+  Name of the data point layer
+</ResponseField>

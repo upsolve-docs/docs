@@ -642,6 +642,7 @@ paths:
                             - Table
                             - Map
                             - Heat Map
+                            - Scatter Plot
                           description: User-driven chart type.
                         xAxis:
                           type: object
@@ -736,6 +737,7 @@ paths:
                                   - Table
                                   - Map
                                   - Heat Map
+                                  - Scatter Plot
                                 description: Type override for the series on the chart.
                               percentage:
                                 type: boolean
