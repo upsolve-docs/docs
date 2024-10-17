@@ -7,7 +7,7 @@ Welcome to **Upsolve AI**, your go-to platform for enabling **embedded busines
 ## Connecting data:
 
 
-We’ve already set up a **sample dataset** to help you quickly explore and test the platform without needing to connect your own data source. 
+We’ve already set up a **sample database** to help you quickly explore and test the platform without needing to connect your own data source. 
 
 To view this connection, please go to the **Connect** tab as seen below:
 
@@ -114,9 +114,41 @@ Click on **Preview data** to run the SQL and **Next** once you see the preview d
 
 </Accordion>
 
-  <Accordion title="4. Configure filters">
+  <Accordion title="4. Add chart filters">
+  To add chart filters 
     You can set up filters by clicking on **configure filters** and selecting the relevant column and filter type.
+
+
+    <Steps>
+      <Step title="Select Table ">
+      **1. Raw backing tables:** filter any column in the raw data that is powering this specific chart
+
+**2. Computed table:** filter any column from the data table that was computed by the SQL written for this chart
+
+**3. Variables in the chart SQL:** inject variables into the SQL code that is backing this chart
+
+      </Step>
+
+      
+
+      <Step title="Configure Filter ">
+
+
+**1. Table:** select the table to filter or "Query variables"
+
+**2. Column:** select the column or variable to filter on
+
+**3. Filter:** configure the filter as needed. Options will be provided based on the type of filter selected
+
+      </Step>
+      <Step title="Filter: Configure the filter as needed. Options will be provided based on the type of filter selected ">
+      </Step>
+
+      
+      </Steps>
     ![configure-filters](/images/filters/filters-guide-4.png)
+
+
 
   Click **Save and add to dashboard** when you are happy with your chart, this will save the chart. You could also
   create a copy of the chart by clicking **Duplicate**.
@@ -137,7 +169,15 @@ To move a chart simply drag and drop the chart.
 
 #### Add dashboard filters
 
-To add a dashboard filter please click on **New Filter**
+To add a dashboard filter please click on **New Filter**, 
+
+<AccordionGroup>
+<Accordion title="1. Add Filter">
+Click on the **+ aggregations** , this will create ```SQL SELECT * FROM "aggregations" ```   
+in the SQL editor.
+
+Click on **Preview data** to run the SQL and **Next** once you see the preview data.
+     <Frame>
 
    <Frame>
 
@@ -152,6 +192,81 @@ To add a dashboard filter please click on **New Filter**
   alt="Hero Dark"
 />
      </Frame>
+    </Frame>
+
+
+
+  </Accordion>
+
+  <Accordion title="2. Set filter type">
+
+
+
+   <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/example-dashboard-filter-dark.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/example-dashboard-filter-dark.png"
+  alt="Hero Dark"
+/>
+     </Frame>
+
+
+
+  </Accordion>
+
+    <Accordion title="2. Select charts">
+
+
+
+   <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/example-dashboard-filter-dark.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/example-dashboard-filter-dark.png"
+  alt="Hero Dark"
+/>
+     </Frame>
+
+
+
+  </Accordion>
+    <Accordion title="4. Filter Preview">
+
+
+
+   <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/example-dashboard-filter-dark.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/example-dashboard-filter-dark.png"
+  alt="Hero Dark"
+/>
+     </Frame>
+
+
+
+  </Accordion>
+</AccordionGroup>
+
+<Tip>For more information on dashboard filters, check out our [Dashboard Filters Guide](/filters/filters-in-depth).</Tip>
+
+
 
 #### Add charts
 
@@ -202,12 +317,12 @@ Your team members will be invited to your dashboard by sharing your dashboard th
 
 To set up **tenant registration** please follow the steps outlined in [Backend Setup](deploy-dashboards/backend-setup). 
 
-Alternatively if you are using our **sample dataset** and do not intend to **go live** with the dashboard this step is optional and you can move to the next step.
+Alternatively if you are using our **sample database** and do not intend to **go live** with the dashboard this step is optional and you can move to the next step.
 ### Preview dashboard as your designated end users
 
 If you have completed the [Backend Setup](deploy-dashboards/backend-setup), you are able to view the dashboard as one of your customers.
 
-If you are using the **sample dataset** we have provided two sample tenants, which you are able to preview in the hub below. 
+If you are using the **sample database** we have provided two sample tenants, which you are able to preview in the hub below. 
 
  <Frame>
 
@@ -223,7 +338,7 @@ If you are using the **sample dataset** we have provided two sample tenants, whi
 />
      </Frame>
 
-     If you are using the **sample dataset** and want to add more to add more **Preview Tenants**, please click on **Home**, then **Deploy** and then **Registered Tenants**
+     If you are using the **sample database** and want to add more to add more **Preview Tenants**, please click on **Home**, then **Deploy** and then **Registered Tenants**
      
      Click on **Create tenant**
      You can use the following values to simulate creating a tenant:
