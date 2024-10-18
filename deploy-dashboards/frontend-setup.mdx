@@ -7,7 +7,7 @@ icon: "computer-mouse"
 There are two ways to deploy dashboard in your front end:
 
 1. iFrame Embedding
-2. Native React Component Embedding
+2. Native React Component Embedding 🔒
 
 <Tabs>
   <Tab title="iFrame Embedding">
@@ -61,7 +61,7 @@ export default Analytics;
 ```
 
   </Tab>
-  <Tab title="Native React Component Embedding">
+  <Tab title="Native React Component Embedding 🔒">
     <Steps>
       <Step title="Import Upsolve AI SDK">
         Ask the Upsolve AI team for _"a key to the private NPM library"_. Use the key in your `.npmrc` or `.yarnrc` file. You can then import the SDK into your application.
@@ -165,6 +165,8 @@ export default Analytics;
         Make sure that your `.npmrc` or `.yarnrc.yml` values are provided to your deployment as env variables, otherwise the deployment will not work.
       </Step>
     </Steps>
-
+    <Note>
+For enterprise features, look for the 🔒 symbol. These features are available in our Enterprise plan. Please contact us for more information.
+</Note>
   </Tab>
 </Tabs>
