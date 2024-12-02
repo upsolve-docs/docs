@@ -113,16 +113,44 @@ To connect to TimescaleDB (Postgres with time-series capabilities):
 </Accordion>
 <AccordionGroup>
   <Accordion title="Supabase 🔒" icon="database">
-    To connect to Supabase, use the following credentials:
+  To connect to Supabase, use the following credentials and configuration steps:
 
-    - **URL:** The unique URL of your Supabase instance.
-    - **Anon Key:** The public API key for accessing Supabase client-side.
-    - **Service Key:** The secret API key for accessing Supabase server-side (use with caution).
+  1. **Create the `execute_raw_sql` Function:**
+     To enable secure execution of SQL queries, run the following SQL in your Supabase SQL editor:
 
-    <Note>
-      You can find these details in your [Supabase API settings](https://supabase.com/dashboard/project/_/settings/api).
-    </Note>
-  </Accordion>
+     ```sql
+     CREATE OR REPLACE FUNCTION public.execute_raw_sql(query text)
+     RETURNS jsonb
+     LANGUAGE plpgsql
+     SECURITY INVOKER
+     AS $$
+     DECLARE
+         result jsonb;
+     BEGIN
+         -- Execute the SQL query and store the result in a JSONB format
+         EXECUTE format('SELECT json_agg(t) FROM (%s) AS t', query) INTO result;
+         
+         RETURN result;
+     EXCEPTION
+         WHEN others THEN
+             -- Handle errors gracefully by returning the error message in JSON
+             RETURN jsonb_build_object('error', SQLERRM);
+     END;
+     $$;
+     ```
+
+  2. **Set Up Credentials in Upsolve Hub:**
+     Use the following details to connect to your Supabase instance:
+
+     - **URL:** The unique URL of your Supabase instance.
+     - **Anon Key:** The public API key for accessing Supabase.
+     - **Service Key:** The secret API key for accessing Supabase.
+
+     <Note>
+       You can find these details in your [Supabase API settings](https://supabase.com/dashboard/project/_/settings/api).
+     </Note>
+</Accordion>
+
 </AccordionGroup>
 
 </AccordionGroup>
