@@ -82,7 +82,7 @@
     },
     {
       "group": "Filtering",
-      "pages": ["filters/filters-in-depth", "filters/controlled-filters"]
+      "pages": ["filters/filters-in-depth", "filters/controlled-filters", "filters/timezone"]
     },
     {
       "group": "Data Permissioning",
