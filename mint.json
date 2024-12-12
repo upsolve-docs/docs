@@ -57,6 +57,11 @@
       "name": "Impact Studies",
       "icon": "newspaper",
       "url": "https://upsolve.ai/impact-study"
+    },
+    {
+      "name": "Security Trust Center",
+      "icon": "shielf-halved",
+      "url": "https://trust.oneleet.com/upsolve"
     }
   ],
   "navigation": [
