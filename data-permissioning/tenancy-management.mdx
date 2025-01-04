@@ -5,65 +5,58 @@ icon: "rocket"
 ---
 
 ## Overview
-Upsolve AI is **data source agnostic**, meaning you can populate data from multiple data sources into a single dashboard. 
+
+Upsolve AI is **data source agnostic**, meaning you can populate data from multiple data sources into a single dashboard.
 To ensure that each end users only sees the data relevant to them, you’ll need to set up **tenancy filters**.
 
-These filters allow you to isolate the data your end useres can view based on the specific characteristics you've defined for each of them. 
+These filters allow you to isolate the data your end useres can view based on the specific characteristics you've defined for each of them.
 By doing so, you provide each user with a tailored dashboard experience while maintaining strict control over data access.
 
 ## Tenants
 
 A Tenant refers to a distinct group of end users that share the same data access and permission. The benefits of Upsolve AI's tenancy management include:
 
-- **Security**: Letting Upsolve AI know what data users should have access to ensures users are restricted to only seeing the data meant for them
-- **Easy Management:** By using tenants, you can assign permissions and filters to each group, streamlining data management.
-- **Consistency:** Automatically applied filters ensure all tenants in the same group follow the same data access rules.
-- **Predictability:** Automatically applied filters ensure all tenants in the same group follow the same data access rules.
-- **Consistency:** Tenant registration is controlled via an endpoint as part of your auth system, so Upsolve is in sync with your existing permission model across all of your applications.
+* **Security**: Letting Upsolve AI know what data users should have access to ensures users are restricted to only seeing the data meant for them
+
+* **Easy Management:** By using tenants, you can assign permissions and filters to each group, streamlining data management.
+
+* **Consistency:** Automatically applied filters ensure all tenants in the same group follow the same data access rules.
+
+* **Predictability:** Automatically applied filters ensure all tenants in the same group follow the same data access rules.
+
+* **Consistency:** Tenant registration is controlled via an endpoint as part of your auth system, so Upsolve is in sync with your existing permission model across all of your applications.
 
 ## Tenant Registation (User Authorization)
-You could register a tenant following the [Backend Setup](/deploy-dashboards/backend-setup) instruction.
+
+You could register a tenant following the [Backend Setup](/data-permissioning/deploy-dashboards/backend-setup) instruction.
 
 ## Tenant Preview
+
 Upsolve AI allows you to simulate the registration of individual tenant and then preview the dashboard as that tenant.
 
-- If you have completed the [Backend Setup](deploy-dashboards/backend-setup), you are able to view the dashboard as one of your customers.
+* If you have completed the [Backend Setup](/data-permissioning/deploy-dashboards/backend-setup), you are able to view the dashboard as one of your customers.
 
-- If you are using the **sample dataset** we have provided two sample tenants, which you are able to preview in the hub below. 
+* If you are using the **sample dataset** we have provided two sample tenants, which you are able to preview in the hub below.
 
- <Frame>
+<Frame>
+  <img className="block dark:hidden" src="/images/build-your-first-dashboard/light/preview-as.png" alt="Hero Light" />
 
-  <img
-  className="block dark:hidden"
-  src="/images/build-your-first-dashboard/light/preview-as.png"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/build-your-first-dashboard/dark/preview-as-dark.png"
-  alt="Hero Dark"
-/>
-     </Frame>
+  <img className="hidden dark:block" src="/images/build-your-first-dashboard/dark/preview-as-dark.png" alt="Hero Dark" />
+</Frame>
 
-     If you are using the **sample dataset** and want to add more to add more **Preview Tenants**, please click on **Home**, then **Deploy** and then **Registered Tenants**
-     
-     Click on **Create tenant**
-     You can use the following values to simulate creating a tenant:
+If you are using the **sample dataset** and want to add more to add more **Preview Tenants**, please click on **Home**, then **Deploy** and then **Registered Tenants**
 
-- **Tenant Display Name**: `{customer-1}`
-- **Filter Column**: `{CustomerID}`
-- **Filter Value**: `{User_1}`
+Click on **Create tenant**
+You can use the following values to simulate creating a tenant:
 
- <Frame>
+* **Tenant Display Name**: `{customer-1}`
 
-  <img
-  className="block dark:hidden"
-  src="/images/build-your-first-dashboard/create-tenant.png"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/build-your-first-dashboard/create-tenant-dark.png"
-  alt="Hero Dark"
-/>
- </Frame>
+* **Filter Column**: `{CustomerID}`
+
+* **Filter Value**: `{User_1}`
+
+<Frame>
+  <img className="block dark:hidden" src="/images/build-your-first-dashboard/create-tenant.png" alt="Hero Light" />
+
+  <img className="hidden dark:block" src="/images/build-your-first-dashboard/create-tenant-dark.png" alt="Hero Dark" />
+</Frame>
