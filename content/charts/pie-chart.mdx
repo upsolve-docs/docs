@@ -11,15 +11,20 @@ icon: "chart-pie-simple"
   <img
     className="hidden dark:block"
     src="/images/content/charts/pie-chart-dark.png"
-/ >
+  />
 </Frame>
 
 ## Configuration
 
 <ResponseField name="Category" type="string or numeric" required>
-  Category to group the chart by
+  Category to group the chart by.
 </ResponseField>
+<Warning>
+If there are more than 25 unique categories, all remaining categories will be grouped under **"Other."**
+</Warning>
+
 
 <ResponseField name="Aggregation" type="numeric" required>
-  Column to aggregate the donut chart on
+  Column to aggregate the donut chart on.
 </ResponseField>
+
