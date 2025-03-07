@@ -1,0 +1,59 @@
+---
+title: "MongoDB"
+description: "Discover a seamless integration process! Learn how to connect MongoDB to Upsolve effortlessly for streamlined transactions."
+---
+
+This article guides you through the process of connecting MongoDB to Upsolve, allowing you to seamlessly access your MongoDB data within the Upsolve platform.
+
+**Note**: Before you begin, ensure that Upsolve has been granted the necessary read permissions as shown in the image below.
+
+<img src="https://cdn.peaka.com/integrations/mongodb-1.png" />
+
+## Prerequisites
+
+**Important**: Ensure that the Upsolve IP address 34.42.188.247 is added to your firewall's safelist to enable access to your MongoDB data.
+
+Before you start, you will need the following information from MongoDB.
+
+MongoDB data source has two type connection way;
+
+- MongoDB Atlas
+
+  - Password (The password for the MongoDB Atlas user)
+  - Atlas Connection String (The connection string for MongoDB Atlas)
+    - You can get it on MongoDB Atlas page as in the below image.
+      <img src="https://cdn.peaka.com/integrations/mongodb-2.png" />
+
+- MongoDB Manual (Self-Hosted)
+
+  - Host (Endpoint without the port or database name)
+  - Port (The port used to connect to your database)
+  - User (The username of the service account)
+  - Password (The password for the service account user)
+  - Database Name (The database name of your service)
+  - Multiple Replica Seed (Indicate whether MongoDB Atlas is being utilized)
+
+## Connecting MongoDB to Upsolve
+
+To connect MongoDB to Upsolve, follow these steps based on your MongoDB setup:
+
+1. Navigate to the data model page in Upsolve.
+2. In the side menu bar, click the "New Data Source" button to initiate the connection process.
+3. In the modal that appears, select "MongoDB" as your data source.
+4. Select the connection type based on your MongoDB setup.
+
+- If you select **Atlas**;
+
+  1. Enter the connection string and password you have gathered.
+
+  <img src="https://cdn.peaka.com/integrations/mongodb-3.png" />
+
+- If you select **Manual**;
+
+  1. Enter the host, port, user, password, database name, and any other required details.
+
+  <img src="https://cdn.peaka.com/integrations/mongodb-4.png" />
+
+5. Click **Authorize** to complete the data source connection.
+
+Congratulations! You have successfully connected MongoDB to Upsolve. You can now effortlessly access and manage your MongoDB data within the Upsolve platform.

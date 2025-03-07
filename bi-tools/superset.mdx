@@ -1,0 +1,60 @@
+---
+title: "Superset"
+description: "Welcome to the installation guide for integrating Apache Superset with Upsolve. As a leading data platform, Upsolve provides seamless integration with various business intelligence and data visualization platforms, including Apache Superset. This document will guide you through the step-by-step process to set up this integration, enabling you to unlock the full potential of your data. Please follow each step carefully to ensure a successful setup."
+---
+
+You need 2 steps to complete setup:
+
+- Generate Upsolve API Key
+- Add Upsolve as Database Connection
+
+## Generate API Key
+
+After you create your project, setup connections and create your catalogs in Upsolve, you need to generate a Upsolve API Key to use it with Superset.
+Check out Upsolve Documentation for creating your API Key and follow detailed instructions by clicking [here](https://docs.upsolve.com/how-to-guides/how-to-generate-api-keys).
+
+## Add Upsolve as Database Connection
+
+- Adding Upsolve as Database Connection to Superset is so easy. In your main dashboard in Superset, click Setting and then click Database Connections.
+  Then in the next screen click Database button on the top right corner of your screen.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/superset/superset-1.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+<img
+  src="https://cdn.peaka.com/bi-tools/superset/superset-2.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+- Connect a database window will open. In supported databases select Trino.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/superset/superset-3.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+- In the next screen you need to enter Display Name and SQL Alchemy URI. You can enter anything you like for the Display Name.The SQL Alchemy URI format is like below:
+
+**Note:** If you are using Upsolve in EU, you need to use `trino://dbc.eu.upsolve.studio:4567` instead of `trino://dbc.upsolve.studio:4567`.
+
+`trino://dbc.upsolve.studio:4567/<catalog>/<schema>?http_scheme=https&extra_credential=[[”upsolveKey”,”<YOUR_API_KEY>”]]&access_token=true`
+
+You need to fill `<catalog>`, `<schema>` and `<YOUR_API_KEY>`. For example if I want to see work on the tables under stripe catalog and payment schema created in Upsolve with API Key `abc` , then my SQL Alchemy URI would look like below:
+
+`trino://dbc.upsolve.studio:4567/stripe/payment?http_scheme=https&extra_credential=[[”upsolveKey”,”abc”]]&access_token=true`
+
+Then click `Test Connection` button to test the connection and if the connection is ok, then click `Connect` button.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/superset/superset-4.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+Installation is complete you should be able to see Upsolve in Database Connections List. You can start using Upsolve with Superset.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/superset/superset-5.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>

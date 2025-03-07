@@ -1,0 +1,42 @@
+---
+title: "What are catalogs, schemas, and virtual tables?"
+description: "Learn about 3 basic concepts for organizing your data in Upsolve"
+---
+
+**Upsolve** users organize their data using catalogs, schemas, and virtual tables. These concepts help users manage and access data from various data sources. Here's a brief introduction into these fundamental concepts:
+
+## Catalogs
+
+Catalogs in Upsolve represent a collection of data sources or connectors, such as
+
+- a SaaS Platform (HubSpot, Stripe, etc.),
+- relational databases (PostgreSQL, MariaDB, etc.),
+- spreadsheets (Airtable, Google Sheets, etc.),
+- a REST API returning a collection of objects (coming soon...).
+
+Each catalog is configured with a specific connector, which enables Upsolve to read from and write to the underlying data source. Catalogs are the top-level organizational data units in Upsolve and serve as a way to group related schemas.
+
+## Schemas
+
+Schemas are a level below catalogs and can be thought of as namespaces that contain a collection of tables. A schema is used to group related tables and views within a catalog, providing a way to organize data in a hierarchical manner. Schemas are inherited from the underlying connector.
+
+Schemas have different meanings for relational databases and SaaS connectors in Upsolve:
+
+- In relational databases, schemas often correspond to a database or a specific user's workspace. For a PostgreSQL connector, schemas correspond to exact schemas with the connected database.
+- In SaaS connectors, schemas refer to the groups of APIs according to the API organization of the SaaS providers. For example, HubSpot organizes its APIs under CRM, Marketing, etc.
+
+If there is no organization in the underlying connector, the default schema is usually referred to as **public**, a keyword borrowed from PostgreSQL as the default schema.
+
+## Tables / Virtual Tables
+
+Tables form the lowest level in this organizational hierarchy and represent structured data sets.
+
+A table is composed of rows and columns, where each row represents a single record, and each column represents a specific attribute or field of that record.
+
+Tables store the actual data that users query and manipulate using SQL statements in Upsolve.
+
+At Upsolve, we sometimes call it a virtual table instead of a table because not all are real database tables. Instead, Upsolve just shows them as tables in the system. Almost all of the tables of a SaaS connector are virtual tables. You can still use these tables in your data operations and treat them like real tables. You can query them using SQL and join their data with other tables and virtual tables. Virtual tables are bound to an API of the connected data source or SaaS Provider.
+
+## Summary
+
+In summary, Upsolve organizes data using catalogs, schemas, and tables, where catalogs represent data sources, schemas group related tables within a catalog, and tables store structured data. This hierarchical organization enables users to manage, query, and manipulate data from multiple data sources in a unified and efficient manner.

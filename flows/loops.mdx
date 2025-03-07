@@ -1,0 +1,48 @@
+---
+title: "How to make use of loops in Upsolve"
+description: "Learn about different types of loops in Upsolve and how they can enhance your workflows"
+---
+
+This article provides an introduction to loops in Upsolve and explains the three types of loops available: Loop List, Loop Forever, and Break.
+
+<img src="https://cdn.peaka.com/flows/loops-1.png" alt="loop nodes view" />
+
+## Types of Loops
+
+In Upsolve, you can utilize three types of loops to control the flow of your workflow:
+
+### Loop List
+
+The **Loop List** allows you to iterate over each item in an array and execute a series of nodes for each item. Here's how it works:
+
+<img src="https://cdn.peaka.com/flows/loops-2.png" alt="loop list node view" />
+
+1. Provide an array of items that you want to loop through in the "Items" field.
+
+2. Specify a variable name in the "Variable Name" field. This variable will represent each item in the array during each iteration.
+
+3. You can access the value of each array item using the variable name you defined.
+
+<img
+  src="https://cdn.peaka.com/flows/loops-3.png"
+  alt="update parameters of a loop list node"
+/>
+
+### Loop Forever
+
+The **Loop Forever** node allows a sequence of nodes to run continuously until a **Break** node is triggered to stop the loop. This type of loop is useful for creating continuous or repeated actions.
+
+<img
+  src="https://cdn.peaka.com/flows/loops-4.png"
+  alt="loop forever node view"
+/>
+
+### Break
+
+The **Break** node is used to stop the execution of a loop, specifically the **Loop Forever** loop. When a **Break** node is encountered within the loop, the loop stops executing.
+
+<img src="https://cdn.peaka.com/flows/loops-5.png" alt="break node view" />
+
+## Conclusion
+
+Loops are a powerful tool in Upsolve workflows, enabling you to perform repetitive tasks, iterate through data, and control the flow of your application. Understanding how to use these loop types effectively can enhance your workflow automation capabilities.

@@ -1,0 +1,68 @@
+---
+title: "BigQuery"
+description: "Discover a seamless integration process! Learn how to connect BigQuery to Upsolve effortlessly for streamlined transactions."
+---
+
+This article guides you through the process of connecting BigQuery to Upsolve, allowing you to seamlessly access your BigQuery data within the Upsolve platform.
+
+## Prerequisites
+
+Before you start, you will need the following information from BigQuery.
+
+- Project ID
+- Parent Project ID (optional)
+- Credentials in JSON format
+
+Follow the steps below to obtain it:
+
+1. Go to the BigQuery dashboard. You can find your Project ID in the blue squared area.
+
+<img src="https://cdn.peaka.com/integrations/big-query-1.png" />
+
+2. Visit the [Credentials page](https://console.cloud.google.com/apis/credentials).
+
+3. Select "+Create credentials" and then choose "Service account."
+
+<img src="https://cdn.peaka.com/integrations/big-query-2.png" />
+
+4. Enter a name for the service account (e.g., "Upsolve BigQuery Read Account") and select "Create and Continue."
+
+<img src="https://cdn.peaka.com/integrations/big-query-3.png" />
+
+5. Ensure the service account has the following permissions:
+   - BigQuery Data Editor
+   - BigQuery User
+
+<img src="https://cdn.peaka.com/integrations/big-query-4.png" />
+
+6. You can skip the optional user access step and select "Done."
+
+7. Your servise account will be created and click on the service account email.
+
+<img src="https://cdn.peaka.com/integrations/big-query-5.png" />
+
+8. Click the "Add Key" button and select "Create New Key."
+
+<img src="https://cdn.peaka.com/integrations/big-query-6.png" />
+
+9. Choose the "JSON" file format and click the "Create" button. This will download a JSON key file that you'll need for the integration.
+
+<img src="https://cdn.peaka.com/integrations/big-query-7.png" />
+
+## Connecting BigQuery to Upsolve
+
+Now that you have obtained the necessary integration data and credentials, you can connect BigQuery to Upsolve using the following steps:
+
+1. Navigate to the data model page in Upsolve.
+
+2. In the side menu bar, click the "New Data Source" button to initiate the connection process.
+
+3. In the modal that appears, select "BigQuery" as your data source.
+
+4. Enter a name for your data source and upload the credentials JSON file you downloaded in step 9.
+
+<img src="https://cdn.peaka.com/integrations/big-query-8.png" />
+
+5. Click "Next" to create your BigQuery data source.
+
+Congratulations! You've successfully connected BigQuery to Upsolve. You can now access and manage your BigQuery data seamlessly within the Upsolve platform.

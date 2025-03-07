@@ -1,0 +1,32 @@
+---
+title: "CDC - MongoDB Setup Documentation"
+description: "How to setup CDC MongoDB"
+---
+
+## **Prerequisites**
+
+To setup CDC between your MongoDB database and Upsolve Big Table, you need:
+
+- MongoDB version 4.4, 5.0, 6.0, 7.0
+
+## **Setup Instructions**
+
+### Setting up permissions
+
+Create a MongoDB user account that has the following permissions:
+
+- Read from the database.
+- Run the **ping** command.
+
+1. Open the MongoDB shell.
+2. Connect to your replica set or primary node using the MongoDB shell.
+3. Execute the following command to create a user for Fivetran. Replace  **username** and **password** with a username and password of your choice.
+
+```sql
+   use admin
+   db.createUser({
+     user: "<username>",
+     pwd: "<password>",
+     roles: [ "readAnyDatabase", {role: "read", db: "local"} ]
+   })
+```

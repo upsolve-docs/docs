@@ -1,0 +1,58 @@
+---
+title: "How to use JEXL in Upsolve"
+description: "Click here to see a detailed description of how to use JEXL in Upsolve"
+---
+
+**Javascript Expression Language: Powerful context-based expression parser and evaluator.**
+
+In Upsolve, JEXL empowers you to assign dynamic values to flows while seamlessly integrating with variables. This versatile feature extends to all property values, and for added convenience, you can access an expanded editing interface by simply clicking the arrow icon located on the right side of the property field.
+
+Even properties typically represented as simple checkboxes can be transformed into JEXL editors with a single click of the expand icon button. Below, we present a selection of common examples demonstrating the practical application of JEXL:
+
+**Examples**
+
+```py
+  // addition
+  {{sum(45, 99)}}
+  // => 144
+
+  // show name
+  {{ "Hello " + my_name_variable}}
+  // => 'Hello Can'
+
+  // alternatively
+  Hello {{ my_name_variable }}
+  // => 'Hello Can'
+
+  // convert the date
+  {{convertLocaleDateString("Tue Aug 15 2023 10:23:41", "de",{
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  }}
+  // => Dienstag, 15. August 2023
+```
+
+<img src="https://cdn.peaka.com/jexl/using-jexl-1.png" alt="using-jexl-1" />
+
+## Using Variable in Webhook Response Flow Node
+
+The webhook response flow node is designed to return a JSON object when you send a request to an external API. This functionality allows you to dynamically retrieve and integrate data into your workflows.
+
+To include a variable in the body of the webhook response flow node, simply enclose the variable name within double curly braces, as demonstrated in the example below:
+
+```py
+{{ getRecord_1 }}
+```
+
+In addition, we can easily access the value associated with the key 'name' in the object.
+
+```py
+{{ getRecord_1.name }}
+```
+
+For detailed guidance on flows, please refer to [this article](https://docs.upsolve.com/flows/).
+
+<img src="https://cdn.peaka.com/jexl/using-jexl-1.png" alt="using-jexl-1" />

@@ -1,0 +1,199 @@
+---
+title: "Most-used Lodash functions in Upsolve"
+description: "Learn more about the most-used lodash functions in Upsolve"
+---
+
+In JEXL, we can use all lodash functions. This article provides a list of the most frequently used among them.
+
+If you want to see more lodash functions, check out [this article](https://lodash.com/docs).
+
+### isArray(value)
+
+Checks if value is classified as an Array object.
+
+- value is required.
+
+```java
+    {{ isArray([1, 2, 3]) }}
+    // => true
+
+    {{ isArray('text') }}
+    // => false
+```
+
+### concat(array, [values])
+
+Creates a new array concatenating array with any additional arrays and/or values.
+
+- values and array are required.
+
+```java
+    {{ concat([1], 2, [3], [[4]]) }}
+    // => [1, 2, 3, [4]]
+```
+
+### indexOf(array, value, [fromIndex=0])
+
+Gets the index where the first occurrence of value is found in array. If fromIndex is negative, it's used as the offset from the end of array.
+
+- array and value is required.
+- array (Array): The array to inspect.
+- value (\*): The value to search for.
+- [fromIndex=0] (number): The index to search from.
+
+```java
+    {{ _.indexOf([1, 2, 1, 2], 2) }}
+    // => 1
+
+    // Search from the `fromIndex`.
+    {{ indexOf([1, 2, 1, 2], 2, 2) }}
+    // => 3
+```
+
+### reverse(array)
+
+Reverses array so that the first element becomes the last, the second element becomes the second to last, and so on.
+
+- array is required.
+
+```java
+
+    {{ reverse([1, 2, 3]) }}
+    // => [3, 2, 1]
+```
+
+### slice(array, [start=0], [end=array.length])
+
+Creates a slice of array from start up to, but not including, the end.
+
+- array (Array): The array to slice.
+- [start=0] (number): The start position.
+- [end=array.length] (number): The end position.
+
+```java
+    {{ slice([1,2,3,4,5],2,4)}}
+    // [3,4]
+```
+
+### without(array, [values])
+
+Creates an array excluding all given values.
+
+- array (Array): The array to inspect.
+- [values]: The values to exclude.
+
+```java
+    {{ without([2, 1, 2, 3], 1, 2) }}
+    // => [3]
+```
+
+### filter(collection, filterItems)
+
+Iterates over elements of collection, returning an array of all elements predicate returns truthy for. The predicate is invoked with three arguments: (value, index|key, collection).
+
+- collection (Array|Object): The collection to iterate over.
+- filterItems: The items you want to filter by them.
+
+```java
+{{
+    filter(
+      [
+        { user: "barney", age: 36, active: true },
+        { user: "fred", age: 40, active: false },
+      ],
+      { age: 36, active: true }
+    );
+}}
+// => ['barney']
+
+{{
+    filter(
+      [
+        { user: "barney", age: 36, active: true },
+        { user: "fred", age: 40, active: false },
+      ],
+      ["active", false]
+    );
+}}
+// => ['fred']
+```
+
+### eq(value, other)
+
+Compares `value` and `other`, return true or false according to they equals each other or not.
+
+- value and other are required and can be any type.
+
+```java
+    {{ eq( 1, 1 ) }}
+    // => true
+
+    {{ eq( 1, 'some text' ) }}
+    // => false
+```
+
+### sum(array)
+
+Computes the sum of the values in array.
+
+- array is required and includes items which are number tpye.
+
+```java
+    {{ sum([4, 2, 8, 6]) }}
+    // => 20
+```
+
+### max(array)
+
+Computes the maximum value of array. If array is empty or falsey, undefined is returned.
+
+- array is required.
+
+```java
+    {{ max([4, 2, 8, 6]) }}
+    // => 8
+
+    {{ max([]) }}
+    // => undefined
+```
+
+### get(object, path, [defaultValue])
+
+Gets the value at path of object. If the resolved value is undefined, the defaultValue is returned in its place.
+
+- object (Object): The object to query.
+- path (Array|string): The path of the property to get.
+- [defaultValue] (\*): The value returned for undefined resolved values.
+
+```java
+    {{
+        get({ a: [{ b: { c: 3 } }] }), "a[0].b.c";
+    }}
+    // => 3
+
+    {{
+        get({ a: [{ b: { c: 3 } }] }),['a', '0', 'b', 'c'];
+    }}
+    // => 3
+```
+
+### hasIn(object, path)
+
+Checks if path is a direct or inherited property of object.
+
+- object and path are required.
+
+```java
+
+    {{ hasIn({ a: { b:2 }}, 'a') }}
+    // => true
+
+    {{ hasIn({ a: { b:2 }}, 'a.b') }}
+    // => true
+
+    {{  hasIn({ a: { b:2 }}, ['a', 'b']) }}
+    // => true
+
+    {{  hasIn({ a: { b:2 }}, 'b') }}
+    // => false
+```

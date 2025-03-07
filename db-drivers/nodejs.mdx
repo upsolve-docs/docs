@@ -1,0 +1,52 @@
+---
+title: "NodeJS Driver"
+description: "Discover the [Upsolve](https://upsolve.com/) NodeJS driver"
+---
+
+## Requirements
+
+- Node 12 or newer.
+
+## Install
+
+`npm install @upsolve/client`
+or
+`yarn add @upsolve/client`
+
+## Usage
+
+### Create a Upsolve connection
+
+```typescript
+import { Upsolve, connectToUpsolve } from "@upsolve/client";
+
+const connection: Upsolve = connectToUpsolve("<YOUR_API_KEY>");
+```
+
+### Submit a query
+
+```typescript
+import type { QueryResult } from "@upsolve/client";
+
+const iter: Iterator<QueryResult> = await connection.query(
+  "select * from <CATALOG_NAME>.<SCHEMA_NAME>.<TABLE_NAME> limit 100"
+);
+```
+
+### Iterate through the query results
+
+```typescript
+for await (const queryResult of iter) {
+  console.log(queryResult.data);
+}
+```
+
+### Alternative: map and aggregate the data
+
+```typescript
+import type { QueryData } from "@upsolve/client";
+
+const data: QueryData[] = await iter
+  .map((r) => r.data ?? [])
+  .fold<QueryData[]>([], (row, acc) => [...acc, ...row]);
+```
