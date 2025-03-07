@@ -1,0 +1,605 @@
+---
+title: How to create OAuth2 based connections via Upsolve API?
+description: Learn how to create OAuth2 based connections via Upsolve API.
+---
+
+You can easily create connection via the Upsolve API. For example, here’s how to create a connection to Stripe, a very popular payment platform:
+
+```bash
+curl --request POST \
+  --url https://partner.upsolve.studio/api/v1/connections/{projectId} \
+  --header 'Authorization: Bearer <your_upsolve_key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "name": "<name_of_your_connection>",
+  "type": "stripe",
+  "credential": {
+    "token": "<stripeToken>"
+  }
+}'
+```
+
+Passing the Stripe token to the Upsolve platform is sufficient.
+
+Not all 3rd party platforms support a simple token (or user:password) based authentication. For example, HubSpot - a very popular CRM platform - or Google Sheets use OAuth2 based authentication (see: [https://en.wikipedia.org/wiki/OAuth](https://en.wikipedia.org/wiki/OAuth) or [https://auth0.com/intro-to-iam/what-is-oauth-2](https://auth0.com/intro-to-iam/what-is-oauth-2)). The most common OAuth2 grant type is Authorization Code. Authorization Code flow requires some user interaction. After various steps, the platform you are using gives you a pair of token: an Access Token and a Refresh Token. Upsolve should know these tokens in order to query data of the platform.
+
+Upsolve has already implemented various 3rd party platforms using OAuth2. If you are using Upsolve
+
+- directly ([https://upsolve.studio/](https://upsolve.studio/)),
+
+you will get connected to those platforms.
+
+For those who want to create connection based on OAuth2 via Upsolve Rest Api, there are two options:
+
+1. Use your OAuth implementation, provide tokens to Upsolve
+2. Use Upsolve OAuth mechanism
+
+# 1. Use Your OAuth Implementation
+
+Partners may have an already implemented OAuth process and OAuth apps.
+
+In order to use these apps, Upsolve needs clientId, clientSecret, refreshToken and accessToken.
+
+Since partner makes all OAuth flows, it is sufficient to pass these info to Upsolve. This is the simplest integration way of OAuth.
+
+Upon getting refresh token and access token from the OAuth Provider (e.g. Google), the Partner will make “create connection” request.
+
+<img
+  src="https://cdn.peaka.com/how-to-guides/how-to-create-oauth2-based-connections-via-upsolve-1.png"
+  alt="create connection request"
+/>
+
+A typical request example will be
+
+```bash
+curl --request POST \
+  --url https://partner.upsolve.studio/api/v1/connections/{projectId} \
+  --header 'Authorization: Bearer <your_upsolve_key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "name": "<name_of_your_connection>",
+  "type": "hubspot",
+  "credential": {
+    "clientId": "<client_id_for_hubspot_app>",
+    "clientSecret": "<client_secret_for_hubspot_app>",
+    "accessToken": "<access_token>",
+    "refreshToken": "<refresh_token>"
+  }
+}'
+```
+
+And sample response returning connection id will be:
+
+```bash
+200
+
+{
+  "id": "6243f42a-42d0-4821-a90f-763cda6cda50",
+  "name": "<name_of_your_connection>",
+  "type": "hubspot"
+}
+```
+
+Partners choose this way integration because they have already have Oauth processes or they want to do OAuth processes by themselves.
+
+# 2. Use Upsolve OAuth Mechanism
+
+OAuth flows are a bit complex to implement for some partners. Defining and registering appropriate OAuth apps can also be complex and time consuming (e.g. Some platforms may have longer review process).
+
+Upsolve does the complex part and informs you when an OAuth flow has completed.
+
+Since everything happens in the user browser, such integration is more complex than the previous.
+
+Whether you will be using Upsolve OAuth App or your own OAuth app, this mechanism can be implemented in two ways:
+
+## 2.a. Use Upsolve OAuth App
+
+When you choose to use Upsolve OAuth app for some Platform (e.g. Google Analytics), OAuth flow will end at Upsolve site and Upsolve will inform you after that.
+
+Using Upsolve OAuth app has some advantages and disadvantages. Also in some cases, you should use your own OAuth app.
+
+Advantages:
+
+- Some platforms enable public creation of an OAuth app, some requires developer accounts, and some requires a partnership program. Also they may have review process. Upsolve has completed review process of the Platform you are using. So you don’t need to wait for your own.
+
+Disadvantages:
+
+- In OAuth flow, a consent screen will be shown to your user. In that screen, Upsolve’s branding and logo will be shown. If you need to show your logo and branding, you should choose to create your own OAuth app and implement the next option.
+- Platforms may have strict rate limits. To avoid rate limits, you may consider creating your own oauth app.
+
+<img
+  src="https://cdn.peaka.com/how-to-guides/how-to-create-oauth2-based-connections-via-upsolve-2.png"
+  alt="create connection request"
+/>
+1. Your user clicks a button in your application in order to create connection. e.g.
+Google Analytics connection. The response of this http request will be done in Step
+4. 2. Your server should make a create connection request
+
+```bash
+curl --request POST \
+  --url https://partner.upsolve.studio/api/v1/connections/{projectId} \
+  --header 'Authorization: Bearer <your_upsolve_api_key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "name": "exampleOauthConnection",
+  "type": "google_analytics",
+  "connectionCallback": "<partner_callback_url>"
+}'
+```
+
+Here `partner_callback_url` is the full url of your server endpoint responsible to complete creation process. We will use `partner_callback_url` at Step 10 and 11.
+
+1. As a response to the request in Step 2
+
+```bash
+200
+{
+	"id" : "<connection_id>",
+	"name": "<name_of_your_connection>",
+  "type": "google_analytics"
+  "url": "<platform_consent_url>"
+}
+```
+
+Upsolve will return the url of the consent screen of the Platform.
+
+1. Your server should return redirect:&#60;platform_consent_url&#62; to the browser as response to the request initiated at Step 1. Also it is a good practice to store `connection_id`and the location where the user has started the connection.
+
+An example for Step 1-4 can be given in Node.js as follows:
+
+(Note that it is not a complete working example)
+
+```jsx
+const express = require("express");
+const axios = require("axios");
+const app = express();
+
+app.use(express.json());
+
+// Replace with your actual Upsolve API key and project ID
+const PEAKA_API_KEY = "<your_upsolve_api_key>";
+const PROJECT_ID = "<your_project_id>";
+
+// Your server endpoint responsible for completing the connection process
+const partnerCallbackUrl = "<partner_callback_url>"; // e.g., "https://yourserver.com/complete-connection"
+
+app.post("/create-connection", async (req, res) => {
+  try {
+    // Step 2: Make the create connection request
+    const response = await axios.post(
+      `https://partner.upsolve.studio/api/v1/connections/${PROJECT_ID}`,
+      {
+        name: "exampleOauthConnection",
+        type: "google_analytics",
+        connectionCallback: partnerCallbackUrl,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${PEAKA_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // Step 3: Extract connection data from the response
+    const { id, name, type, url } = response.data;
+
+    // Store connection ID and where the user started the connection (Optional, e.g., in a database)
+    // For example: storeConnection(id, name, type, req.originalUrl);
+
+    // Step 4: Redirect the user to the consent URL
+    res.redirect(url); // Redirect the user to the consent screen
+  } catch (error) {
+    console.error("Error creating connection:", error);
+    res.status(500).send("Error creating connection");
+  }
+});
+
+// Endpoint to complete the connection process (Step 10 and 11)
+app.get("/complete-connection", async (req, res) => {
+  try {
+    // Handle the final steps of completing the OAuth connection
+    // This would typically involve processing the authorization code, fetching data, etc.
+    console.log("Connection completed successfully!");
+    res.send("Connection completed successfully!");
+  } catch (error) {
+    console.error("Error completing connection:", error);
+    res.status(500).send("Error completing connection");
+  }
+});
+
+// Start the Express server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+```
+
+1. Browser will automatically redirect to Platform Consent Screen.
+2. Browser shows the Consent Screen.
+3. User will approve the consents.
+4. Platform will return the Upsolve OAuth app’s redirect (oauth2 callback of Upsolve) redirect:https://upsolve.studio/oauth2/callback
+5. Browser will be redirected to Upsolve Callback.
+6. Upsolve will return a redirection to your `partner_callback_url`:
+
+   &#60;partnerCallback &#62;?connectionId=&#60;connectionId &#62;?status=&#60; success or fail &#62;
+
+7. The browser will be redirected to your `<partner_callback_url>` with query parameters `connectionId` and `status`. If `status` is `success`, the connection has been created successfully. Otherwise, if `status` is `fail`, it indicates a problem, such as a platform error or a timeout in the flow.
+
+A typical implementation of Step 10 and Step 11 in Node.js:
+
+(Note that it is not a complete working example)
+
+```jsx
+const express = require("express");
+const axios = require("axios");
+
+const app = express();
+const PORT = 3000;
+
+app.get("/oauth2/mycallback", async (req, res) => {
+  try {
+    const { connectionId, status } = req.query;
+
+    if (!connectionId) {
+      return res.redirect("/error?message=Connection could not be created");
+    }
+
+    // Find the URL using the connectionId (this could involve querying your session, in-memory map or database)
+    const redirectUrl = getRedirectUrlByConnectionId(connectionId);
+
+    if (!redirectUrl) {
+      return res.redirect("/error?message=Redirect URL not found");
+    }
+
+    // Redirect to the found URL
+    res.redirect(redirectUrl);
+  } catch (error) {
+    console.error("Error handling callback:", error);
+    // Redirect to an error page with a message
+    res.redirect("/error?message=Failed to process callback");
+  }
+});
+
+// Dummy function to simulate finding a URL by connectionId
+function getRedirectUrlByConnectionId(connectionId) {
+  // Replace with actual logic to find the URL by connectionId
+  if (connectionId === "someConnectionId") {
+    return "https://yourdomain.com/this_is_where_you_begin";
+  }
+  return null;
+}
+
+app.listen(PORT, () => {
+  console.log(`OAuth2 callback endpoint running on http://localhost:${PORT}`);
+});
+```
+
+## 2. b. Use Your Own OAuth App
+
+You should create your own app,
+
+- if you need to use your own branding and logo
+- if you need better rate limits for the Platform API
+- if Upsolve supports connection for the Platform but does not have a global app.
+  - Here, global app means that the Platform allows Upsolve use data of other users. Sometimes the platforms allow only non-global apps or there are long review processes for the global apps.
+
+There are a couple things to consider while your are creating your OAuth app.
+
+The OAuth app will ask for redirect url (or callback url). Redirect Url is the endpoint where the browser is redirected at the end of OAuth flow. According to the given url, the integration process will differentiate.
+
+1. **You can use Upsolve’s own callback url.**
+
+```bash
+https://upsolve.studio/oauth2/callback
+```
+
+In that case, it is necessary and sufficient to implement steps described in **2.a. Use Upsolve Oauth App** with a minor diff. You should give the client id and client secret parameters in the request.
+
+Step 2 will be:
+
+```bash
+curl --request POST \
+  --url https://partner.upsolve.studio/api/v1/connections/{projectId} \
+  --header 'Authorization: Bearer <your_upsolve_api_key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "name": "exampleOauthConnection",
+  "type": "google_analytics",
+  "connectionCallback": "<partner_callback_url>",
+  "credential": {
+	  "clientId": "<client_id_for_your_google_app>",
+	  "clientSecret": "<client_secret_for_your_google_app>"
+  }
+}'
+```
+
+1. **You can use your own redirect url and then redirect it to the Upsolve’s callback.**
+
+If you do the appropriate redirection, the implementation steps will be same as the above case.
+
+In that case, the user browser will momentarily redirected to Upsolve’s callback and then it will be redirected to `partner_callback_url`
+
+e.g. You give the OAuth app `redirect_url` as `https://yourdomain.com/oauth2/mycallback`
+
+Then you should redirect the request coming to your `redirect_url` to `https://upsolve.studio/oauth2/callback`
+
+You can do this redirection in your reverse proxy server (Apache, Nginx, Traefik, etc.) or in your application server (Express in Node.js, Spring in Java, etc.).
+
+Apache (HTTPD)
+
+```
+<VirtualHost *:80>
+    ServerName yourdomain.com
+
+    RewriteEngine On
+    RewriteCond %{QUERY_STRING} (.*)
+    RewriteRule ^/oauth2/mycallback$ https://upsolve.studio/oauth2/callback?%1 [R=307,L]
+</VirtualHost>
+```
+
+Nginx
+
+```bash
+server {
+    listen 80;
+    server_name yourdomain.com;
+
+    location /oauth2/mycallback {
+        # Redirect to Upsolve callback with all query parameters
+        return 307 https://upsolve.studio/oauth2/callback?$query_string;
+    }
+}
+
+```
+
+Traefik
+
+```yaml
+http:
+  routers:
+    redirectRouter:
+      rule: "Path(`/oauth2/mycallback`)"
+      service: dummyService
+      middlewares:
+        - redirectToUpsolve
+
+  middlewares:
+    redirectToUpsolve:
+      redirectRegex:
+        regex: "^.*"
+        replacement: "https://upsolve.studio/oauth2/callback?${query}"
+        permanent: false
+```
+
+Node.js
+
+```jsx
+const express = require("express");
+const app = express();
+
+app.get("/oauth2/mycallback", (req, res) => {
+  // Upsolve callback URL
+  const upsolveCallbackUrl = "https://upsolve.studio/oauth2/callback";
+
+  const queryParams = req.url.split("?")[1];
+  const redirectUrl = queryParams
+    ? `${upsolveCallbackUrl}?${queryParams}`
+    : upsolveCallbackUrl;
+
+  res.redirect(307, redirectUrl);
+});
+
+app.listen(3000, () => {
+  console.log("Server running at http://localhost:3000");
+});
+```
+
+1. **You can use your own callback url and the user’s browser will never redirected to Upsolve’s domain.**
+
+This approach requires a different implementation compared to the previous cases when integrating your OAuth app.
+
+<img
+  src="https://cdn.peaka.com/how-to-guides/how-to-create-oauth2-based-connections-via-upsolve-2
+  .png"
+  alt="create connection request"
+/>
+
+1. Your user clicks a button in your application in order to create connection. e.g. Google Analytics connection. The response of this http request will be done in Step 4.
+2. Your server should make a create connection request
+
+```bash
+curl --request POST \
+  --url https://partner.upsolve.studio/api/v1/connections/{projectId} \
+  --header 'Authorization: Bearer <your_upsolve_api_key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "name": "exampleOauthConnection",
+  "type": "google_analytics",
+  "credential": {
+	  "clientId": "<client_id_for_your_google_app>",
+	  "clientSecret": "<client_secret_for_your_google_app>",
+	  "redirectUrl": "<redirect_url>"
+  }
+}'
+```
+
+Here `redirect_url` under “credential” object should be the callback (or redirect) url you give to the Platform OAuth app.
+
+1. As a response to the request in (2)
+
+```bash
+200
+{
+	"id" : "<connection_id>",
+	"name": "<name_of_your_connection>",
+  "type": "google_analytics"
+  "url": "<platform_consent_url>"
+}
+```
+
+Upsolve will return the url of the consent screen of the Platform.
+
+1. Your server should return redirect:&#60;platform_consent_url&#62; to the browser as response to the request initiated at Step 1. Also it is a good practice to store `connection_id`and the location where the user has started the connection.
+
+An example for Step 1-4 can be given in Node.js as follows: (Note that it is not a complete working example)
+
+```jsx
+const express = require("express");
+const axios = require("axios");
+const app = express();
+
+// Replace with your actual Upsolve API key and project ID
+const PEAKA_API_KEY = "<your_upsolve_api_key>";
+const PROJECT_ID = "<your_project_id>";
+
+app.use(express.json());
+
+// Endpoint to initiate the connection creation process
+app.post("/create-connection", async (req, res) => {
+  try {
+    // Step 2: Make the create connection request
+    const response = await axios.post(
+      `https://partner.upsolve.studio/api/v1/connections/${PROJECT_ID}`,
+      {
+        name: "exampleOauthConnection",
+        type: "google_analytics",
+        credential: {
+          clientId: "<client_id_for_your_google_app>",
+          clientSecret: "<client_secret_for_your_google_app>",
+          redirectUrl: "<redirect_url>",
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${PEAKA_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // Step 3: Handle the response and extract the consent URL
+    const { id, url } = response.data;
+
+    // Optionally, you can store the connection ID and other relevant data in a database
+
+    // Step 4: Return the redirect response with the consent URL
+    res.redirect(url); // This will redirect the user to the consent screen
+  } catch (error) {
+    console.error("Error creating connection:", error);
+    res.status(500).send("Error creating connection");
+  }
+});
+
+// Start the Express server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+```
+
+1. Browser will automatically redirect to Platform Consent Screen
+2. Browser shows the Consent Screen.
+3. User will approve the consents.
+4. Platform will return the your OAuth app’s redirect url - you give in Step 2 - with some query parameters.
+5. Browser will be redirected to your callback with some query parameters.
+6. A typical `redirect_url` will be
+
+```
+https://yourdomain.com/oauth2/mycallback?state=2def...&code=2asd...&...
+```
+
+You should pass all the query parameters to Upsolve as follows:
+
+```bash
+curl --request POST \
+  --url https://partner.upsolve.studio/api/v1/connections/{projectId}/oauth2 \
+  --header 'Authorization: Bearer <your_upsolve_api_key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "queryParameters": "state=2ad...&code=2asd...&other_query_params=...."
+}'
+```
+
+1. Response of Step 10 will be
+
+```bash
+200
+{
+  "id" : "<connection_id>"
+}
+```
+
+A typical implementation of Step 10 and Step 11 in Node.js:
+
+(Note that it is not a complete working example)
+
+```jsx
+const express = require("express");
+const axios = require("axios");
+
+const app = express();
+const PORT = 3000;
+
+// Replace with your Upsolve API details
+const PEAKE_API_URL =
+  "https://partner.upsolve.studio/api/v1/connections/{projectId}/oauth2";
+const PEAKE_API_KEY = "<your_upsolve_api_key>";
+
+app.get("/oauth2/mycallback", async (req, res) => {
+  try {
+    // Extract all query parameters from the request
+    const queryParams = new URLSearchParams(req.query).toString();
+
+    if (!queryParams) {
+      return res.redirect("/error?message=Missing authorization code");
+    }
+
+    // Post query parameters to Upsolve
+    const upsolveResponse = await axios.post(
+      PEAKE_API_URL,
+      { queryParameters: queryParams },
+      {
+        headers: {
+          Authorization: `Bearer ${PEAKE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // Extract the connectionId from Upsolve's response
+    const connectionId = upsolveResponse.data.id;
+
+    if (!connectionId) {
+      return res.redirect("/error?message=Connection could not be created");
+    }
+
+    // Find the URL using the connectionId (this could involve querying your in memory map or database)
+    const redirectUrl = getRedirectUrlByConnectionId(connectionId);
+
+    if (!redirectUrl) {
+      return res.redirect("/error?message=Redirect URL not found");
+    }
+
+    // Redirect to the found URL
+    res.redirect(redirectUrl);
+  } catch (error) {
+    console.error("Error posting to Upsolve:", error);
+    // Redirect to an error page with a message
+    res.redirect("/error?message=Failed to process callback");
+  }
+});
+
+// Dummy function to simulate finding a URL by connectionId
+function getRedirectUrlByConnectionId(connectionId) {
+  // Replace with actual logic to find the URL by connectionId
+  if (connectionId === "someConnectionId") {
+    return "https://yourdomain.com/this_is_where_you_begin";
+  }
+  return null;
+}
+
+app.listen(PORT, () => {
+  console.log(`OAuth2 callback endpoint running on http://localhost:${PORT}`);
+});
+```

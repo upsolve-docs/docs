@@ -1,0 +1,112 @@
+---
+title: "Tableau"
+description: "Welcome to the installation guide for integrating Tableau with Upsolve. As a leading data platform, Upsolve provides seamless integration with various business intelligence and data visualization platforms, including Tableau. This document will guide you through the step-by-step process to set up this integration, enabling you to unlock the full potential of your data. Please follow each step carefully to ensure a successful setup."
+---
+
+Upsolve Tableau Connector allows you integrate Upsolve with Tableu for seamless data connection. It's an essential tool for data analysts and scientists to enhance their data visualization capabilities using Tableau. The installation process is straightforward, but this guide will walk you through each step to ensure a successful setup.
+
+You need 4 steps to complete setup:
+
+    - Generate Upsolve API Key
+    - Install Upsolve Tableau Taco File
+    - Install Trino JDBC Driver
+    - Configure Tableau Start Script
+
+## Generate API Key
+
+After you create your project, setup connections and create your catalogs in Upsolve, you need to generate a Upsolve API Key to use it with Tableu Connector. Check out Upsolve Documentation for creating your API Key and follow detailed instructions by clicking [here](https://docs.upsolve.com/how-to-guides/how-to-generate-api-keys).
+
+## Install Upsolve Tableau Taco File
+
+A TACO file (.taco) is a packaged Tableau connector file that can be placed in your “My Tableau Repository/Connectors” folder. From there, Tableau automatically loads all connectors it finds.
+
+You need to do following steps to install Upsolve Taco File:
+
+- Download the Upsolve Taco file by clicking the link below:
+
+- [UpsolveStudioJDBC-v1.0.0.tacov](https://cdn.peaka.com/files/UpsolveStudioJDBC-v1.0.0.taco)
+
+Place the .taco file in the following directory (default location):
+
+For 2021.2 and newer:
+
+| For Tableau Desktop                                                            | **For Tableau Prep Builder**                                                       | For Tableau Server, Tableau Prep Conductor, Tableau Prep Flow Authoring |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| • Windows - C:\Users\[Windows User]\Documents\My Tableau Repository\Connectors | • Windows: C:\Users\[Windows User]\Documents\My Tableau Prep Repository\Connectors | • Windows: C:\Program Files\Tableau\Connectors                          |
+| • macOS - /Users/[user]/Documents/My Tableau Repository/Connectors             | • MacOS: /Users//Documents/My Tableau Prep Repository/Connectors                   | • Linux: /opt/tableau/connectors                                        |
+
+For 2021.1 and older:
+
+| For Tableau Desktop                                                            | **For Tableau Prep Builder**                                                       | For Tableau Server, Tableau Prep Conductor, Tableau Prep Flow Authoring                                                                                                                                                                                                                                                       |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| • Windows - C:\Users\[Windows User]\Documents\My Tableau Repository\Connectors | • Windows: C:\Users\[Windows User]\Documents\My Tableau Prep Repository\Connectors | • Tableau Server: [Tableau_Server_Installation_Directory]/data/tabsvc/vizqlserver/Connectors                                                                                                                                                                                                                                  |
+| • macOS - /Users/[user]/Documents/My Tableau Repository/Connectors             | • MacOS: /Users//Documents/My Tableau Prep Repository/ConnectorsFor Tableau        | • To enable your connector for Prep, you also need to add your taco to the following locations: <br/> Tableau Prep Conductor: [Tableau_Server_Installation_Directory]/data/tabsvc/flowprocessor/Connectors <br/> Tableau Prep Flow Authoring: [Tableau_Server_Installation_Directory]/data/tabsvc/flowqueryservice/Connectors |
+
+## Install Trino JDBC Driver
+
+Upsolve connector requires Trino JDBC driver to be installed. You can install Trino JDBC Driver by clicking [here](https://trino.io/docs/current/client/jdbc.html).
+
+In the Trino page, you can download the the driver by clicking link highlighted in the image below:
+
+<img src="https://cdn.peaka.com/bi-tools/tableau/tableau-1.png" />
+
+JDBC drivers are self-contained .jar files. Place the Trino JDBC Driver in the folder for your operating system. (You need to create the folder if it doesn't already exist.)
+
+- Windows: C:\Program Files\Tableau\Drivers
+- Mac: ~/Library/Tableau/Drivers
+- Linux: /opt/tableau/tableau_driver/jdbc
+
+💡 You must have read permissions on the .jar file.
+
+## Configure Tableau Start Script
+
+Tableau requires taco file to be signed. Currently, Upsolve Connector taco file is not signed by a certificate authority. We are working on it. However you can still use Upsolve Connector by passing a parameter to Tableau executable. Follow these steps to run Upsolve Connector:
+
+### For Mac:
+
+Open terminal and create a **tableau.sh** file with this command:
+
+```javascript
+   mkdir tableau.sh
+```
+
+Open **tableau.sh** file with a text editor and copy the code below:
+
+```bash
+    #!/bin/bash
+    "/Applications/Tableau Desktop <Tableau Version>.app/Contents/MacOS/Tableau" -DDisableVerifyConnectorPluginSignature=true
+```
+
+Change < Tableau Version > with the version of the Tableau you are using. Save and close the file. Make the **tableu.sh** executable by running this command:
+
+```bash
+    chmod +x
+```
+
+Now you should be able to run [tableau.sh](http://tableau.sh) script and start Tableau Desktop by running the command below:
+
+```bash
+    sh tableau.sh
+```
+
+### For Windows:
+
+Open command line and run the command below change < ableau Version > with your tableau version:
+
+```bash
+    C:\Program Files\Tableau\Tableau <Tableau Version>\bin\tableau.exe -DDisableVerifyConnectorPluginSignature=true
+```
+
+## How to use Upsolve Connector
+
+After completing all the steps, you should be able to see Upsolve Connector listed in Tableau Desktop. Click to Upsolve Studio by Upsolve connector from the connector list.
+
+<img src="https://cdn.peaka.com/bi-tools/tableau/tableau-2.png" />
+
+Enter your Upsolve API Key to the opened window.
+
+<img src="https://cdn.peaka.com/bi-tools/tableau/tableau-3.png" />
+
+In the next screen you can see your tables by selecting catalog and schema.
+
+<img src="https://cdn.peaka.com/bi-tools/tableau/tableau-4.png" />

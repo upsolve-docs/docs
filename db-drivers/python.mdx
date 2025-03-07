@@ -1,0 +1,80 @@
+---
+title: "Python Driver"
+description: "Discover the [Upsolve](https://upsolve.com/) python driver"
+---
+
+Provides a low-level client and a DBAPI 2.0 implementation and a SQLAlchemy adapter.
+It supports Python>=3.8 and PyPy.
+
+## Usage
+
+### The Python Database API (DBAPI)
+
+**Installation**
+
+```
+$ pip install upsolve
+```
+
+**Quick Start**
+
+Use the DBAPI interface to query Upsolve:
+
+You can call the `connect_to_upsolve` method with your Upsolve `api_key`.
+
+`catalog`, `schema` and `timezone` are the optional parameters.
+
+```python
+from upsolve.dbapi import connect_to_upsolve
+
+conn = connect_to_upsolve(api_key="<YOUR_API_KEY>", catalog="<CATALOG_NAME>", schema="<SCHEMA_NAME>", timezone="<TIMEZONE>")
+
+cur = conn.cursor()
+cur.execute("SELECT * FROM <table_name>")
+rows = cur.fetchall()
+```
+
+You can query your `table` directly, if you enter the `catalog` and `schema` information when you connect.
+
+### SQLAlchemy
+
+**Installation**
+
+```
+$ pip install upsolve[sqlalchemy]
+```
+
+**Usage**
+
+To connect to Upsolve using SQLAlchemy, use a connection string (URL) following this pattern:
+
+```
+upsolve://dbc.upsolve.studio:4567/<catalog>/<schema>?http_scheme=https&extra_credential=[["upsolveKey",<YOUR_API_KEY>]]&access_token=true
+```
+
+NOTE: `schema` is optional
+
+**Examples**:
+
+```python
+from sqlalchemy import create_engine
+from sqlalchemy.schema import Table, MetaData
+from sqlalchemy.sql.expression import select, text
+
+engine = create_engine('upsolve://dbc.upsolve.studio:4567/<CATALOG_NAME>/<SCHEMA_NAME>?http_scheme=https&extra_credential=[["upsolveKey",<YOUR_API_KEY>]]&access_token=true')
+connection = engine.connect()
+
+rows = connection.execute(text("SELECT * FROM <TABLE_NAME>")).fetchall()
+
+# or using SQLAlchemy schema
+nodes = Table(
+    '<TABLE_NAME>',
+    MetaData(schema='<SCHEMA_NAME>'),
+    upsolve_autoload=True,
+    autoload_with=engine
+)
+rows = connection.execute(select(nodes)).fetchall()
+```
+
+In order to pass additional connection attributes use [connect_args](https://docs.sqlalchemy.org/en/14/core/engines.html#sqlalchemy.create_engine.params.connect_args) method.
+Attributes can also be passed in the connection string.

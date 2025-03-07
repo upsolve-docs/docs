@@ -1,0 +1,59 @@
+---
+title: "CDC - MySQL Setup Documentation"
+description: "How to setup CDC MySQL"
+---
+
+## **Prerequisites**
+
+To setup CDC between your MySQL database and Upsolve Big Table, you need:
+
+- MySQL version 5.7, 8.0.x
+
+## **Setup Instructions**
+
+### Setting up permissions
+
+In your MySQL primary database, create a database user that must have appropriate permissions on all databases for which the Upsolve CDC captures changes.
+
+1. Create the MySQL user:
+
+```sql
+CREATE USER <username>@'%' IDENTIFIED WITH mysql_native_password BY 'password';
+```
+
+1. Grant the required permissions to the user:
+
+```sql
+GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO <username>@'%';
+```
+
+1. Finalize the user’s permissions:
+
+```sql
+FLUSH PRIVILEGES;
+```
+
+### Enabling the binlog
+
+1. Check whether the `log-bin` option is already on:
+
+```sql
+// for MySql 5.x
+mysql> SELECT variable_value as "BINARY LOGGING STATUS (log-bin) ::"
+FROM information_schema.global_variables WHERE variable_name='log_bin';
+// for MySql 8.x
+mysql> SELECT variable_value as "BINARY LOGGING STATUS (log-bin) ::"
+FROM performance_schema.global_variables WHERE variable_name='log_bin';
+```
+
+1. If it is `OFF`, configure your MySQL server configuration file with the following properties, which are described in the table below:
+
+```sql
+server-id         = 223344 # Querying variable is called server_id,
+e.g. SELECT variable_value FROM information_schema.global_variables
+WHERE variable_name='server_id';
+log_bin           = mysql-bin
+binlog_format     = ROW
+binlog_row_image  = FULL
+expire_logs_days  = 10
+```

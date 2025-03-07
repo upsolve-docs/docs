@@ -1,0 +1,74 @@
+---
+title: "CDC - MariaDB Setup Documentation"
+description: "How to setup CDC MariaDB"
+---
+
+## Prerequisites
+
+To set up CDC between your MariaDB database and Upsolve Big Table, you need:
+
+- A MariaDB server of any version (most recently tested on version 11.4.3)
+- Access to the MariaDB configuration file.
+
+## Setup Instructions
+
+### Setting up permissions
+
+Upsolve CDC requires a MariaDB user account. This user must have appropriate permissions on all databases where you want to set up cache through CDC.
+
+1. Create the MariaDB user:
+
+```sql
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+```
+
+2. Grant the required permissions to the user:
+
+```sql
+GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'user' IDENTIFIED BY 'password';
+```
+
+3. Finalize the user’s permissions:
+
+```sql
+FLUSH PRIVILEGES;
+```
+
+### Enabling the binlog
+
+1. Check whether the log-bin option is already on:
+
+```sql
+SHOW VARIABLES LIKE '%log_bin%';
+```
+
+2. If the binlog is **OFF**, add the properties in the following table to the configuration file for the MariaDB server:
+
+```sql
+server-id         = 223344 # Querying variable is called server_id, e.g. SELECT variable_value FROM information_schema.global_variables WHERE variable_name='server_id';
+log_bin                     = mariadb-bin
+binlog_format               = ROW
+binlog_row_image            = FULL
+binlog_expire_logs_seconds  = 864000
+```
+
+### Validating binlog row value options
+
+Verify the setting of the **binlog_row_value_options** variable in the database. To enable the connector to consume  **UPDATE** events, this variable must be set to a value other than **PARTIAL_JSON**.
+
+1. Check current variable value
+
+```sql
+SHOW GLOBAL VARIABLES WHERE variable_name = 'binlog_row_value_options';
+```
+
+**Result**
+| Variable_name | Value |
+|--------------------------|-------|
+| binlog_row_value_options | |
+
+2. If the value of the variable is set to **PARTIAL_JSON**, run the following command to unset it:
+
+```sql
+SET @@global.binlog_row_value_options="" ;
+```

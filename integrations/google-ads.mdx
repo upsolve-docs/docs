@@ -1,0 +1,73 @@
+---
+title: "Google Ads"
+description: "Discover a seamless integration process! Learn how to connect Google Ads to Upsolve effortlessly for streamlined transactions."
+---
+
+This article guides you through the process of connecting Google Ads to Upsolve, allowing you to seamlessly access your Google Ads data within the Upsolve platform.
+
+## Prerequisites
+
+Before you start, you will need the following information from Google Ads.
+
+- Client ID (required for advanced authentication)
+- Client Secret (required for advanced authentication)
+- Developer Token (required for advanced authentication)
+- Customer ID
+
+Follow the steps below to obtain it:
+
+1. To obtain get Client ID and Client Secret, go to the [Goole Developers Console](https://console.cloud.google.com/apis/dashboard).
+
+2. Click Select a project ➝ New Project ➝ the Create button.
+
+<img src="https://cdn.peaka.com/integrations/google-ads-1.png" />
+
+3. Enter your Project name ➝ click the Create button.
+
+<img src="https://cdn.peaka.com/integrations/google-ads-2.png" />
+
+4. Click OAuth consent screen in the left side menu ➝ choose User Type ➝ click the Create button.
+
+<img src="https://cdn.peaka.com/integrations/google-ads-3.png" />
+
+5. Add Application name ➝ Support email ➝ Authorized domain ➝ Developer content information ➝ click the Save and Continue button.
+
+6. Complete all 4 steps in OAuth consent screen ➝ click the Back to Dashboard button.
+
+<img src="https://cdn.peaka.com/integrations/google-ads-4.png" />
+
+7. Go to Credentials ➝ click Create Credentials ➝ select OAuth client ID from the dropdown list.
+
+<img src="https://cdn.peaka.com/integrations/google-ads-5.png" />
+
+8. Open the dropdown list Application type ➝ select Web application ➝ enter the name of your OAuth 2.0 client.
+
+9. Enter your site URL in Authorized JavaScript origins ➝ in Authorized redirect URIs, enter the page URL where you wanted your users redirected back after they have authenticated with Google ➝ click the Create button.
+
+<img src="https://cdn.peaka.com/integrations/google-ads-6.png" />
+
+10. Copy your Client ID and Client Secret.
+
+<img src="https://cdn.peaka.com/integrations/google-ads-7.png" />
+
+11. To obtain the Developer Token, refer to this [article](https://developers.google.com/google-ads/api/docs/get-started/dev-token).
+
+12. To obtain the Customer ID, refer to this [article](https://support.google.com/google-ads/answer/1704344?hl=en).
+
+## Connecting Google Ads to Upsolve
+
+Now that you have obtained the necessary integration data and credentials, you can connect Google Ads to Upsolve using the following steps:
+
+1. Navigate to the data model page in Upsolve.
+
+2. In the side menu bar, click the "New Data Source" button to initiate the connection process.
+
+3. In the modal that appears, select "Google Ads" as your data source.
+
+4. Enter a name for your data source, input the credentials you obtained in the previous steps.
+
+<img src="https://cdn.peaka.com/integrations/google-ads-8.png" />
+
+5. Click "Sign in with Google" to create your Google Ads data source.
+
+Congratulations! You've successfully connected Google Ads to Upsolve. You can now access and manage your Google Ads data seamlessly within the Upsolve platform.

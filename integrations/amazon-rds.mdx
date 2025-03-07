@@ -1,0 +1,42 @@
+---
+title: "Amazon RDS"
+description: "Discover a seamless integration process! Learn how to connect Amazon RDS to Upsolve effortlessly for streamlined transactions."
+---
+
+This article guides you through the process of connecting Amazon RDS to Upsolve, allowing you to seamlessly access your Amazon RDS data within the Upsolve platform.
+
+## Prerequisites
+
+Before you start, you will need to obtain certain values, which you can get from Amazon RDS.
+
+Upsolve now supports three different databases: MySQL, PostgreSQL, and MariaDB. You can select any of these options. If you switch to "Aurora," your database will remain on Amazon instances. This option is only available for MySQL and PostgreSQL databases.
+
+<img src="https://cdn.peaka.com/integrations/amazon-rds-1.png" />
+
+You need to select your AWS region and enter the URL and port. For a PostgreSQL database, you also need to enter the database name. You can obtain these values from your Amazon account.
+
+You can authenticate using one of three methods: IAM, Secret Manager, or Password. The requirements are as follows:
+
+**IAM**: User Name, AWS Access Key, and AWS Secret Key. Check this [article](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/database-authentication.html) to get credentials.
+
+**Secret Manager**: Secret Manager ARN, AWS Access Key, and AWS Secret Key. Check this [article](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) to get credentials.
+
+**Password**: User Name and Password. Check this [article](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/database-authentication.html) to get credentials.
+
+## Connecting Amazon RDS to Upsolve
+
+Now that you have Amazon RDS, you can connect it to Upsolve using the following steps:
+
+1. Navigate to the data model page in Upsolve.
+
+2. In the side menu bar, click the "New Data Source" button to initiate the connection process.
+
+3. In the modal that appears, select "Amazon RDS" as your data source.
+
+4. Enter the values you obtained earlier.
+
+<img src="https://cdn.peaka.com/integrations/amazon-rds-2.png" />
+
+5. Click "Connect" to create your Amazon RDS data source.
+
+Congratulations! You've successfully connected Amazon RDS to Upsolve. You can now access and manage your Amazon RDS data seamlessly within the Upsolve platform.

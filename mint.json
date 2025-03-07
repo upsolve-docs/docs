@@ -50,6 +50,14 @@
     {
       "name": "Dashboard Example",
       "url": "dashboard-example"
+    },
+    {
+      "name": "SQL Reference",
+      "url": "sql"
+    },
+    {
+      "name": "How to Guides",
+      "url": "how-to-guides"
     }
   ],
   "anchors": [
@@ -62,13 +70,22 @@
       "name": "Security Trust Center",
       "icon": "shield-halved",
       "url": "https://trust.oneleet.com/upsolve"
+    },
+    {
+      "name": "Community",
+      "icon": "slack",
+      "url": "https://upsolve-ai-community.slack.com/join/shared_invite/zt-2x9oospxx-vv2uDP_20IafkekwCOMi4A#/shared-invite/email"
+    },
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://www.upsolve.com/blog"
     }
   ],
   "navigation": [
     {
       "group": "Get Started",
       "pages": ["introduction", "Build-and-Deploy-Your-First-Dashboard"]
-      
     },
     {
       "group": "Data Connection",
@@ -87,7 +104,11 @@
     },
     {
       "group": "Filtering",
-      "pages": ["filters/filters-in-depth", "filters/controlled-filters", "filters/timezone"]
+      "pages": [
+        "filters/filters-in-depth",
+        "filters/controlled-filters",
+        "filters/timezone"
+      ]
     },
     {
       "group": "Data Permissioning",
@@ -95,7 +116,11 @@
     },
     {
       "group": "Dashboard Deployment",
-      "pages": ["deploy-dashboards/overview", "deploy-dashboards/backend-setup", "deploy-dashboards/frontend-setup"]
+      "pages": [
+        "deploy-dashboards/overview",
+        "deploy-dashboards/backend-setup",
+        "deploy-dashboards/frontend-setup"
+      ]
     },
     {
       "group": "Sharing and Export",
@@ -124,14 +149,8 @@
       ]
     },
     {
-      "group": "Integrations",
-      "pages": ["integrations/overview"]
-    },
-    {
       "group": "API Documentation",
-      "pages": [
-        "api-reference/endpoint/register-tenant-to-upsolve"
-      ]
+      "pages": ["api-reference/endpoint/register-tenant-to-upsolve"]
     },
     {
       "group": "Demo",
@@ -140,6 +159,179 @@
     {
       "group": "Dashboard Example",
       "pages": ["dashboard-example/demo-dashboard"]
+    },
+    {
+      "group": "Get Started",
+      "pages": ["introduction"]
+    },
+    {
+      "group": "SQL",
+      "pages": ["sql/introduction"]
+    },
+    {
+      "group": "Reference",
+      "pages": [
+        "sql/reference/describe",
+        "sql/reference/execute",
+        "sql/reference/prepare",
+        "sql/reference/select",
+        "sql/reference/show-catalogs",
+        "sql/reference/show-columns",
+        "sql/reference/show-schemas",
+        "sql/reference/use",
+        "sql/reference/values"
+      ]
+    },
+    {
+      "group": "Data Types",
+      "pages": ["sql/reference/types"]
+    },
+    {
+      "group": "Functions",
+      "pages": [
+        "sql/functions/aggregate",
+        "sql/functions/array",
+        "sql/functions/binary",
+        "sql/functions/bitwise",
+        "sql/functions/comparison",
+        "sql/functions/conditional",
+        "sql/functions/conversion",
+        "sql/functions/datetime",
+        "sql/functions/decimal",
+        "sql/functions/hyperloglog",
+        "sql/functions/json",
+        "sql/functions/lambda",
+        "sql/functions/map",
+        "sql/functions/ml",
+        "sql/functions/qdigest",
+        "sql/functions/regexp",
+        "sql/functions/setdigest",
+        "sql/functions/string",
+        "sql/functions/table",
+        "sql/functions/teradata",
+        "sql/functions/url",
+        "sql/functions/uuid",
+        "sql/functions/window"
+      ]
+    },
+    {
+      "group": "Routines",
+      "pages": [
+        "sql/routines/introduction",
+        "sql/routines/examples",
+        "sql/routines/begin",
+        "sql/routines/case",
+        "sql/routines/declare",
+        "sql/routines/function",
+        "sql/routines/if",
+        "sql/routines/iterate",
+        "sql/routines/leave",
+        "sql/routines/loop",
+        "sql/routines/repeat",
+        "sql/routines/return",
+        "sql/routines/set",
+        "sql/routines/while"
+      ]
+    },
+    {
+      "group": "Integrations",
+      "pages": [
+        "integrations/activecampaign",
+        "integrations/airtable",
+        "integrations/amazon-redshift",
+        "integrations/amazon-rds",
+        "integrations/big-query",
+        "integrations/clickhouse",
+        "integrations/databricks",
+        "integrations/dynamics-365",
+        "integrations/elastic-search",
+        "integrations/excel-365",
+        "integrations/facebook-ads",
+        "integrations/firebase",
+        "integrations/github",
+        "integrations/google-ads",
+        "integrations/google-analytics",
+        "integrations/google-sheets",
+        "integrations/hubspot",
+        "integrations/instagram",
+        "integrations/intercom",
+        "integrations/jira",
+        "integrations/linkedin-ads",
+        "integrations/mailchimp-marketing",
+        "integrations/mailchimp-transactional",
+        "integrations/mariadb",
+        "integrations/mongodb",
+        "integrations/mssql",
+        "integrations/mysql",
+        "integrations/neo4j",
+        "integrations/odoo",
+        "integrations/openai",
+        "integrations/oracle",
+        "integrations/pinecone",
+        "integrations/pipedrive",
+        "integrations/postgresql",
+        "integrations/profitwell",
+        "integrations/provet-cloud",
+        "integrations/quickbooks-online",
+        "integrations/qdrant",
+        "integrations/salesforce",
+        "integrations/sap-hana",
+        "integrations/segment",
+        "integrations/sendgrid",
+        "integrations/service-titan",
+        "integrations/shopify",
+        "integrations/single-store",
+        "integrations/slack",
+        "integrations/snowflake",
+        "integrations/stripe",
+        "integrations/twilio",
+        "integrations/upstash-vector",
+        "integrations/weaviate",
+        "integrations/youtube-analytics",
+        "integrations/zendesk",
+        "integrations/zoho-crm",
+        "integrations/zoom"
+      ]
+    },
+    {
+      "group": "Project Operations",
+      "pages": [
+        "project-operations/how-to-create-a-project",
+        "project-operations/clone-a-project",
+        "project-operations/delete-a-project",
+        "project-operations/rename-a-project",
+        "project-operations/send-a-copy-of-a-project",
+        "project-operations/share-your-project"
+      ]
+    },
+    {
+      "group": "Connecting Your Data",
+      "pages": [
+        "connecting-your-data/upsolve-query",
+        "connecting-your-data/upsolve-table",
+        "connecting-your-data/upsolve-big-table",
+        "connecting-your-data/differences-of-upsolve-table-and-upsolve-big-table",
+        "connecting-your-data/creating-query",
+        "connecting-your-data/creating-upsolve-table",
+        "connecting-your-data/add-connection",
+        "connecting-your-data/what-is-catalog-schema-virtual-table"
+      ]
+    },
+    {
+      "group": "How to Guides",
+      "pages": [
+        "how-to-guides/how-to-filter-your-data-with-visual-filter",
+        "how-to-guides/how-to-connect-databases-in-aws-using-iam-credentials"
+      ]
+    },
+    {
+      "group": "CDC Setup",
+      "pages": [
+        "cdc-setup/cdc-postgresql-setup",
+        "cdc-setup/cdc-mysql-setup",
+        "cdc-setup/cdc-mongodb-setup",
+        "cdc-setup/cdc-mariadb-setup"
+      ]
     }
   ],
   "footerSocials": {
@@ -149,6 +341,14 @@
   },
   "openapi": ["/api-reference/upsolve.documentation.yaml"],
   "api": {
-    "baseUrl": "https://api.upsolve.ai"
+    "baseUrl": "https://api.upsolve.ai",
+    "auth": {
+      "method": "bearer"
+    }
+  },
+  "analytics": {
+    "gtm": {
+      "tagId": "GTM-NLBSKN8"
+    }
   }
 }

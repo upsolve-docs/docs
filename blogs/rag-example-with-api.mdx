@@ -1,0 +1,467 @@
+---
+title: "Use any Rest API in RAG with Upsolve and Pinecone"
+description: "Learn how to use Upsolve's RAG Capabilities with a sample project."
+---
+
+Retrieval-Augmented Generation (RAG) is a cutting-edge technique in artificial intelligence (AI) that enhances the capabilities of generative models by integrating retrieval mechanisms. In the context of AI data platforms, RAG is particularly significant. These platforms often need to process and generate insights from extensive and diverse datasets.
+
+By leveraging RAG, AI systems can retrieve pertinent information from their vast data repositories and generate responses or insights that are not only contextually appropriate but also grounded in the most relevant and up-to-date data available. This enhances the accuracy, reliability, and utility of the AI's outputs, making RAG an invaluable component in the development and deployment of advanced AI applications on data platforms.
+
+In this blog post we will build a RAG pipeline for chatbot which gives info about SpaceX launches by using Upsolve, a zero-ETL data platform which integrates all your data sources and allows you to query them as single data source immediately. We will add Pinecone and SpaceX API as connections to Upsolve and leverage Upsolve’s [Node Client](https://www.npmjs.com/package/@upsolve/client) to query data for the RAG pipeline.
+
+## **TL;DR**
+
+If you want to skip the implementation details, check out the finished code on [Github](https://github.com/upsolvecom/rag-example-with-api). Follow the instructions on Readme to run the project on your local machine.
+
+If you want to try the demo for your self, we have deployed the project on Vercel. You can try the demo your self by clicking [this link.](https://rag-with-spacex-api.vercel.app/)
+
+## **Prerequisites**
+
+You will need the following accounts for this project:
+
+- [Upsolve](https://www.upsolve.com/) Account
+- [OpenAI](https://openai.com/) Account
+- [Pinecone](https://www.pinecone.io/) Account
+
+## Tech Stack
+
+| Technology                      | Description                                                                                                   |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| https://www.upsolve.com/        | A zero-ETL data integration platform with single-step context generation capability                           |
+| https://www.pinecone.io/        | The serverless vector database which will be used for storing vector embeddings.                              |
+| https://openai.com/             | An artificial intelligence research lab focused on developing advanced AI technologies.                       |
+| https://vercel.com/templates/ai | Library for building AI-powered streaming text and chat UIs.                                                  |
+| https://docs.nlkit.com/nlux/    | NLUX is an open-source JavaScript library for creating elegant and performant conversational user interfaces. |
+| https://nextjs.org/             | The React Framework for the Web. Nextjs will be used for building the chatbot app.                            |
+
+## Create Upsolve Project and API Key
+
+Once you login to Upsolve, you need to create your project and connect sample data sets. Checkout Upsolve Documentation for creating your Project and follow detailed instructions by clicking [here.](https://docs.upsolve.com/project-operations/how-to-create-a-project) Enter your created project and click `Connect sample data sets` button on the screen as shown in the image below:
+
+![connect_sample_data.png](https://cdn.peaka.com/blogs/rag-example-with-api/connect_sample_data.png)
+
+In the sample data set both Upsolve Rest Table for SpaceX API and Pinecone data sources are already added. We will use these data sources for our demo app.
+
+After you create your project, setup connections, and create your catalogs in Upsolve, you need to generate a Upsolve API Key to use it with our project.
+
+Check out Upsolve Documentation for creating your API Key and follow the detailed instructions by clicking [here.](https://docs.upsolve.com/how-to-guides/how-to-generate-api-keys) Copy and save your Upsolve API Key.
+
+## **Create a Next.js Application**
+
+To create a new project, first navigate to the directory that you want to create your project in using your terminal. Then, run the following commands:
+
+```bash
+npm install -g create-next-app
+npx create-next-app@latest
+```
+
+- Use Tailwind CSS (for UI design)
+- Use "App Router"
+
+After this step, go to your project's folder with the `cd` command and install the necessary libraries
+
+```bash
+  npm i @ai-sdk/openai @ai-sdk/react @nlux/react @nlux/themes @upsolve/client @upstash/vector ai langchain lodash zod
+```
+
+From now on, when you are at the directory of your project the command
+
+`npm run dev`
+
+is going to be sufficient to run the project on [**localhost:3000**](http://localhost:3000/).
+
+If you need further clarification, you can refer to the [**Readme**](https://github.com/kaanguneyli/semantic_search_for_docs) or the [**Next.js documentation**](https://nextjs.org/learn-pages-router/basics/create-nextjs-app)
+
+## Create .env file
+
+Now create a file called `.env` in your project and add it to the `.gitignore` file if you are considering to add this project to your Github account. In this file, we will store our API keys. You need to create a Pinecone project and API Key. After creating your Pinecone project then create an index with `dimension` **_1536_** and `metric` **_cosine_**. Then use the name of the index in the environment variable. Finally, you need to create an OpenAI API Key. After completing necessary actions copy these values to environment variables accordingly.
+
+```bash
+PEAKA_API_KEY=<YOUR_PEAKA_API_KEY>
+OPENAI_API_KEY=<YOUR_OPEN_API_KEY>
+PINECONE_API_KEY=<YOUR_PINECONE_API_KEY>
+PINECONE_INDEX=<YOUR_PINECONE_INDEX>
+```
+
+## Create Upsolve Service
+
+Create a `service` folder under the root folder in your project and create a `upsolve.service.ts` file inside this folder. We will need to implement two methods in this service class. The first method is `getAllSpacexLaunches`, which will fetch all the launches from SpaceX API. The SQL query is trivial like below:
+
+```sql
+SELECT id, name, links_article FROM "spacex"."public"."launches"
+```
+
+Then we need to implement `vectorSearch` method, which will query both Pinecone index and will join the results with SpaceX API results to get all of the metadata of the launches. The query will be like this:
+
+```sql
+ WITH vector_query AS (
+  SELECT CAST(JSON_EXTRACT(metadata, '$.id') AS VARCHAR) AS launch_id,  CAST(JSON_EXTRACT(metadata, '$.text') AS VARCHAR) AS article_content FROM "pinecone"."main"."spacex-launches"
+    WHERE  _q_search= 'query_vector(vector=[<%= vectors %>]; topK=<%= topK %>;)'
+   )
+
+  SELECT * FROM "vector_query" AS vq, "spacex"."public"."launches" AS l WHERE l.id = vq.launch_id
+```
+
+Finally, `upsolve.service.ts` will look like this:
+
+```tsx
+export class UpsolveService {
+  private connection: Upsolve;
+
+  private constructor() {
+    this.connection = connectToUpsolve(process.env.PEAKA_API_KEY ?? "");
+  }
+
+  static #instance: UpsolveService;
+
+  public static get instance(): UpsolveService {
+    if (!UpsolveService.#instance) {
+      UpsolveService.#instance = new UpsolveService();
+    }
+
+    return UpsolveService.#instance;
+  }
+
+  public async getAllSpacexLaunches(): Promise<SpacexLaunchInfo[]> {
+    const iter = await this.connection.query(
+      'SELECT id, name, links_article FROM "spacex"."public"."launches"'
+    );
+
+    const launches: SpacexLaunchInfo[] = [];
+    const data: QueryData[] = await iter
+      .map((r) => r.data ?? [])
+      .fold<QueryData[]>([], (row, acc) => [...acc, ...row]);
+
+    for (const queryData of data) {
+      const launch: SpacexLaunchInfo = {
+        id: queryData[0],
+        name: queryData[1],
+        links_article: queryData[2],
+      };
+
+      launches.push(launch);
+    }
+
+    return launches;
+  }
+
+  public async vectorSearch(
+    vectors: number[],
+    topK: number
+  ): Promise<QueryData[]> {
+    const iter = await this.connection.query(
+      VECTOR_LAUNCHES_VECTOR_SEARCH_SQL_TEMPLATE({ vectors, topK })
+    );
+
+    const data: QueryData[] = await iter
+      .map((r) => r.data ?? [])
+      .fold<QueryData[]>([], (row, acc) => [...acc, ...row]);
+
+    return data;
+  }
+}
+```
+
+## Create populate data endpoint
+
+We will implement a get endpoint which will populate vector database when called. First, we will create `route.ts` under `app/api/populate-data` folder. We will follow below steps:
+
+1. Delete all the data in the index
+2. Fetch all SpaceX launches from Upsolve Rest which will have article urls about SpaceX launches
+3. For all article urls fetch all the content with `RecursiveUrlLoader` of the langhchain library
+4. Split all of the articles into chunks
+5. Write all the chunks to Pinecone index with the metada
+
+The final code will be like this:
+
+```tsx
+export const dynamic = "force-dynamic";
+import { UpsolveService } from "@/service/upsolve.service";
+import { Pinecone } from "@pinecone-database/pinecone";
+import { NextResponse } from "next/server";
+import { RecursiveUrlLoader } from "@langchain/community/document_loaders/web/recursive_url";
+import { compile } from "html-to-text";
+import { PineconeStore } from "@langchain/pinecone";
+import { Document } from "@langchain/core/documents";
+import { OpenAIEmbeddings } from "@langchain/openai";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+
+export async function GET() {
+  const pc = new Pinecone({
+    apiKey: process.env.PINECONE_API_KEY!,
+  });
+
+  const pineconeIndex = pc.index(process.env.PINECONE_INDEX!);
+
+  try {
+    await pineconeIndex.deleteAll();
+  } catch (e) {
+    console.log("Could not delete index");
+  }
+
+  const upsolveService = UpsolveService.instance;
+
+  const launches = await upsolveService.getAllSpacexLaunches();
+
+  const compiledConvert = compile({ wordwrap: 130 }); // returns (text: string) => string;
+  const splitter = new RecursiveCharacterTextSplitter({});
+
+  const docs: Document[] = [];
+  for (const launch of launches) {
+    const url = launch.links_article;
+
+    if (url) {
+      const loader = new RecursiveUrlLoader(url, {
+        extractor: compiledConvert,
+        maxDepth: 0,
+      });
+
+      const urlDocs = await loader.load();
+      if (urlDocs.length === 0) continue;
+
+      const output = await splitter.createDocuments([urlDocs[0].pageContent]);
+
+      for (const text of output) {
+        docs.push(
+          new Document({
+            metadata: {
+              id: launch.id,
+              name: launch.name,
+              link: launch.links_article,
+            },
+            pageContent: text.pageContent,
+          })
+        );
+      }
+    }
+  }
+
+  await PineconeStore.fromDocuments(docs, new OpenAIEmbeddings(), {
+    pineconeIndex,
+    maxConcurrency: 5,
+  });
+
+  return NextResponse.json({ success: true });
+}
+```
+
+## Create Chat Prompts
+
+Create a folder `config` in the root directory of the project and create a `config.ts` under this folder. We will define our system prompt and OpenAI parameters for our chatbot in here with lodash templates and export them like below:
+
+```tsx
+export const SPACEX_CHATBOT_INSTRUCTION =
+  _.template(` You are a helpful chatbot which answers questions about given context. Context information is below.
+---------------------
+<%= context %>
+---------------------
+Given the context information and not prior knowledge, answer the query.
+Query: <%= query %>
+Answer: 
+`);
+
+export const SPACEX_CHATBOT_PARAMS = {
+  temperature: 0,
+  modelName: "gpt-4o",
+  max_tokens: 2000,
+};
+```
+
+Notice that in `SPACEX_CHATBOT_INSTRUCTION` template we will feed the LLM with Pinecone results as context and user query and we will expect the LLM to answer with the given contex.
+
+## **Implement Chatbot API**
+
+In the chatbot, we should first create a POST endpoint. The input of this endpoint should be the message of the user and output should be the message generated by LLM running on OpenAI.
+
+First, we will create `route.ts` under `app/api/chat`. This file will have the POST endpoint with `/api/chat` extension in the url.
+
+We will use ai-sdk of Vercel for response streaming and use langchain open library to interact with LLM.
+
+The code is straight forward with an algorithm is like this:
+
+- Get the prompt from request body
+- Get the OpenAI Embeddings of the user query with langchain
+- Query Pinecone Store with Upsolve Client
+- Finally, feed the result to the LLM and stream the response of LLM to frontend
+
+Implementation of `api/chat` route should like this:
+
+```sql
+export const dynamic = "force-dynamic";
+import { SPACEX_CHATBOT_INSTRUCTION } from "@/config/config";
+import { UpsolveService } from "@/service/upsolve.service";
+import { openai } from "@ai-sdk/openai";
+import { OpenAIEmbeddings } from "@langchain/openai";
+import { streamText } from "ai";
+
+export async function POST(req: Request) {
+  const request = await req.json();
+
+  if (!request.prompt) return new Response("Missing query", { status: 400 });
+
+  const prompt = request.prompt;
+  const upsolveService = UpsolveService.instance;
+  const embeddings = new OpenAIEmbeddings();
+  const vectors = await embeddings.embedQuery(request.prompt);
+
+  const launches = await upsolveService.vectorSearch(vectors, 10);
+
+  const result = await streamText({
+    model: openai("gpt-4o"),
+    messages: [
+      {
+        role: "system",
+        content: SPACEX_CHATBOT_INSTRUCTION({
+          context: JSON.stringify(launches),
+          query: prompt,
+        }),
+      },
+    ],
+  });
+
+  return result.toTextStreamResponse();
+}
+
+```
+
+## **Implement Chatbot UI**
+
+We have the POST endpoint ready. Now we need the UI for our chatbot. For the UI, we will use `NLUX`. We choose `NLUX` because it provides easy integration with Vercel AI SDK.
+
+Let's open `pages.tsx` file to build our chat window. The following code will implement a very basic chatbot UI for this demo. We will use `AiChat` component from `NLUX` and need to implement `ChatAdapter` interface in order to communicate with the backend. Then, we provide `conversationOptions` to our `AiChat` component which will built-in chat prompt for demo purposes.
+
+```tsx
+"use client";
+import "@nlux/themes/nova.css";
+import {
+  AiChat,
+  AiChatUI,
+  ChatAdapter,
+  StreamingAdapterObserver,
+} from "@nlux/react";
+
+export default function Chat() {
+  const chatAdapter: ChatAdapter = {
+    streamText: async (prompt: string, observer: StreamingAdapterObserver) => {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        body: JSON.stringify({ prompt: prompt }),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.status !== 200) {
+        observer.error(new Error("Failed to connect to the server"));
+        return;
+      }
+
+      if (!response.body) {
+        return;
+      }
+
+      // Read a stream of server-sent events
+      // and feed them to the observer as they are being generated
+      const reader = response.body.getReader();
+      const textDecoder = new TextDecoder();
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          break;
+        }
+
+        const content = textDecoder.decode(value);
+        if (content) {
+          observer.next(content);
+        }
+      }
+
+      observer.complete();
+    },
+  };
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <div className="z-10 w-full max-w-3xl items-center justify-between font-mono text-sm lg:flex">
+        <AiChat
+          adapter={chatAdapter}
+          displayOptions={{
+            colorScheme: "dark",
+            height: 1200,
+          }}
+          personaOptions={{
+            assistant: {
+              name: "Upsolve Bot",
+              avatar:
+                "https://docs.nlkit.com/nlux/images/personas/harry-botter.png",
+              tagline: "Making Magic With Upsolve",
+            },
+          }}
+          conversationOptions={{
+            layout: "bubbles",
+            conversationStarters: [
+              {
+                label: "Crew Dragon's Launches",
+                prompt: "Give me information about Crew Dragon's launches.",
+              },
+              {
+                label: "Turksat 5A Launch",
+                prompt:
+                  "Give me information about Turksat 5A launch done by SpaceX",
+              },
+              {
+                label: "Most Expensive Crash",
+                prompt:
+                  "What is the most expensive rocket launch crash or accidents during Spacex Flights?",
+              },
+            ],
+          }}
+        >
+          <AiChatUI.Greeting>
+            <span className="rounded">
+              <div className="flex flex-col justify-center items-center gap-5">
+                <div>Hello! 👋</div>
+                <div className="text-pretty w-2/3 text-center">
+                  This is a rag pipeline is implemented with Upsolve. The data
+                  is fetched from SpaceX public API&apos;s by using
+                  Upsolve&apos;s Rest Table and uses Upsolve&apos;s Pinecone
+                  connector to search for information in vector database using
+                  sql. Then the results are sent to OpenAI to generate the
+                  response.
+                </div>
+
+                <div className="text-pretty w-2/3 text-center">
+                  Try by clicking sample prompts or get to the full code from{" "}
+                  <a
+                    href="https://github.com/upsolvecom/rag-example-with-api"
+                    target="_blank"
+                    className="underline"
+                  >
+                    Github
+                  </a>
+                </div>
+              </div>
+            </span>
+          </AiChatUI.Greeting>
+        </AiChat>
+      </div>
+    </main>
+  );
+}
+```
+
+After we finish our implementation, the UI should look like this:
+
+![finished_ui_1.png](https://cdn.peaka.com/blogs/rag-example-with-api/finished_ui_1.png)
+
+Let’s try one of our sample prompts and see what our bot will tell us about Turksat 5A launch:
+
+![finished_ui_2.png](https://cdn.peaka.com/blogs/rag-example-with-api/finished_ui_2.png)
+
+As you can see, our chatbot gave detailed information about Turksat 5A launch by combining SpaceX API data from Upsolve Rest Connector and Pinecone vector index with Upsolve’s query engine. By the help of Upsolve, we were able to query both data sources with single API call.
+
+## Conclusion
+
+In this tutorial, we’ve demonstrated how you can build a RAG pipeline using Upsolve and Pinecone.
+
+Using Upsolve's advanced query engine, our chatbot seamlessly combined SpaceX API data from Upsolve Rest Connector and Pinecone vector index, delivering detailed information about the Turksat 5A launch—all with a single API call.
+
+If you have any questions or comments, feel free to reach out to me on [**GitHub**](https://github.com/kobalski).

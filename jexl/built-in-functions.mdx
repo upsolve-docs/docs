@@ -1,0 +1,381 @@
+---
+title: "How to implement Upsolve functions in JEXL"
+description: "Click here for an introduction to using Upsolve functions in JEXL"
+---
+
+### **stringConcat(value)**
+
+This function converts the provided value into a string representation.
+
+```javascript
+stringConcat(123456);
+// => '123456'
+```
+
+### **convertLocaleString(value, locale, options)**
+
+Converts a value to a string with a specified locale.
+
+- `value` can be a number or date type and is required.
+- `locale` is your desired locale language (e.g., 'fr' for French, 'tr' for Turkish) and is required.
+- `options` is an optional object for customization, as shown below:
+
+```javascript
+{
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
+```
+
+```javascript
+convertLocaleString(123456.789, "de", {
+  style: "currency",
+  currency: "EUR",
+});
+
+// => 123.456,79 €
+```
+
+### **convertLocaleDateString(value, locale, options)**
+
+Converts a value to a string with a specified locale.
+
+- `value` can be a string or date type and is required.
+- `locale` is your desired locale language (e.g., 'fr' for French, 'tr' for Turkish) and must be a string, and it's required.
+- `options` is an optional object for customization, as shown below:
+
+```javascript
+{
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
+```
+
+```javascript
+convertLocaleDateString("Tue Aug 15 2023 10:23:41", "de", {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+// => Dienstag, 15. August 2023
+```
+
+### **push(arr, value)**
+
+Appends a new value to an array.
+
+- `arr` must be of type array and is a required parameter.
+- `value` can be of any data type and is also required.
+
+```javascript
+push([1, 2, 3, 4, 5], 6);
+
+// => [1, 2, 3, 4, 5, 6]
+```
+
+### **addKey(object, key, value)**
+
+Adds a new key and value to an object.
+
+- `object` must be an object type and is required.
+- `key` must be a string type and is required.
+- The type of `value` may be a string, number, date, object, array, and is required.
+
+```javascript
+addKey(
+  {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+  },
+  "day",
+  "numberic"
+);
+
+/* =>
+  {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }
+*/
+```
+
+### **removeKey(object, key)**
+
+Deletes a key from an object.
+
+- `object` must be an object type and is required.
+- `key` must be a string type and is required.
+
+```javascript
+removeKey(
+  {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+  },
+  "month"
+);
+
+/* =>
+  {
+    weekday: "long",
+    year: "numeric",
+  }
+*/
+```
+
+### **mapToKey(objects, key)**
+
+Retrieves values of a specified key.
+
+- `objects` is an array that includes objects and is required.
+- `key` must be a string type and is required.
+
+```javascript
+mapToKey([{ value: 11 }, { value: 22 }], "value");
+
+// => [11,22]
+```
+
+### **filterByKeys(objects, keys)**
+
+Filters objects by specified keys.
+
+- `objects` is an array that includes objects and is required.
+- `keys` is an array of strings and is required
+
+```javascript
+filterByKeys(
+  [
+    { name: "Joe", surname: "Doe" },
+    { name: "Can", surname: "Tuna" },
+  ],
+  ["surname"]
+);
+
+// => [{surname:'Doe'},{surname: 'Tuna'}]
+```
+
+### **fromEntries(object)**
+
+Returns an array of keys and values from an object.
+
+- `object` must be an object type and is required.
+
+```javascript
+fromEntries({
+  a: "somestring",
+  b: 42,
+});
+
+// => [['a', 'something'], ['b', 42]]
+```
+
+### **fromKeysAndValues(keys, values)**
+
+It creates an object with your keys and values. You need to enter them by your order.
+
+- `keys` must be an array and is required.
+- `values` must be an array and is required.
+
+```javascript
+fromKeysAndValues(["one", "two", "three"], [1, 2, 3]);
+
+// => { one: 1, two: 2, three: 3}
+```
+
+### **uuid()**
+
+Generates a unique ID.
+
+```javascript
+uuid();
+
+// => 4d85bbb9-f602-40f9-bd07-48eda130a1b5
+```
+
+### **len(arr)**
+
+Returns the length of an array.
+
+- `arr` is an array and is required.
+
+```javascript
+len([1, 2, 3, 4, 5, 6]);
+
+// => 6
+```
+
+### **updateKey(object, oldKey, newKey)**
+
+Updates a specified key. It finds the old key and replaces it with the new key.
+
+- `object` must be an object type and is required.
+- `oldKey` must be a string type and is required.
+- `newKey` must be a string type and is required.
+
+```javascript
+updateKey(
+  {
+    a: "somestring",
+    b: 42,
+  },
+  "b",
+  "newKeyC"
+);
+
+/* => 
+{ 
+  a: "somestring",
+  newKeyC: 42
+}
+*/
+```
+
+### **findDeep(arr,recursiveKey, searchKey, value)**
+
+Finds a value based on a search key and returns its value. If the value is not found or the search key's value does not match, it returns 'undefined'.
+
+- `arr` may be an object or array type and is required.
+- `recursiveKey` is the key for recursive array searching. If not applicable, use an empty string ('').
+- `searchKey` is the key you are searching for.
+- `value` is the value to compare against the search key.
+
+```javascript
+findDeep(
+  {
+    item: "string",
+    children: [
+      {
+        item: "string2",
+        children: [{ valueKey: "myValue" }],
+      },
+    ],
+  },
+  "children",
+  "valueKey",
+  "myValue"
+);
+
+// => {valueKey: "myValue"}
+```
+
+### **removeIndex(array, index)**
+
+Removes an element at a specified index.
+
+- `array` must be an array and is required.
+- `index`must be number of string and is required.
+
+```javascript
+removeIndex(["one", "two", "three"], 0);
+
+// => ['two'. 'three']
+```
+
+### **jsonStringify(value)**
+
+This function converts the given value into a string representation.
+
+- `value` can be of any data type and is a required parameter.
+
+```javascript
+jsonStringify({ name: "John", age: 30, city: "New York" });
+
+// => "{ name: "John", age: 30, city: "New York" }"
+```
+
+### **jsonParse(value)**
+
+This function parses the provided value, converting it from a string back into its original data structure.
+
+- `value` can be of any data type and is a required parameter.
+
+```javascript
+jsonStringify("{ name: 'John', age: 30, city: 'New York' }");
+
+// => { name: "John", age: 30, city: "New York" }
+```
+
+### **withQuotes(value)**
+
+The withQuotes function encloses a given string with quotation marks, both at the start and end.
+
+- `value` must be of string type and is a required parameter.
+
+```javascript
+withQuotes("can tuna");
+// => "can tuna"
+```
+
+### **trimQuotes(value)**
+
+This function removes leading and trailing quotation marks from a string.
+
+- `value` must be of string type and is a required parameter.
+
+```java
+trimQuotes("\"How to add doublequotes\"");
+// => can tuna
+```
+
+### **fetch(url,options)**
+
+This function initiates an HTTP request.
+
+- `url` is the URL for your request and is a required parameter.
+- `options` represent request configuration and is also required.
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+```
+
+### **getQueryParameter(url, key)**
+
+The getQueryParameter function extracts a specific query parameter from a URL.
+
+- `url` must be of string type and is required.
+- `key` is the parameter key to retrieve and is also required.
+
+```javascript
+getQueryParameter("https://example.com?foo=1&bar=2", "foo");
+
+// => 1
+```
+
+### **getQueryParameters()**
+
+This function returns all query parameters from a URL.
+
+- `url` is your URL and is a required parameter.
+- `key` is the parameter key to retrieve, and it's also required.
+
+```javascript
+getQueryParameter("https://example.com?foo=1&foo=2", "foo");
+
+//  => [1, 2]
+```
+
+### **now()**
+
+The now function returns the current date and time.
+
+```javascript
+now();
+
+// => 2023-08-15T12:53:50.862Z
+```

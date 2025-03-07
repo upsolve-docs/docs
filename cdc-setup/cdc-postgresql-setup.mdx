@@ -1,0 +1,53 @@
+---
+title: "CDC - PostgreSQL Setup Documentation"
+description: "How to setup CDC PostgreSQL"
+---
+
+## **Prerequisites**
+
+To setup CDC between your PostgreSQL database and Upsolve Big Table, you need:
+
+- PostgreSQL version 10+
+- PostgreSQL administrative permissions.
+
+## **Setup Instructions**
+
+### Setting up permissions
+
+Create a database user for Upsolve's exclusive use that can perform replication.
+
+( Although, by default, superusers have the necessary **REPLICATION** and **LOGIN**roles, you can create another user that has the minimum required privileges. )
+
+1. To provide a user with replication permissions, define a PostgreSQL role that has *at least* the **REPLICATION** and **LOGIN** permissions, and then grant that role to the user. For example:
+
+```sql
+CREATE ROLE <role> REPLICATION LOGIN;
+```
+
+### Configure the PostgreSQL server to logical replication with the **pgoutput** plugin
+
+1. Set the **wal_level** parameter in your database configuration to **logical**. For a standard PostgreSQL database, do this by adding a **wal_level = logical** line to the **postgresql.conf** file. Restart the server for this change to take effect.
+2. Ensure that your **max_replication_slots** value is equal to or higher than the number of PostgreSQL connectors that use WAL *plus* the number of other replication slots your database uses.
+3. Create a publication for your tables.
+
+   1. If the user you provide the Upsolve connection with has superuser permissions, the publication is created at start-up automatically, if it does not already exist.
+
+   b. You can create a publication for all of your tables.
+
+   ```sql
+   CREATE PUBLICATION <publication_name> FOR ALL TABLES;
+   ```
+
+   c. Alternatively, you can create a publication for only tables under the cached schema.
+
+   ```sql
+   CREATE PUBLICATION <publication_name> FOR TABLES IN SCHEMA <schema_name>;
+   ```
+
+4. Create a logical replication slot (Optional)
+
+   ```sql
+   SELECT pg_create_logical_replication_slot(<slot_name>, 'pgoutput');
+   ```
+
+   Note: since a replication slot can only be used by a single connector, it is essential to create a unique replication slot for each CDC connection.

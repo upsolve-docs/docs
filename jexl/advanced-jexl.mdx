@@ -1,0 +1,165 @@
+---
+title: "How to implement advanced JEXL functions in Upsolve"
+description: "Click here for an overview of the advanced functions in JEXL"
+---
+
+### Unary Operators
+
+| Operation | Symbol |
+| --------- | :----: |
+| Negate    |   !    |
+
+**Example**
+
+The exclamation mark negates the boolean that appears next to it.
+
+```
+    {{!true}}
+```
+
+### Binary Operators
+
+| Operation        |    Symbol    |
+| ---------------- | :----------: |
+| Add, Concat      |      +       |
+| Subtract         |      -       |
+| Multiply         |      \*      |
+| Divide           |      /       |
+| Divide and floor |      //      |
+| Modulus          |      %       |
+| Power of         |      ^       |
+| Logical AND      |      &&      |
+| Logical OR       | &#124;&#124; |
+
+### Comparisons
+
+| Comparison                 | Symbol |
+| -------------------------- | :----: |
+| Equal                      |  `==`  |
+| Not equal                  | `!= `  |
+| Greater than               |  `>`   |
+| Greater than or equal      |  `>=`  |
+| Less than                  |  `<`   |
+| Less than or equal         |  `<=`  |
+| Element in array or string |  `in`  |
+
+**A note about `in`**
+
+The `in` operator can be used to check for a substring:
+`"Cad" in "Ron Cadillac"`, and it can be used to check for an array element:
+`"coarse" in ['fine', 'medium', 'coarse']`. However, the `==` operator is used
+behind-the-scenes to search arrays, so it should not be used with arrays of
+objects. The following expression returns false: `{a: 'b'} in [{a: 'b'}]`.
+
+### Ternary operator
+
+Conditional expressions are used to check if the first segment returns a correct value. If that’s the case, the value in the next segment is applied. Otherwise, the other value is applied. If the next segmeent is missing, the test result itself will be used instead.
+
+| Expression                          | Result |
+| ----------------------------------- | ------ |
+| "" ? "Full" : "Empty"               | Empty  |
+| "foo" in "foobar" ? "Yes" : "No"    | Yes    |
+| `{agent: "Archer"}.agent ?: "Kane"` | Archer |
+
+### Native Types
+
+| Type     |            Examples            |
+| -------- | :----------------------------: |
+| Booleans |        `true`, `false`         |
+| Strings  | "Hello \"user\"", 'Hey there!' |
+| Numerics |      6, -7.2, 5, -3.14159      |
+| Objects  |      `{hello: "world!"}`       |
+| Arrays   |      ['hello', 'world!']       |
+
+### Groups
+
+Parentheses work just how you'd expect them to:
+
+| Expression                          | Result |
+| ----------------------------------- | :----: |
+| (83 + 1) / 2                        |   42   |
+| 1 < 3 && (4 > 2 &#124;&#124; 2 > 4) |  true  |
+
+### Identifiers
+
+Access variables in the context object by just typing their name. Objects can
+be accessed with dot notation, or by using brackets to access a dynamic
+property name.
+
+Example context:
+
+```javascript
+{
+  name: {
+    first: "Malory",
+    last: "Archer"
+  },
+  exes: [
+    "Nikolai Jakov",
+    "Len Trexler",
+    "Burt Reynolds"
+  ],
+  lastEx: 2
+}
+```
+
+| Expression        | Result        |
+| ----------------- | ------------- |
+| name.first        | Malory        |
+| name['la' + 'st'] | Archer        |
+| exes[2]           | Burt Reynolds |
+| exes[lastEx - 1]  | Len Trexler   |
+
+### Functions
+
+In JEXL, common built-in functions are readily available, but also functions library is extended with lodash functions.
+
+You can use lodash functions from this [link](https://lodash.com/docs/4.17.15).
+
+Additionally, you can check our functions from this [article](https://www.upsolve.com/docs/jexl/built-in-functions).
+
+**Example**
+
+Check out the JEXL codes below:
+
+_Find Min_
+
+```java
+    {{ min([65, 42, 87, 88]) }}
+
+    // => 42
+```
+
+_Reverse Array_
+
+```java
+    {{ reverse([1, 2, 3, 4]) }}
+
+    // => [4, 3, 2, 1]
+```
+
+_Check Equal_
+
+```java
+    {{ eq({ a:1 }, { a:1 }) }}
+    // => true
+
+    {{ eq(3, 4) }}
+    // => false
+```
+
+_Add Elements To Array_
+
+```java
+    {{ concat([1], 2, 3, 4) }}
+
+    // => [1, 2, 3, 4]
+```
+
+_Get Last Element of Array_
+
+```java
+    {{ reverse([1, 2, 3]) }}
+
+    // => 3
+```

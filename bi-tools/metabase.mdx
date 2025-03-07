@@ -1,0 +1,121 @@
+---
+title: "Metabase"
+description: "Upsolve and Metabase integration brings together the power of Upsolve's data platform with the visualization capabilities of Metabase's business intelligence platform. With this integration, customers can leverage Upsolve's robust data processing and management capabilities to feed into Metabase’s intuitive and interactive dashboards. This allows users to create compelling analytics dashboards that provide meaningful insights into their data."
+---
+
+Metabase has both hosted service and on-premise offerings. We will walkthrough setup process for the both version.
+
+## Metabase Cloud Setup
+
+You need 2 steps to complete Metabase Cloud setup:
+
+- Generate Upsolve API Key
+- Setup Upsolve Integration with Starburst Connector
+
+### Generate Upsolve API Key
+
+After you create your project, setup connections and create your catalogs in Upsolve, you need to generate a Upsolve API Key to use it with Metabase Connector.
+Check out Upsolve Documentation for creating your API Key and follow detailed instructions by clicking [here](https://docs.upsolve.com/how-to-guides/how-to-generate-api-keys).
+
+### Setup Upsolve Integration with Startburst Connector
+
+The Upsolve Metabase integration uses the Starburst Connector right now. Startburst Connector is offical partner driver which is provided in Metabase Cloud offering.
+
+- In order to add Upsolve as data source, go to your Metabase Home page. Click settings icon on the top right corner of the screen and click _Admin Settings_ button as shown in the screenshot below.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/metabase/metabase-1.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+- On the next screen click Databases from the top toolbar.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/metabase/metabase-2.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+- On the next screen click Add database button.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/metabase/metabase-3.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+- Add database form will open and you need to add your connection details on this screen. Select Starbust for Database Type.
+  Then give a name to your database connection. For the host name enter `dbc.upsolve.studio`. For the port enter `4567`.
+  As for the Catalog Name and Schema Name enter the catalog name and schema name of your Upsolve Catalog.
+  Then enter trino to the User name field and select Use Secure Connection checkbox.
+  Your form should look like the screenshot below after you enter correct values:
+
+  **Note:** If you are using Upsolve in EU, you need to use `dbc.eu.upsolve.studio` instead of `dbc.upsolve.studio` for the host name.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/metabase/metabase-4.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+- Scroll down to bottom and click Show advanced options button. Check Optimize prepared statements checkbox.
+  Enter your Upsolve API Key to Additional JDBC connection string options in the following format extraCredentials=upsolveKey:`<Your Key>`. After that check Rerun queries for simple explorations and Periodically refingerprint tables check boxes.
+  Your form should look like the screenshot below after you enter correct values:
+
+<img
+  src="https://cdn.peaka.com/bi-tools/metabase/metabase-5.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+- If everything is entered correctly you should be able to see Upsolve under databases list like the screenshot below.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/metabase/metabase-6.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+- Go to Metabase Home page and click Browse Data button from the toolbar from the left and select your Upsolve connection.
+  You should be able to see your tables here. In our case we are seeing tables under catalog stripe and schema name payment.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/metabase/metabase-7.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+Click the table you want to see data and if you can see the data successfully like the screenshot below, you have successfully completed Upsolve connection to your Metabase cloud account.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/metabase/metabase-8.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+## Metabase On-Premise Setup
+
+If you are using Metabase On-Prem or Open Source Edition, follow these steps to install the Starburst driver:
+
+1. Download the latest release of the [Upsolve Driver .jar file.](https://github.com/upsolvecom/metabase-driver/releases)
+2. Copy the JAR file into the `/plugins/` directory of your Metabase installation. If you aren’t sure where to find the plugins directory, review the [Metabase driver installation guide](https://www.metabase.com/docs/latest/developers-guide-drivers.html#how-to-use-a-third-party-driver)
+3. Restart Metabase.
+4. After here follow the same steps as explained in the Metabase Cloud Setup part of this documentation. Only change is Upsolve Connector requires different connection parameters than the Startburst. When you enter the Add Database form you will need to. Select Upsolve for Database Type. Then give a name to your database connection. For the host name enter `_dbc.upsolve.studio._` For the port enter `_4567._` As for the Catalog Name and Schema Name enter the catalog name and schema name of your Upsolve Catalog. Your form should look like the screenshot below after you enter correct values:
+
+**Note:** If you are using Upsolve in EU, you need to use `_dbc.eu.upsolve.studio._` instead of `_dbc.upsolve.studio._` for the host name.
+
+<img
+  src="https://cdn.peaka.com/bi-tools/metabase/metabase-9.png"
+  style={{ border: "1px solid #e2e4e7" }}
+/>
+
+Then click Save button and follow the same steps as explained in Metabase Cloud Setup Documentation.
+
+## Testing Metabase Integration Locally Using Docker Compose
+
+If you wish to test our Metabase integration from your local environment, we've created a Docker compose file for your convenience.
+
+Follow these steps:
+
+1. Download the latest zip file from the provided link:
+
+   - [Metabase Docker Compose File](https://drive.google.com/drive/folders/1SXKT3hzgScO0SW9AH_MmWhSAYQsGtG3G?usp=drive_link)
+
+2. Unzip the file.
+
+3. Run the 'docker compose up' command.
+
+After running the command, two folders named 'database' and 'metabase-data' will be created. As long as these folders are not deleted, the data will not be lost. This allows you to easily manage and test the integration on your local machine.

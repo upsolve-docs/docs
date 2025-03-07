@@ -1,0 +1,64 @@
+---
+title: "Zendesk"
+description: "Discover a seamless integration process! Learn how to connect Zendesk to Upsolve effortlessly for streamlined transactions."
+---
+
+This article guides you through the process of connecting Zendesk to Upsolve, allowing you to seamlessly access your Zendesk data within the Upsolve platform.
+
+## Prerequisites
+
+Before you start, you will need the following information from Zendesk.
+
+- Domain
+- Unique Identifier
+- Secret
+
+Follow the steps below to obtain it:
+
+1. Go to [Zendesk website](https://www.zendesk.com) and sign in to your Zendesk account.
+
+2. Click on the settings icon, as shown in the image below, to access your account settings.
+
+<img src="https://cdn.peaka.com/integrations/zendesk-1.png" />
+
+3. On the Settings page, you will find your Zendesk domain. Make a note of it.
+
+<img src="https://cdn.peaka.com/integrations/zendesk-2.png" />
+
+4. Navigate to the Admin Center by clicking on it, as shown in the image below.
+
+<img src="https://cdn.peaka.com/integrations/zendesk-3.png" />
+
+5. Inside the Admin Center, go to the "Zendesk API" tab from the left menu and click the "Add OAuth Client" button.
+
+<img src="https://cdn.peaka.com/integrations/zendesk-4.png" />
+
+6. Begin by entering a distinct name and identifier for your integration. Following that, choose "Confidential" as the Client type. Proceed by inserting the following URL for the Redirect URLs parameter:
+
+<a href="https://upsolve.studio/oauth2/callback" target="_blank">
+  https://upsolve.studio/oauth2/callback
+</a>
+
+<img src="https://cdn.peaka.com/integrations/zendesk-5.png" />
+
+7. Next, click the save button to establish your OAuth client. Upon creation, Zendesk will produce a Secret token for you. It's crucial to record this for future reference.
+
+<img src="https://cdn.peaka.com/integrations/zendesk-6.png" />
+
+## Connecting Zendesk to Upsolve
+
+Now that you have your requirements, you can connect it to Upsolve using the following steps:
+
+1. Navigate to the data model page in Upsolve.
+
+2. In the side menu bar, click the "New Data Source" button to initiate the connection process.
+
+3. In the modal that appears, select "Zendesk" as your data source.
+
+4. Enter a name for your data source and paste values that you got before.
+
+<img src="https://cdn.peaka.com/integrations/zendesk-7.png" />
+
+5. Click "Authorize" to create your Zendesk data source.
+
+Congratulations! You've successfully created a new data source between Zendesk and Upsolve. You can now access and manage your Zendesk data seamlessly within the Upsolve platform.
