@@ -1,8 +1,10 @@
 ---
-title: 'Set up connection'
-description: 'Set up connection to your data sources to get started'
-icon: 'database'
+title: "Set up connection"
+description: "Set up connection to your data sources to get started"
+icon: "database"
 ---
+
+Looking for our new [Data Plane](/integrations/introduction) experience for connecting your data?
 
 <Frame>
 <img
@@ -11,6 +13,7 @@ icon: 'database'
   alt="Hero Light"
 
 />
+
 <img
   className="hidden dark:block"
   src="/images/data-connection/data-connection-hero-dark.png"
@@ -18,14 +21,11 @@ icon: 'database'
 />
 </Frame>
 
-
-
-
-
 ## Connect to your data sources
 
 1. Navigate to the **Connect** application using the side navigation bar.
 2. Select your data source type.
+
 <AccordionGroup>
 
 <Accordion title="Postgres" icon="database">
@@ -40,6 +40,7 @@ To connect to a Postgres database, you'll need:
 - **Concurrency Limit (optional):** Maximum number of concurrent queries.
 - **Interval Limit (optional):** Maximum number of operations in a time interval.
 - **Interval Time (optional):** Time interval in milliseconds (e.g., 1000 ms for 1 second).
+
 </Accordion>
 
 <Accordion title="Clickhouse" icon="database">
@@ -53,6 +54,7 @@ To connect to Clickhouse, you'll need:
 - **Concurrency Limit (optional):** Maximum number of simultaneous queries.
 - **Interval Limit (optional):** Maximum operations allowed during a time interval.
 - **Interval Time (optional):** Time interval in milliseconds.
+
 </Accordion>
 
 <Accordion title="Snowflake 🔒" icon="database" >
@@ -62,6 +64,7 @@ To connect to Snowflake, you'll need:
 - **User:** Your Snowflake username.
 - **Password:** Your Snowflake password.
 - **Database Name:** The specific Snowflake database to connect to.
+
 </Accordion>
 
 <Accordion title="MySQL 🔒" icon="database" >
@@ -72,6 +75,7 @@ To connect to a MySQL database:
 - **Database Name:** The MySQL database to connect to.
 - **User:** The MySQL username.
 - **Password:** The password for the user.
+
 </Accordion>
 
 <Accordion title="MS SQL 🔒"icon="database" >
@@ -82,6 +86,7 @@ To connect to Microsoft SQL Server:
 - **Database Name:** The MS SQL database to connect to.
 - **User:** The MS SQL username.
 - **Password:** The corresponding password for the user.
+
 </Accordion>
 
 <Accordion title="DynamoDB 🔒" icon="database" >
@@ -90,6 +95,7 @@ For AWS DynamoDB:
 - **Region:** The AWS region where DynamoDB is hosted (e.g., `us-east-1`).
 - **AWS Access Key:** The access key from your AWS IAM user.
 - **AWS Secret Key:** The secret key from your AWS IAM user.
+
 </Accordion>
 
 <Accordion title="Redshift 🔒" icon="database" >
@@ -100,6 +106,7 @@ To connect to Amazon Redshift:
 - **Database Name:** The Redshift database to connect to.
 - **User:** The Redshift username.
 - **Password:** The password for the user.
+
 </Accordion>
 
 <Accordion title="Timescale 🔒" icon="database">
@@ -110,53 +117,54 @@ To connect to TimescaleDB (Postgres with time-series capabilities):
 - **Database Name:** The Timescale/Postgres database to connect to.
 - **User:** The database username.
 - **Password:** The password for the user.
-</Accordion>
-<AccordionGroup>
-  <Accordion title="Supabase 🔒" icon="database">
-  To connect to Supabase, use the following credentials and configuration steps:
 
-  1. **Create the `execute_raw_sql` Function:**
-     To enable secure execution of SQL queries, run the following SQL in your Supabase SQL editor:
-
-     ```sql
-     CREATE OR REPLACE FUNCTION public.execute_raw_sql(query text)
-     RETURNS jsonb
-     LANGUAGE plpgsql
-     SECURITY INVOKER
-     AS $$
-     DECLARE
-         result jsonb;
-     BEGIN
-         -- Execute the SQL query and store the result in a JSONB format
-         EXECUTE format('SELECT json_agg(t) FROM (%s) AS t', query) INTO result;
-         
-         RETURN result;
-     EXCEPTION
-         WHEN others THEN
-             -- Handle errors gracefully by returning the error message in JSON
-             RETURN jsonb_build_object('error', SQLERRM);
-     END;
-     $$;
-     ```
-
-  2. **Set Up Credentials in Upsolve Hub:**
-     Use the following details to connect to your Supabase instance:
-
-     - **URL:** The unique URL of your Supabase instance.
-     - **Anon Key:** The public API key for accessing Supabase.
-     - **Service Key:** The secret API key for accessing Supabase.
-
-     <Note>
-       You can find these details in your [Supabase API settings](https://supabase.com/dashboard/project/_/settings/api).
-     </Note>
 </Accordion>
 
-</AccordionGroup>
+<Accordion title="Supabase 🔒" icon="database">
+To connect to Supabase, use the following credentials and configuration steps:
+
+1.  **Create the `execute_raw_sql` Function:**
+    To enable secure execution of SQL queries, run the following SQL in your Supabase SQL editor:
+
+    ```sql
+    CREATE OR REPLACE FUNCTION public.execute_raw_sql(query text)
+    RETURNS jsonb
+    LANGUAGE plpgsql
+    SECURITY INVOKER
+    AS $$
+    DECLARE
+        result jsonb;
+    BEGIN
+        -- Execute the SQL query and store the result in a JSONB format
+        EXECUTE format('SELECT json_agg(t) FROM (%s) AS t', query) INTO result;
+
+        RETURN result;
+    EXCEPTION
+        WHEN others THEN
+            -- Handle errors gracefully by returning the error message in JSON
+            RETURN jsonb_build_object('error', SQLERRM);
+    END;
+    $$;
+    ```
+
+2.  **Set Up Credentials in Upsolve Hub:**
+    Use the following details to connect to your Supabase instance:
+
+         - **URL:** The unique URL of your Supabase instance.
+         - **Anon Key:** The public API key for accessing Supabase.
+         - **Service Key:** The secret API key for accessing Supabase.
+
+         <Note>
+           You can find these details in your [Supabase API settings](https://supabase.com/dashboard/project/_/settings/api).
+         </Note>
+
+</Accordion>
 
 </AccordionGroup>
 
 <Note>
-For enterprise features, look for the 🔒 symbol. These features are available in our Enterprise plan. Please contact us for more information.
+  For enterprise features, look for the 🔒 symbol. These features are available
+  in our Enterprise plan. Please contact us for more information.
 </Note>
 
 3. Input the corresponding credentials for the data source.
@@ -175,8 +183,7 @@ For enterprise features, look for the 🔒 symbol. These features are available 
 />
  </Frame>
 
-4. Click **Save** to see if connection is set up successfully. 
-
+4. Click **Save** to see if connection is set up successfully.
 
  <Frame>
 
@@ -191,7 +198,6 @@ For enterprise features, look for the 🔒 symbol. These features are available 
   alt="Hero Dark"
 />
  </Frame>
-
 
 You are now good to go to start [building charts](/charts/create-chart) and [creating dashboards](/dashboards/create-dashboard).
 If you do not see the data source type you want to connect to in the **Connect** application, please raise a support ticket.

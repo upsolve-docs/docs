@@ -54,10 +54,6 @@
     {
       "name": "SQL Reference",
       "url": "sql"
-    },
-    {
-      "name": "How to Guides",
-      "url": "how-to-guides"
     }
   ],
   "anchors": [
@@ -89,7 +85,7 @@
     },
     {
       "group": "Data Connection",
-      "pages": ["data-connection/data-connection"]
+      "pages": ["data-connection/data-connection", "data-connection/data-plane"]
     },
     {
       "group": "Charts",
@@ -159,10 +155,6 @@
     {
       "group": "Dashboard Example",
       "pages": ["dashboard-example/demo-dashboard"]
-    },
-    {
-      "group": "Get Started",
-      "pages": ["introduction"]
     },
     {
       "group": "SQL",
@@ -236,6 +228,7 @@
     {
       "group": "Integrations",
       "pages": [
+        "integrations/introduction",
         "integrations/activecampaign",
         "integrations/airtable",
         "integrations/amazon-redshift",
@@ -291,46 +284,6 @@
         "integrations/zendesk",
         "integrations/zoho-crm",
         "integrations/zoom"
-      ]
-    },
-    {
-      "group": "Project Operations",
-      "pages": [
-        "project-operations/how-to-create-a-project",
-        "project-operations/clone-a-project",
-        "project-operations/delete-a-project",
-        "project-operations/rename-a-project",
-        "project-operations/send-a-copy-of-a-project",
-        "project-operations/share-your-project"
-      ]
-    },
-    {
-      "group": "Connecting Your Data",
-      "pages": [
-        "connecting-your-data/upsolve-query",
-        "connecting-your-data/upsolve-table",
-        "connecting-your-data/upsolve-big-table",
-        "connecting-your-data/differences-of-upsolve-table-and-upsolve-big-table",
-        "connecting-your-data/creating-query",
-        "connecting-your-data/creating-upsolve-table",
-        "connecting-your-data/add-connection",
-        "connecting-your-data/what-is-catalog-schema-virtual-table"
-      ]
-    },
-    {
-      "group": "How to Guides",
-      "pages": [
-        "how-to-guides/how-to-filter-your-data-with-visual-filter",
-        "how-to-guides/how-to-connect-databases-in-aws-using-iam-credentials"
-      ]
-    },
-    {
-      "group": "CDC Setup",
-      "pages": [
-        "cdc-setup/cdc-postgresql-setup",
-        "cdc-setup/cdc-mysql-setup",
-        "cdc-setup/cdc-mongodb-setup",
-        "cdc-setup/cdc-mariadb-setup"
       ]
     }
   ],
