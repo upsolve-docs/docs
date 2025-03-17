@@ -1,0 +1,88 @@
+---
+title: "SDK"
+description: "Use the Upsolve React SDK to get your dashboard pixel perfect"
+icon: "code"
+---
+
+When deploying an `<UpsolveDashboard />`, provide the following code block into the `themeConfigs={}` prop:
+
+```javascript
+const EXAMPLE_OVERRIDE_THEME_CONFIG: Theme = {
+  common: {
+    cardBorderRadius: 25,
+    cardPadding: {
+      left: 10,
+      right: 10,
+      top: 10,
+      bottom: 10,
+    },
+
+    buttonBorderRadius: 25,
+
+    tabsPlacement: "center",
+
+    labelPadding: {
+      left: 15,
+      right: 15,
+      top: 15,
+      bottom: 15,
+    },
+    labelFontSize: 16,
+
+    dashboardColumns: 100,
+    spacing: 10,
+
+    dashboardFontFamily: "Helvetica",
+    dashboardFontWeight: 400,
+
+    chartFontWeight: 400,
+    cardTitlePosition: "left",
+
+    statCardTitleFontWeight: 400,
+
+    statCardContentFontWeight: 400,
+  },
+  light: {
+    chartBackgroundColor: "#f5a623",
+    cardBorderColor: "#f5a623",
+    sideBarBorderColor: "#f5a623",
+    tableHeaderBackgroundColor: "rgba(245, 236, 105, 0.6)",
+    tableActiveRowBackgroundColor: "#f5a623",
+    tableDataBackgroundColor: "rgba(245, 236, 105, 0.6)",
+
+    dashboardBackgroundColor: "#50e3c2",
+    widgetBackgroundColor: "rgba(245, 236, 105, 0.6)",
+
+    buttonColor: "#f5a623",
+    buttonTextColor: "#ffffff",
+
+    dashboardFontColor: "#000000",
+
+    chartFontColor: "#000000",
+
+    statCardTitleFontColor: "#000000",
+    statCardContentFontColor: "#000000",
+  },
+  dark: {
+    chartBackgroundColor: "#7c7c7c",
+    cardBorderColor: "#23f56a",
+    sideBarBorderColor: "#23f56a",
+    tableHeaderBackgroundColor: "#7c7c7c",
+    tableActiveRowBackgroundColor: "#23f56a",
+    tableDataBackgroundColor: "#7c7c7c",
+
+    dashboardBackgroundColor: "#4a8d61",
+    widgetBackgroundColor: "#7c7c7c",
+
+    buttonColor: "#23f56a",
+    buttonTextColor: "#ffffff",
+
+    dashboardFontColor: "#000000",
+
+    chartFontColor: "#000000",
+
+    statCardTitleFontColor: "#000000",
+    statCardContentFontColor: "#000000",
+  },
+};
+```
