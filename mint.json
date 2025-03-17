@@ -111,6 +111,10 @@
       "pages": ["data-permissioning/tenancy-management"]
     },
     {
+      "group": "Customize",
+      "pages": ["customize-dashboards/overview", "customize-dashboards/sdk"]
+    },
+    {
       "group": "Dashboard Deployment",
       "pages": [
         "deploy-dashboards/overview",
