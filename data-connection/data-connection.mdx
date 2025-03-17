@@ -40,6 +40,10 @@ To connect to a Postgres database, you'll need:
 - **Concurrency Limit (optional):** Maximum number of concurrent queries.
 - **Interval Limit (optional):** Maximum number of operations in a time interval.
 - **Interval Time (optional):** Time interval in milliseconds (e.g., 1000 ms for 1 second).
+- **Row-level-security (RLS) variable (optional):** Variable name used in RLS policies (recommended: "app").
+- **Default row-level-security (RLS) value (optional):** Default user value applied to RLS policies when in the Upsolve Hub.
+
+**Note on RLS:** When using row-level security, ensure the database user for connection is not a superadmin, as RLS policies are bypassed by superusers.
 
 </Accordion>
 
