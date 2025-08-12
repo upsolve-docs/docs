@@ -89,7 +89,7 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "embedded-bi", "ai-builder"]
+      "pages": ["introduction", "embedded-bi-intro", "ai-builder"]
     },
     {
       "group": "Embedded BI",
