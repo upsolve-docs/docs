@@ -1,0 +1,124 @@
+---
+title: "Quick Start Guide"
+description: "Turn your data into conversations. Ask questions in plain English and get SQL, analysis, and charts automatically."
+icon: "lightbulb"
+---
+
+## What You'll Get
+
+- **Chat with your data**: Ask questions like "What were our top sales this quarter?" in natural language
+- **Automatic insights**: The agent writes SQL, runs it, analyzes results, and creates charts
+- **Smart learning**: Save good examples as "Golden Assets" so the agent gets more consistent over time
+- **Quality control**: Test the agent with known answers before rolling it out
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/ai-builder/img-1.png"
+    alt="Chat interface showing a natural language question and resulting chart"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/ai-builder/img-1.png"
+    alt="Chat interface showing a natural language question and resulting chart"
+  />
+ </Frame>
+
+## Who This Is For
+
+- **Business users** who want to explore data without writing SQL
+- **Product teams** building data features into their apps
+- **Developers** creating AI agents that need to work with databases
+
+## Supported Data Sources
+
+Connect to any SQL database: **Postgres**, **BigQuery**, **Snowflake**, **Redshift**, **MySQL**, and more. We also support business APIs like **Stripe**, **HubSpot**, and **PostHog** on request.
+
+## Quick Setup (5 minutes)
+
+### Step 1: Connect Your Data
+Choose which tables the agent can access from your database.
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/ai-builder/img-2.png"
+    alt="Data catalog interface showing table selection"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/ai-builder/img-2.png"
+    alt="Data catalog interface showing table selection"
+  />
+ </Frame>
+
+### Step 2: Mark Key Columns
+Select columns with human-friendly values (like "product_name" or "region") that users might want to filter by. Skip technical IDs and timestamps.
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/ai-builder/img-3.png"
+    alt="Column selection interface with checkboxes"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/ai-builder/img-3.png"
+    alt="Column selection interface with checkboxes"
+  />
+ </Frame>
+
+### Step 3: Start Asking Questions
+Use the chat interface to ask about your data. The agent will show you each step: generating SQL, running it, and analyzing results.
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/ai-builder/img-4.png"
+    alt="Full conversation showing question, SQL, results, and analysis"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/ai-builder/img-4.png"
+    alt="Full conversation showing question, SQL, results, and analysis"
+  />
+ </Frame>
+
+### Step 4: Save What Works
+When the agent gets something right (or when you fix it), save it as a Golden Asset so it performs consistently on similar questions.
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/ai-builder/img-5.png"
+    alt="Save to Golden Assets dialog"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/ai-builder/img-5.png"
+    alt="Save to Golden Assets dialog"
+  />
+ </Frame>
+
+### Step 5: Test Before Launch
+Create evaluation test sets with known correct answers, then run tests to make sure the agent performs well at scale.
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/ai-builder/img-6.png"
+    alt="Evaluations dashboard"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/ai-builder/img-6.png"
+    alt="Evaluations dashboard"
+  />
+ </Frame>
+
+## Next Steps
+
+- Try the admin chat to see the full reasoning behind each answer
+- Create your first Golden Assets from successful conversations
+- Set up evaluations with a few ground-truth examples
+- **For developers**: See the [Technical Guide](tech-guide) for embedding options and API details

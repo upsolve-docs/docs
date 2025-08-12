@@ -1,0 +1,273 @@
+---
+title: "Technical Guide"
+description: "Complete implementation guide for developers integrating data-aware AI into applications."
+icon: "code"
+---
+
+## Architecture Overview
+
+The agent uses a multi-step tool pipeline:
+
+1. **classify_intent** → Determines if this is a new question or follow-up
+2. **text_to_sql** → Generates SQL from natural language + schema
+3. **run_sql** → Executes SQL against your database  
+4. **analyse_data** → Analyzes the data slice and extracts insights
+5. **create_chart** → Generates chart configurations
+6. **summarizer** → Creates final user-facing response
+
+### Key Technical Details
+
+- **Data handling**: Only `analyse_data` receives actual data rows. `text_to_sql` and `create_chart` work with schema and context only.
+- **Golden Assets**: Retrieved via RAG at runtime to provide few-shot examples for each tool
+- **Session memory**: Maintains conversation context using thread IDs
+- **Streaming**: All operations stream events in real-time
+
+## Integration Options
+
+### Option 1: Full Upsolve Application
+Complete UI for data catalog, chat, Golden Assets, and evaluations.
+
+### Option 2: Embedded React Widget
+Drop-in components for your application:
+
+```jsx
+import { InvestigationScratchpadV2 } from '@upsolve/components';
+
+<InvestigationScratchpadV2
+  tenantJWT={yourJWT}
+  agentId={agentId}
+  organizationId={orgId}
+  connection={connectionConfig}
+/>
+```
+
+**Required props:**
+- `tenantJWT`: Authentication token
+- `agentId`: Which agent configuration to use
+- `organizationId`: Your organization identifier
+- `connection`: Database connection details
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/ai-builder/img-7.png"
+    alt="Embedded widget in a sample application"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/ai-builder/img-7.png"
+    alt="Embedded widget in a sample application"
+  />
+ </Frame>
+
+### Option 3: Headless API Integration
+Server-Sent Events (SSE) stream for real-time tool execution:
+
+```javascript
+const eventSource = new EventSource('/api/chat', {
+  headers: { 'Authorization': `Bearer ${token}` }
+});
+
+eventSource.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log(`Event: ${data.type}`, data);
+};
+```
+
+**Event Types:**
+```json
+{"type": "sql_generated", "data": {"sql": "SELECT revenue FROM sales WHERE date > '2024-01-01' LIMIT 100"}}
+```
+
+```json
+{"type": "sql_executed", "data": {"message": "Query executed successfully", "rows": 42}}
+```
+
+```json
+{"type": "analysis_complete", "data": {"key_takeaways": ["Revenue increased 15% YoY"], "insights": "Strong growth in Q4"}}
+```
+
+```json
+{"type": "chart_generated", "data": {"config": {"type": "line", "x": "date", "y": "revenue"}, "sql": "SELECT..."}}
+```
+
+```json
+{"type": "response", "data": {"content": "Revenue trends show strong Q4 performance with 15% year-over-year growth."}}
+```
+
+## Data Catalog Configuration
+
+### Table Selection
+Define which tables the agent can access:
+
+```json
+{
+  "tables": ["users", "orders", "products"],
+  "restricted_tables": ["internal_logs", "sensitive_data"]
+}
+```
+
+### Selectable Columns
+Mark columns for precise filtering. The system pre-scans these for distinct values:
+
+```json
+{
+  "selectable_columns": {
+    "users.region": true,
+    "products.category": true,
+    "users.user_id": false  // Skip high-variance columns
+  }
+}
+```
+
+**Performance guidance:** Avoid selecting:
+- High-cardinality columns (IDs, timestamps)
+- Numeric columns with many unique values
+- Free-text fields
+
+## Golden Assets Management
+
+Golden Assets provide few-shot examples that improve consistency. They map questions to expected outputs:
+
+### Creating Golden Assets
+Save directly from chat interactions or use the API:
+
+```javascript
+POST /api/golden-assets
+{
+  "question": "What are our top products by revenue?",
+  "sql": "SELECT product_name, SUM(revenue) FROM sales GROUP BY product_name ORDER BY 2 DESC LIMIT 10",
+  "analysis": "iPhone leads with $2.1M, followed by MacBook at $1.8M",
+  "chart_config": {"type": "bar", "x": "product_name", "y": "revenue"}
+}
+```
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/ai-builder/img-8.png"
+    alt="Golden Assets management interface"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/ai-builder/img-8.png"
+    alt="Golden Assets management interface"
+  />
+ </Frame>
+
+### How Golden Assets Work
+At runtime, the agent:
+1. Retrieves similar Golden Assets using vector search
+2. Includes them as few-shot examples in tool prompts
+3. Generates more consistent outputs for similar questions
+
+## Evaluations
+
+Test the agent against ground truth before deployment:
+
+### Creating Test Sets
+```javascript
+POST /api/test-sets
+{
+  "name": "Q4 Sales Analysis",
+  "test_cases": [
+    {
+      "question": "What were total sales in Q4?",
+      "expected_sql": "SELECT SUM(amount) FROM sales WHERE quarter = 4",
+      "expected_insight": "Q4 sales totaled $5.2M"
+    }
+  ]
+}
+```
+
+### Running Evaluations
+The system automatically:
+1. Runs each test case through the full agent pipeline
+2. Compares outputs against expected results  
+3. Generates similarity scores and detailed reports
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="/images/ai-builder/img-9.png"
+    alt="Evaluation results dashboard with pass/fail indicators"
+  />
+  <img
+    className="hidden dark:block"
+    src="/images/ai-builder/img-9.png"
+    alt="Evaluation results dashboard with pass/fail indicators"
+  />
+ </Frame>
+
+## Security & Privacy
+
+### Data Access Controls
+- **Table-level**: Restrict which tables the agent can query
+- **Column-level**: Exclude sensitive columns from schema and analysis
+- **Row-level**: Apply WHERE clause filters to limit data access
+
+### Data Handling
+- **At rest**: Golden Assets stored with logical tenant separation
+- **In transit**: All API calls require authenticated JWT tokens
+- **In processing**: Only analyse_data tool receives actual data rows
+
+```javascript
+// Example: Exclude sensitive columns
+{
+  "excluded_columns": ["ssn", "credit_card", "password_hash"],
+  "restricted_queries": ["DROP", "DELETE", "UPDATE"]
+}
+```
+
+## Performance Optimization
+
+### Query Limits
+All generated SQL automatically includes LIMIT clauses to prevent large data transfers:
+
+```sql
+-- Generated SQL includes automatic limits
+SELECT * FROM large_table 
+WHERE created_date > '2024-01-01' 
+LIMIT 100  -- Added automatically
+```
+
+### Caching Strategy
+- **Query results**: Cached per session to avoid re-running identical SQL
+- **Golden Assets**: Retrieved and cached for the conversation duration
+- **Schema metadata**: Cached and refreshed periodically
+
+### Monitoring
+Track key metrics:
+- SQL execution time
+- Token usage per conversation
+- Golden Asset retrieval latency
+- User satisfaction scores
+
+## Troubleshooting
+
+### Common Issues
+
+**SQL Generation Fails**
+- Check table/column names in schema
+- Verify Golden Assets have correct SQL examples
+- Review any custom prompts for the text_to_sql tool
+
+**Charts Don't Render**
+- Ensure data has appropriate columns for visualization
+- Check chart configuration format
+- Verify previous chart context if this is a follow-up
+
+**Poor Accuracy**
+- Add more Golden Assets for common question patterns
+- Run evaluations to identify specific failure modes
+- Refine selectable columns to include relevant filter options
+
+## API Reference Summary
+
+**Core Endpoints:**
+- `POST /api/chat` - Start conversational session (SSE)
+- `GET /api/agents` - List available agents
+- `POST /api/golden-assets` - Create/manage Golden Assets
+- `POST /api/evaluations/run` - Execute evaluation suite
+
+**Authentication:** All endpoints require Bearer token in Authorization header.
