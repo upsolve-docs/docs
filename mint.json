@@ -331,10 +331,5 @@
     "auth": {
       "method": "bearer"
     }
-  },
-  "analytics": {
-    "gtm": {
-      "tagId": "GTM-NLBSKN8"
-    }
   }
 }
