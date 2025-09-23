@@ -1,62 +1,95 @@
 ---
 title: "Tenancy Management"
-description: "Tenancy management allows you to have flexible and granuar data permissioning control"
+description: "Control data access with flexible tenant-based filtering"
 icon: "rocket"
 ---
 
 ## Overview
 
-Upsolve AI is **data source agnostic**, meaning you can populate data from multiple data sources into a single dashboard.
-To ensure that each end users only sees the data relevant to them, you’ll need to set up **tenancy filters**.
+Tenancy management ensures each user only sees their relevant data through configurable filters. A **tenant** represents a group of users sharing the same data access permissions.
 
-These filters allow you to isolate the data your end useres can view based on the specific characteristics you've defined for each of them.
-By doing so, you provide each user with a tailored dashboard experience while maintaining strict control over data access.
+Tenants can be registered via the [Backend Setup](/embedded-bi/deploy-dashboards/backend-setup) endpoint or created manually through the interface.
 
-## Tenants
+## Filtering Types
 
-A Tenant refers to a distinct group of end users that share the same data access and permission. The benefits of Upsolve AI's tenancy management include:
+### Schema-Level Filtering
+Isolates tenants to separate database schemas/databases.
+- **When to use**: Complete data separation, compliance requirements, performance isolation
+- **Benefits**: Maximum security, database-level isolation
+- **Example**: `customer_schema_1`, `tenant_db_123`
 
-* **Security**: Letting Upsolve AI know what data users should have access to ensures users are restricted to only seeing the data meant for them
+### Column Pre-Filtering  
+Filters data using column values within shared schemas.
+- **When to use**: Shared database with tenant identifiers, flexible multi-column filtering
+- **Benefits**: Granular control, multiple filter combinations
+- **Example**: `customer_id = 'user_123'` AND `region = 'us-east'`
 
-* **Easy Management:** By using tenants, you can assign permissions and filters to each group, streamlining data management.
+## Creating Tenants
 
-* **Consistency:** Automatically applied filters ensure all tenants in the same group follow the same data access rules.
+Navigate to **Home** → **Deploy** → **Registered Tenants** → **Create tenant**
 
-* **Predictability:** Automatically applied filters ensure all tenants in the same group follow the same data access rules.
+### Required Fields
 
-* **Consistency:** Tenant registration is controlled via an endpoint as part of your auth system, so Upsolve is in sync with your existing permission model across all of your applications.
+**Tenant Display Name**
+- Human-readable identifier
+- Example: `Customer ABC Corp`
 
-## Tenant Registation (User Authorization)
+**Filtering** (Choose one or both)
+- **Schema Pre-filter**: Database/schema name for schema-level filtering
+- **Column Pre-filters**: Column name + value pairs for row-level filtering
+  - Multiple filters supported (AND logic)
+  - Required if no schema pre-filter specified
 
-You could register a tenant following the [Backend Setup](/embedded-bi/deploy-dashboards/backend-setup) instruction.
+### Optional Configuration
 
-## Tenant Preview
+You can register a tenant by following the [Backend Setup](/embedded-bi/deploy-dashboards/backend-setup) instructions.
 
-Upsolve AI allows you to simulate the registration of individual tenant and then preview the dashboard as that tenant.
+**Tenant Editing Permissions**
+- Add/Remove/Create/Edit Charts
+- Add Filters
+- AI Insights
 
-* If you have completed the [Backend Setup](/embedded-bi/deploy-dashboards/backend-setup), you are able to view the dashboard as one of your customers.
+**Custom Metadata**
+- Key-value pairs for additional tenant information
+- Example: `billing_tier: premium`, `region: us-east`
 
-* If you are using the **sample dataset** we have provided two sample tenants, which you are able to preview in the hub below.
+If you have completed the [Backend Setup](/embedded-bi/deploy-dashboards/backend-setup), you can view the dashboard as one of your customers.
+
+### Validation Rules
+
+- Tenant name required
+- Either schema OR Column Pre-Filtering must be configured
+- Empty filter names/keys not allowed
+- **Warning**: No filtering = admin access to all data
+
+## Preview Mode
+
+Test tenant configurations by previewing dashboards as specific tenants.
 
 <Frame>
-  <img className="block dark:hidden" src="/images/build-your-first-dashboard/light/preview-as.png" alt="Hero Light" />
-
-  <img className="hidden dark:block" src="/images/build-your-first-dashboard/dark/preview-as-dark.png" alt="Hero Dark" />
+  <img className="block dark:hidden" src="/images/build-your-first-dashboard/light/preview-as.png" alt="Preview tenant selection" />
+  <img className="hidden dark:block" src="/images/build-your-first-dashboard/dark/preview-as-dark.png" alt="Preview tenant selection" />
 </Frame>
 
-If you are using the **sample dataset** and want to add more to add more **Preview Tenants**, please click on **Home**, then **Deploy** and then **Registered Tenants**
+### Sample Dataset Examples
 
-Click on **Create tenant**
-You can use the following values to simulate creating a tenant:
+**Column Pre-Filtering:**
+- **Name**: `Customer-1`
+- **Column Pre-Filter**: `CustomerID = User_1`
 
-* **Tenant Display Name**: `{customer-1}`
-
-* **Filter Column**: `{CustomerID}`
-
-* **Filter Value**: `{User_1}`
+**Schema Filtering:**
+- **Name**: `Schema-Customer`
+- **Schema**: `customer_schema_1`
 
 <Frame>
-  <img className="block dark:hidden" src="/images/build-your-first-dashboard/create-tenant.png" alt="Hero Light" />
-
-  <img className="hidden dark:block" src="/images/build-your-first-dashboard/create-tenant-dark.png" alt="Hero Dark" />
+  <img className="block dark:hidden" src="/images/build-your-first-dashboard/light/tenancy-light-register.png" alt="Tenant creation form" />
+  <img className="hidden dark:block" src="/images/build-your-first-dashboard/dark/tenancy-dark-register.png" alt="Tenant creation form" />
 </Frame>
+
+## Best Practices
+
+- **Index Column Pre-Filter columns** for performance
+- **Grant minimal permissions** required
+- **Validate all tenant configurations** to prevent admin access
+- **Schema filtering** generally performs better than complex Column Pre-Filtering
+- **Regular audits** of tenant permissions and access

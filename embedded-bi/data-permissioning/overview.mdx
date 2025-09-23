@@ -1,0 +1,142 @@
+---
+title: "Data Permissioning Overview"
+description: "Comprehensive overview of data permissioning and tenancy in Upsolve embedded BI"
+icon: "shield-check"
+---
+
+## Overview
+
+Data permissioning in Upsolve AI ensures that each end user only sees the data that's relevant and authorized for them. This is essential for multi-tenant applications where you need to provide secure, isolated data access across different customers, organizations, or user groups.
+
+## Core Concepts
+
+### Multi-Tenancy
+Upsolve AI supports **multi-tenancy** out of the box, allowing you to serve multiple customers or organizations from a single deployment while ensuring complete data isolation between them.
+
+### Tenants
+
+A **Tenant** represents a distinct group of end users that share the same data access permissions and filters. In practice, tenants typically correspond to:
+
+- **Organizations or Companies**: Each customer organization gets their own tenant
+- **User Groups**: Different departments within the same company
+- **Geographic Regions**: Regional data access requirements
+- **Permission Levels**: Admin vs. standard user access
+
+## How Data Permissioning Works
+
+### 1. Tenant Registration
+When users authenticate in your application, you register them as tenants with Upsolve using the [register-tenant endpoint](/api-reference/endpoint/register-tenant-to-upsolve). This process:
+
+- Associates users with their tenant identity
+- Defines what data they can access via prefilters
+- Issues a secure JWT for dashboard access
+
+### 2. Prefilters and Data Isolation
+**Prefilters** are automatically applied filters that restrict data access based on tenant properties. For example:
+
+```json
+{
+  "company_id": "acme-corp",
+  "region": "us-west",
+  "access_level": "standard"
+}
+```
+
+These filters ensure that:
+- Users from "acme-corp" only see their company's data
+- Regional restrictions are enforced
+- Access levels control data sensitivity
+
+### 3. Dashboard-Level Security
+Once registered, tenants access dashboards through secure URLs that:
+- Validate their JWT token
+- Apply tenant-specific prefilters
+- Render data relevant to their permissions
+
+## Key Benefits
+
+<AccordionGroup>
+  <Accordion title="Security & Compliance">
+    - **Data Isolation**: Complete separation between tenant data
+    - **Access Control**: Granular permissions based on user roles
+    - **Audit Trail**: Track who accessed what data and when
+    - **Compliance**: Meet SOC 2, GDPR, and industry-specific requirements
+  </Accordion>
+
+  <Accordion title="Scalability">
+    - **Multi-Tenant Architecture**: Serve thousands of customers from one deployment
+    - **Performance**: Efficient filtering at the database level
+    - **Resource Optimization**: Shared infrastructure with isolated data
+  </Accordion>
+
+  <Accordion title="Flexibility">
+    - **Dynamic Permissions**: Change user access without rebuilding dashboards
+    - **Multiple Data Sources**: Apply tenancy across different databases
+    - **Custom Logic**: Implement complex permission rules via prefilters
+  </Accordion>
+
+  <Accordion title="Developer Experience">
+    - **Simple Integration**: One-time setup with your authentication system
+    - **Automatic Application**: Filters applied transparently
+    - **Consistent API**: Same patterns across all embedded dashboards
+  </Accordion>
+</AccordionGroup>
+
+## Implementation Flow
+
+To implement data permissioning in your embedded BI setup:
+
+1. **[Set up Tenancy Management](/embedded-bi/data-permissioning/tenancy-management)** - Understand tenant concepts and configuration
+2. **[Configure Tenant Properties](/embedded-bi/data-permissioning/tenant-properties)** - Define the data fields for filtering
+3. **[Backend Setup](/embedded-bi/deploy-dashboards/backend-setup)** - Implement tenant registration in your auth flow
+4. **[Frontend Integration](/embedded-bi/deploy-dashboards/frontend-setup)** - Embed dashboards with tenant context
+
+## Best Practices
+
+### Tenant Design
+- **Keep it Simple**: Start with basic company/user ID filtering
+- **Plan for Growth**: Design tenant structure that scales with your business
+- **Performance**: Use indexed columns for prefilter fields
+
+### Security
+- **Validate Everything**: Never trust client-side tenant information
+- **Regular Audits**: Review tenant access patterns periodically
+- **Principle of Least Privilege**: Give users minimum necessary access
+
+### Development
+- **Test Thoroughly**: Verify data isolation between tenants
+- **Monitor Performance**: Track query performance with tenant filters
+- **Document Decisions**: Keep clear records of permission rules
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Tenancy Management"
+    icon="users"
+    href="/embedded-bi/data-permissioning/tenancy-management"
+  >
+    Learn how to structure and manage tenants effectively
+  </Card>
+  <Card
+    title="Tenant Properties"
+    icon="gear"
+    href="/embedded-bi/data-permissioning/tenant-properties"
+  >
+    Configure tenant properties and prefilters
+  </Card>
+  <Card
+    title="Backend Setup"
+    icon="server"
+    href="/embedded-bi/deploy-dashboards/backend-setup"
+  >
+    Implement tenant registration in your authentication flow
+  </Card>
+  <Card
+    title="Frontend Setup"
+    icon="code"
+    href="/embedded-bi/deploy-dashboards/frontend-setup"
+  >
+    Embed dashboards with proper tenant context
+  </Card>
+</CardGroup>
