@@ -47,6 +47,10 @@ export default authMiddleware({
           store_id: Math.random() > 0.5 ? "1" : "2",
           organization_id: auth.orgSlug,
         },
+        schemaPreFilter: "public", // If utilising schema based tenancy please use a schemaPreFilter
+        "connectionOverride":{
+            "connectionId": "ID of the connection, e.g. Staging, Production"
+        },
         apiKey: "up_embed_3...bL9", // Make sure this begind with up_embed_
       };
 

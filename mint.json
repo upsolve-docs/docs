@@ -108,7 +108,7 @@
     },
     {
       "group": "Data Permissioning",
-      "pages": ["data-permissioning/tenancy-management"]
+      "pages": ["data-permissioning/tenancy-management", "data-permissioning/tenant-properties", "data-permissioning/tenant-registration-flow"]
     },
     {
       "group": "Customize",

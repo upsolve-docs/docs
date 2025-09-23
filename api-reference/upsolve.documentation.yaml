@@ -36,6 +36,21 @@ paths:
                   examples:
                     - company_id: company-google
                       company_class: tech
+                schemaPreFilter:
+                  type: string
+                  description: The schema to pre-filter the data on.
+                  examples:
+                    - public
+                    - private
+                connectionOverride:
+                  type: object
+                  properties:
+                    connectionId:
+                      type: string
+                      description: The ID of the connection to override.
+                      examples:
+                        - Staging
+                        - Production
               required:
                 - apiKey
                 - displayName
