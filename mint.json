@@ -32,6 +32,14 @@
   },
   "tabs": [
     {
+      "name": "Embedded BI",
+      "url": "embedded-bi"
+    },
+    {
+      "name": "AI Agent Builder",
+      "url": "ai-agent-builder"
+    },
+    {
       "name": "Chart Configuration",
       "url": "content"
     },
@@ -81,50 +89,75 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "Build-and-Deploy-Your-First-Dashboard"]
+      "pages": ["introduction", "embedded-bi-intro", "ai-builder"]
+    },
+    {
+      "group": "Embedded BI",
+      "pages": ["embedded-bi/introduction"]
     },
     {
       "group": "Data Connection",
-      "pages": ["data-connection/data-connection", "data-connection/data-plane"]
+      "pages": [
+        "embedded-bi/data-connection/data-connection",
+        "embedded-bi/data-connection/data-plane"
+      ]
     },
     {
       "group": "Charts",
-      "pages": ["charts/create-chart", "charts/point-and-click-interface"]
+      "pages": [
+        "embedded-bi/charts/create-chart",
+        "embedded-bi/charts/point-and-click-interface"
+      ]
     },
     {
       "group": "Dashboards",
       "pages": [
-        "dashboards/create-dashboard",
-        "dashboards/point-and-click-interface"
+        "embedded-bi/dashboards/create-dashboard",
+        "embedded-bi/dashboards/point-and-click-interface"
       ]
     },
     {
       "group": "Filtering",
       "pages": [
-        "filters/filters-in-depth",
-        "filters/controlled-filters",
-        "filters/timezone"
+        "embedded-bi/filters/filters-in-depth",
+        "embedded-bi/filters/controlled-filters",
+        "embedded-bi/filters/timezone"
       ]
     },
     {
       "group": "Data Permissioning",
-      "pages": ["data-permissioning/tenancy-management", "data-permissioning/tenant-properties", "data-permissioning/tenant-registration-flow"]
+      "pages": [
+        "embedded-bi/data-permissioning/tenancy-management",
+        "embedded-bi/data-permissioning/tenant-properties",
+        "embedded-bi/data-permissioning/tenant-registration-flow"
+      ]
     },
     {
       "group": "Customize",
-      "pages": ["customize-dashboards/overview", "customize-dashboards/sdk"]
+      "pages": [
+        "embedded-bi/customize-dashboards/overview",
+        "embedded-bi/customize-dashboards/sdk"
+      ]
     },
     {
       "group": "Dashboard Deployment",
       "pages": [
-        "deploy-dashboards/overview",
-        "deploy-dashboards/backend-setup",
-        "deploy-dashboards/frontend-setup"
+        "embedded-bi/deploy-dashboards/overview",
+        "embedded-bi/deploy-dashboards/backend-setup",
+        "embedded-bi/deploy-dashboards/frontend-setup"
       ]
     },
     {
       "group": "Sharing and Export",
-      "pages": ["sharing-and-export/dashboard-link-sharing"]
+      "pages": ["embedded-bi/sharing-and-export/dashboard-link-sharing"]
+    },
+    {
+      "group": "AI Agent Builder",
+      "pages": [
+        "ai-agent-builder/introduction",
+        "ai-agent-builder/quick-start",
+        "ai-agent-builder/tech-guide"
+      ]
     },
     {
       "group": "Chart Types",
@@ -301,11 +334,6 @@
     "baseUrl": "https://api.upsolve.ai",
     "auth": {
       "method": "bearer"
-    }
-  },
-  "analytics": {
-    "gtm": {
-      "tagId": "GTM-NLBSKN8"
     }
   }
 }

@@ -1,0 +1,478 @@
+---
+title: "Build and Deploy Your First Dashboard"
+description: ""
+icon: "chart-line"
+---
+
+Welcome to **Upsolve AI**, your go-to platform for enabling **embedded business intelligence** for your customers. By following this example we will walk you through the essentials of connecting your data, setting up tenancy, building your first dashboard, sharing your insights, and deploying your dashboards in your product.
+
+
+ <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/olympics-dashboard-light.png"
+  alt="Embedded Business Intelligence Dashboard By Upsolve AI (upsolve.ai)"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/olympics-dashboard-dark.png"
+  alt="Embedded Business Intelligence Dashboard By Upsolve AI (upsolve.ai)"
+/>
+ </Frame>
+
+
+## Connecting data:
+
+
+We’ve already set up a **sample database** to help you quickly explore and test the platform without needing to connect your own data source. 
+
+To view this connection, please go to the **Connect** tab as seen below:
+
+
+<Frame>
+<img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/data-connection-hero.png"
+  alt="Upsolve Integration With SQL based Databases like Postgres, Snowflake or BigQuery"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/data-connection-hero-dark.png"
+  alt="Upsolve Integration With SQL based Databases like Postgres, Snowflake or BigQuery"
+/>
+</Frame>
+
+If you would like to connect to a different data source, please have a look at how to [set up your connection](data-connection/data-connection).
+
+
+## Build your first dashboard
+
+
+In order to build your first dashboard you should begin by creating your first chart before adding to the dashboard. 
+
+
+
+### Build your first chart
+
+
+It requires five steps to build your first chart. In the below example, you will build a grouped bar chart using the aggregations table.
+<AccordionGroup>
+  <Accordion title="1. Select raw table(s)">
+  To begin click on **+ New Chart** to open the interface.
+
+
+Search and select the table(s) that contain the relevant data for the chart you want to create, in this case, aggregations table.
+    <Frame>
+<img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/select-raw-tables.png"
+  alt="Creating Chart in Upsolve AI (upsolve.ai)"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/select-raw-tables-dark.png"
+  alt="Creating Chart in Upsolve AI (upsolve.ai)"
+/>
+</Frame>
+    <Tip>
+
+    The list of available raw table(s) is generated after the [data connection](/embedded-bi/data-connection/data-connection) is set up.
+
+    </Tip>
+
+  </Accordion>
+
+{" "}
+<Accordion title="2. Prepare data">
+
+Write any SQL query to transform the table(s) you selected to a single table that you will consume in Step 3 for chart building. You could write SQL to join, filter on table(s) and more.
+
+
+For this example, you simply want to use the whole **aggregations** table for chart building. Click on the **+ aggregations**,  this will create ```SQL SELECT * FROM "aggregations" ```   
+in the SQL editor.
+
+Click on **Preview data** to run the SQL and **Next** once you see the preview data.
+     <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/query-builder.png"
+  alt="Writing SQL Query To Build Chart"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/query-builder-dark.png"
+  alt="Writing SQL Query To Build Chart"
+/>
+    </Frame>
+
+
+ <Tip>
+    If you are more advanced with SQL, you can add more tables and customise your SQL.
+    </Tip>
+  </Accordion>
+
+{" "}
+<Accordion title="3. Build chart">
+
+Select the relevant chart type, and choose the corresponding x- & y-axis columns for the charting. This chart will be consumed in step 4 when you create your Chart Filters.
+  
+  In this example, select a **Grouped bar**, and choose **country** as the x-axis and  **demand** as the y-axis.
+  the corresponding x- & y-axis
+  
+  For future charts see [Chart Configuration](/embedded-bi/charts/create-chart) for all chart settings. 
+  
+  
+
+     <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/chart-builder.png"
+  alt="Configuring Chart in Upsolve AI (upsolve.ai)"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/chart-builder-dark.png"
+  alt="Configuring Chart in Upsolve AI (upsolve.ai)"
+/>
+     </Frame>
+
+</Accordion>
+
+  <Accordion title="4. Add chart filters">
+
+
+
+  To add chart filters you will undertake two steps, firstly deciding the table to filter on and secondly configuring the filter. In this example, we will guide you through both of these steps.
+
+    <Steps>
+      <Step title="Select Table ">
+
+      In this example we will select the **Computed Table**
+
+      **1. Selected backing tables:** The list of selected backing tables in Step 1 is surfaced here. Filter any column in any selected backing table(s) that is powering this specific chart
+
+**2. Table:** filter any column from the table that was computed by the SQL written in Step 3.
+
+**3. Variables in the chart SQL:** inject variables into the SQL code that is backing this chart
+
+
+  <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/chart-filter-tables.png"
+  alt="Selecting Table From Database in Upsolve AI (Upsolve.ai)"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/chart-filter-tables-dark.png"
+  alt="Selecting Table From Database in Upsolve AI (Upsolve.ai)"
+/>
+     </Frame>
+
+      </Step>
+
+      
+
+      <Step title="Configure Filter ">
+
+
+**1. Table:** select the table to filter or "Query variables", in this example select **Computed Table**
+
+**2. Column:** select the column or variable to filter on, in this example select **Country**
+
+**3. Filter:** configure the filter as needed. Options will be provided based on the type of filter selected. In this example chose **Select** and **Select Multi**
+
+  <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/configure-chart-filters.png"
+  alt="Configuring Table Filters in Upsolve AI (Upsolve.ai)"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/configure-chart-filters-dark.png"
+  alt="Configuring Table Filters in Upsolve AI (Upsolve.ai)"
+/>
+     </Frame>
+
+      </Step>
+    
+
+      
+      </Steps>
+
+
+
+  
+    <Tip>
+    For a more comprehensive overview, check out our [in-depth filtering guide](/embedded-bi/filters/filters-in-depth).
+    </Tip>
+    
+  </Accordion>
+
+    <Accordion title="5. Save chart">
+
+  Click **Save and add to dashboard** when you are happy with your chart, this will save the chart. You could also
+  create a copy of the chart by clicking **Duplicate**.
+
+  <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/chart-dashboard.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/chart-dashboard-dark.png"
+  alt="Hero Dark"
+/>
+     </Frame>
+
+
+  </Accordion>
+</AccordionGroup>
+
+### Configure your dashboard
+
+You are able to customise your dashboard by adding dashboard filters, controlled filters and additional charts. 
+
+To resize charts you can hover over the dashboard, and then simply drag the chart to the size you would like. 
+
+To move a chart you can hover over the dashboard, and then simply drag and drop the chart.
+
+#### Add dashboard filters
+
+To add a dashboard filter please click on **New Filter**, 
+
+<AccordionGroup>
+<Accordion title="1. Add Filter">
+Give your filter a name, and set the type and subtype. In this case, we are going to set a Select filter with single options allowed.
+
+
+     <Frame>
+
+   <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/dashboard-malaysia.png"
+  alt="Adding Filters in Dashboard "
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/dashboard-malaysia-dark.png"
+  alt="Adding Filters in Dashboard "
+/>
+     </Frame>
+    </Frame>
+
+
+
+  </Accordion>
+
+
+    <Accordion title="2. Select charts">
+
+Select the charts you would like to pass a dashboard filter to. The available charts must have the same chart filter type as your dashboard filter type. Click the green (+) button next to each filter you want to target:
+
+In this example, the Example Chart has a **Select** Filter so we will use this chart. 
+
+   <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/dashboard-select-charts.png"
+  alt="Selecting chart filter in Upsolve AI (Upsolve.ai)"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/dashboard-select-charts-dark.png"
+  alt="Selecting chart filter in Upsolve AI (Upsolve.ai)"
+/>
+     </Frame>
+
+
+
+  </Accordion>
+    <Accordion title="3. Filter Preview">
+Once you have created your filter, you will be able to add the filter to the dashboard.
+
+You are able to test this by using example values, in this instance we will use **Malaysia**.
+ <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/dashboard-filter-preview.png"
+  alt="Dashboard Filter Preview in Upsolve.ai"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/dashboard-filter-preview-dark.png"
+  alt="Dashboard Filter Preview in Upsolve.ai"
+/>
+
+
+
+
+
+  </Accordion>
+</AccordionGroup>
+
+<Tip>For more information on dashboard filters, check out our [Dashboard Filters Guide](/embedded-bi/filters/filters-in-depth).</Tip>
+
+
+
+#### Add charts
+
+To add additional charts you can go to through the steps of creating a new chart. 
+
+Alternatively if you have already built a chart you can click on **Add Chart** to use on your dashboard.
+ <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/add-chart.png"
+  alt="Adding chart in dashboard"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/add-chart-dark.png"
+  alt="Adding chart in dashboard"
+/>
+     </Frame>
+
+
+
+
+## Share your dashboard and collaborate
+
+You can share your dashboard via email **with anyone** by clicking on the share button and sharing it, if you would like a preview of the dashboard please click on the preview.
+
+By sharing your dashboard, they will become a team member of your organization and can view, edit and collaborate on the dashboard(s) with you.
+
+<Frame>
+<img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/share-light.png"
+  alt="Sharing Dashboard and Collaborating With Team"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/share-dark.png"
+  alt="Sharing Dashboard and Collaborating With Team"
+/>
+</Frame>
+
+
+<Note> If the invitee aceepts the invite, they will gain access to ALL dashboards and data in your organization!</Note>
+
+
+## User Authorization (Tenant Registration)
+
+To set up **tenant registration** please follow the steps outlined in [Backend Setup](deploy-dashboards/backend-setup). 
+
+Alternatively if you are using our **sample database** and do **not intend to go live** with the dashboard this step is optional.
+### Preview dashboard as your designated end users
+
+
+If you have completed the [Backend Setup](deploy-dashboards/backend-setup), you are able to view the dashboard as one of your customers. Please click on the **View As** button in your hub.
+
+If you do not intend to go live with the dashboard, and thus did not setup your backend accordingly, you could use the platform to create a testing tenant instead and preview the dashboard as the testing tenant. We have provided two sample testing tenants for you for the sample database, which you could use to preview the example dashboard built as the tenant.
+
+ <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/preview-as.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/preview-as-dark.png"
+  alt="Hero Dark"
+/>
+     </Frame>
+
+     If you are using the **sample database** and want to add more to add more **Preview Tenants**, please click on **Home**, then **Deploy** and then **Registered Tenants**
+     
+     Click on **Create tenant**
+     You can use the following values to simulate creating a tenant:
+
+- **Tenant Display Name**: `{customer-1}`
+- **Filter Column**: `{CustomerID}`
+- **Filter Value**: `{User_1}`
+
+
+ <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/create-tenant.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/create-tenant-dark.png"
+  alt="Hero Dark"
+/>
+ </Frame>
+
+ <Warning> Any created testing tenant would not be available in live environment. They are only for testing purpose within Upsolve AI's purpose. </Warning> 
+
+
+
+## Deploy your dashboard
+
+
+Please click on the Deploy button in the Hub.
+ <Frame>
+
+  <img
+  className="block dark:hidden"
+  src="/images/build-your-first-dashboard/light/deploy.png"
+  alt="Embed and deploy dashboard as iFrame"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/build-your-first-dashboard/dark/deploy-dark.png"
+  alt="Embed and deploy dashboard as iFrame"
+/>
+ </Frame>
+
+
+You will need to get the JWT for the current user and the dashboard ID to render the correct dashboard. The JWT is generated by following the steps in [Backend Setup](deploy-dashboards/backend-setup). The dashboard ID could be found in the URL when you are viewing the dashboard you want to embed.
+
+Below is an example of deploying component with JWT  using [**Clerk middleware**](https://clerk.com/docs/references/nextjs/auth-middleware#use-after-auth-for-fine-grained-control):
+
+```javascript
+"use client";
+import React from "react";
+import { useUser } from "@clerk/nextjs";
+
+const Analytics: React.FC = () => {
+  // Get the user information from Clerk and extract the Upsolve token from the metadata
+  const { user } = useUser();
+  const upsolveToken = user?.publicMetadata?.["upsolveToken"];
+
+  // Embed the component into your app
+  return (
+    <>
+      {upsolveToken != null && typeof upsolveToken === "string" && (
+        <iframe
+          id="c5da5cb3-fedb-4656-9170-0cc65c9db29a"
+          title="Example Dashboard"
+          width="1000"
+          height="1000"
+          src="https://hub.upsolve.ai/share/dashboard/c5da5cb3-fedb-4656-9170-0cc65c9db29a?theme=light&jwt=<upsolveToken>"
+        />
+      )}
+    </>
+  );
+};
+
+export default Analytics;
+```
