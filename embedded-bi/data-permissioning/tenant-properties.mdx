@@ -1,0 +1,182 @@
+---
+title: "Tenant Properties"
+description: "Advanced partition key configuration for complex multi-tenant data architectures"
+icon: "key"
+---
+
+## Overview
+
+Tenant Properties are an **advanced feature** that allows you to define complex partition keys for sophisticated multi-tenant data architectures. Unlike basic Column Pre-Filtering, Tenant Properties provide flexible column mapping across multiple tables with different naming conventions.
+
+<Info>
+**When to use Tenant Properties**: When you have complex database schemas with inconsistent column naming, multiple tenant hierarchy levels, or need advanced partition key management.
+
+For basic tenancy needs, use [Column Pre-Filtering](/embedded-bi/data-permissioning/tenancy-management) instead.
+</Info>
+
+## Database Requirements
+
+Your database tables must have tenant identifier columns:
+
+```sql
+-- Example: Different column names across tables
+CREATE TABLE users (
+  id UUID PRIMARY KEY,
+  name TEXT,
+  org_id TEXT NOT NULL,  -- Tenant identifier
+  INDEX idx_users_org (org_id)
+);
+
+CREATE TABLE orders (
+  id UUID PRIMARY KEY,
+  user_id UUID,
+  total DECIMAL,
+  organization_id TEXT NOT NULL,  -- Different column name, same concept
+  INDEX idx_orders_org (organization_id)
+);
+
+CREATE TABLE analytics (
+  id UUID PRIMARY KEY,
+  event_data JSON,
+  company_uuid TEXT NOT NULL,  -- Another variation
+  INDEX idx_analytics_company (company_uuid)
+);
+```
+
+## How It Works
+
+Tenant Properties automatically map logical tenant concepts to physical database columns:
+
+**Property Definition:**
+```
+Property: "company"
+Mappings:
+- users.org_id
+- orders.organization_id  
+- analytics.company_uuid
+```
+
+**Query Transformation:**
+```sql
+-- Original
+SELECT u.name, o.total, a.event_data
+FROM users u
+JOIN orders o ON u.id = o.user_id
+JOIN analytics a ON u.id = a.user_id;
+
+-- Automatically becomes
+SELECT u.name, o.total, a.event_data
+FROM users u
+JOIN orders o ON u.id = o.user_id
+JOIN analytics a ON u.id = a.user_id
+WHERE u.org_id = 'tenant-123'
+  AND o.organization_id = 'tenant-123'
+  AND a.company_uuid = 'tenant-123';
+```
+
+## Configuration
+
+<Frame>
+  <img className="block dark:hidden" src="/images/build-your-first-dashboard/light/tenant-properties-light.png" alt="Tenant Properties Management" />
+  <img className="hidden dark:block" src="/images/build-your-first-dashboard/dark/tenant-properties-dark.png" alt="Tenant Properties Management" />
+</Frame>
+
+### Property Settings
+
+**Property Name**
+- Logical identifier for the tenant concept
+- Examples: `company`, `organization`, `customer_context`
+
+**Column Mappings**
+- **Table-Specific**: Map to exact `table.column` combinations
+- **Wildcard**: Use `*` for consistent column names across all tables
+- **Mixed Approach**: Combine specific mappings with wildcards
+
+**Required Flag**
+- **Required**: Mandatory for all data access (strict isolation)
+- **Optional**: Applied only when tenant provides the value
+
+### Example Configurations
+
+**Scenario 1: Consistent naming with wildcards**
+```
+Property: organization_id (required)
+Mapping: organization_id on * (all tables)
+```
+
+**Scenario 2: Inconsistent naming (common in legacy systems)**
+```
+Property: company (required)
+Mappings:
+- users.org_id
+- orders.organization_id
+- products.company_uuid
+- analytics.tenant_id
+```
+
+**Scenario 3: Multiple hierarchy levels**
+```
+Property 1: company (required)
+- *.company_id
+Property 2: department (optional)  
+- employees.dept_id
+- budgets.department_uuid
+```
+
+## Practical Example
+
+**Problem**: You have 10 tables, each using `uuid` as the tenant identifier column, but they represent different logical concepts.
+
+**Solution**:
+```
+Property: company_uuid
+Mappings:
+- orders.uuid
+- users.uuid  
+- products.uuid
+- analytics.uuid
+- billing.uuid
+- support_tickets.uuid
+- projects.uuid
+- tasks.uuid
+- documents.uuid
+- notifications.uuid
+```
+
+This maps the logical concept `company_uuid` to the physical `uuid` column across all your tables, providing consistent tenant filtering regardless of the generic column name.
+
+## Advanced Use Cases
+
+### Legacy System Integration
+When integrating multiple systems with different column naming conventions:
+
+```
+Property: customer_identifier
+Mappings:
+- legacy_system_a.cust_id
+- new_system_b.customer_uuid
+- third_party_c.client_reference
+- analytics_d.tenant_key
+```
+
+### Hierarchical Organizations
+For complex organizational structures:
+
+```
+Property 1: enterprise (required)
+- *.enterprise_id
+Property 2: business_unit (optional)
+- departments.bu_id
+- projects.business_unit_uuid
+Property 3: team (optional)
+- tasks.team_id
+- employees.team_uuid
+```
+
+## When NOT to Use Tenant Properties
+
+- **Simple, consistent schemas**: Use basic Column Pre-Filtering instead
+- **Single-level tenancy**: Basic tenant creation is sufficient
+- **Small applications**: The complexity overhead isn't worth it
+
+Use Tenant Properties only when you need the advanced column mapping capabilities for complex database architectures.
