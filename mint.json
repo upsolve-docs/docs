@@ -127,6 +127,7 @@
     {
       "group": "Data Permissioning",
       "pages": [
+        "embedded-bi/data-permissioning/overview",
         "embedded-bi/data-permissioning/tenancy-management",
         "embedded-bi/data-permissioning/tenant-properties",
         "embedded-bi/data-permissioning/tenant-registration-flow"
