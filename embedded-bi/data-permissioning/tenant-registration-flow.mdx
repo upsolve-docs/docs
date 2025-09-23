@@ -24,16 +24,16 @@ The tenant registration flow involves coordination between your frontend applica
 flowchart TD
     A[Frontend: User requests dashboard] --> B[Backend: Check token validity]
     B --> C{Token exists & valid?}
-    C -->|No| D[Backend: POST /v1/api/tenant/register-tenant]
-    C -->|Yes| H[Frontend: Use existing token]
+    C -->|"No"| D[Backend: POST /v1/api/tenant/register-tenant]
+    C -->|"Yes"| H[Frontend: Use existing token]
     D --> E[Upsolve: Generate 1-hour JWT]
     E --> F[Backend: Store token + expiry]
     F --> G[Frontend: Receive token]
     G --> H
     H --> I[Frontend: Pass to UpsolveDashboard]
     I --> J{Token expires soon?}
-    J -->|Yes| K[Backend: Refresh token]
-    J -->|No| L[Dashboard renders with tenant data]
+    J -->|"Yes"| K[Backend: Refresh token]
+    J -->|"No"| L[Dashboard renders with tenant data]
     K --> E
 ```
 

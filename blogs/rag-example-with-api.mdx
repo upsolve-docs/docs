@@ -188,10 +188,10 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 
 export async function GET() {
   const pc = new Pinecone({
-    apiKey: process.env.PINECONE_API_KEY!,
+    apiKey: process.env.PINECONE_API_KEY as string,
   });
 
-  const pineconeIndex = pc.index(process.env.PINECONE_INDEX!);
+  const pineconeIndex = pc.index(process.env.PINECONE_INDEX as string);
 
   try {
     await pineconeIndex.deleteAll();
