@@ -1,0 +1,197 @@
+---
+title: "[NEW] Workspaces"
+description: "Create, organize, and deploy collections of dashboards as a single unit"
+icon: "atom-simple"
+---
+
+![workspace-overview](/images/workspaces/workspace-overview.png)
+
+## What is an Upsolve Workspace?
+
+An Upsolve Workspace is a container that holds multiple related dashboards. Instead of deploying individual dashboards, you can group related dashboards together and deploy them as a single unit.
+
+### Dashboard Types in a Workspace
+
+#### Global Dashboards
+- Created by administrators in the Upsolve Hub
+- Visible to all users of the workspace
+- Read-only for end users (tenants)
+- Define the baseline analytics experience
+
+#### Tenant Dashboards
+- Created by individual users/tenants when embedded
+- Private to each tenant
+- Fully editable by the tenant who created them
+- Allow for personalized analytics views
+
+---
+
+## Creating Your First Workspace
+
+1. **Navigate to Workspaces**: In the Upsolve Hub, go to your workspace management area
+2. **Create New Workspace**: Click the "Create Workspace" button
+3. **Initial Dashboard**: The system automatically creates your first dashboard, which becomes the foundation of your workspace
+4. **Workspace Properties**: The workspace inherits its name, author, and metadata from this first dashboard
+
+![creating-workspace](/images/workspaces/creating-workspace.png)
+
+**Important:** A workspace is essentially a wrapper around dashboards — it doesn't have independent properties beyond what the dashboards inside it define.
+
+---
+
+## Adding Dashboards to Your Workspace
+
+Once you have a workspace, you can add multiple dashboards:
+
+1. **Use the + Button**: In your workspace view, click the "+" button to create a new dashboard
+2. **Dashboard Creation**: This opens the dashboard builder where you can:
+   - Add charts and visualizations
+   - Configure filters
+   - Set dashboard permissions
+3. **Automatic Organization**: New dashboards are automatically added to your current workspace
+
+![dashboard-tabs](/images/workspaces/dashboard-tabs.png)
+![add-dashboard](/images/workspaces/add-dashboard.png)
+
+**Pro Tip:** The experience your tenants have when adding dashboards will mirror this process — they'll use the same "+" button to create their personal dashboards.
+
+---
+
+## Managing Dashboard Organization
+
+### Moving Dashboards
+You can reorganize dashboards between workspaces:
+
+1. **Access Move Function**: Click the "Move" button on any dashboard
+2. **Select Destination**: Choose the target workspace from the dropdown
+3. **Confirm Move**: The dashboard moves to the new workspace immediately
+
+![move-dashboard](/images/workspaces/move-dashboard.png)
+
+### Important Behaviors
+- **Empty Workspaces**: If you move all dashboards out of a workspace, it will automatically disappear from your home screen
+- **Workspace Inheritance**: When moved, dashboards adapt to their new workspace's configuration
+
+---
+
+## Deploying Your Workspace
+
+### Using the UpsolveWorkspace Component
+
+Once your workspace is ready, deploy it using the React component:
+
+```tsx
+import { UpsolveWorkspace } from '@upsolve-labs/react';
+
+function MyApp() {
+  const userToken = "your-tenant-jwt"; // Replace with your tenant JWT
+
+  return (
+    <UpsolveWorkspace
+      workspaceId="your-workspace-id"
+      tenantJWT={userToken}
+      tenantEditingPermissions={{
+        addChart: true,
+        addFilter: true,
+        createChart: true,
+        editCharts: true,
+        removeChart: true,
+        aiCharts: true
+      }}
+    />
+  );
+}
+```
+
+![deploy-workspace](/images/workspaces/deploy-workspace.png)
+
+### Key Props Explained
+
+- **workspaceId**: The unique identifier of your workspace (found in the Hub)
+- **tenantJWT**: Authentication token for your tenant
+- **tenantEditingPermissions**: Controls what your users can do:
+  - `addChart`: Allow tenants to add charts to their view-only dashboards
+  - `addFilter`: Allow tenants to add filters that apply only to their view
+  - `createChart`: Allow tenants to create new charts that appear only for them
+  - `createChartSQL`: Allow tenants to create charts with SQL (requires `createChart`)
+  - `editCharts`: Allow tenants to edit charts in their personal dashboards
+  - `removeChart`: Allow tenants to remove charts from their view of a dashboard
+  - `readOnly`: Make personal dashboards visible but read-only
+  - `disableTabs`: Disable tabbed display in the SDK
+  - `aiCharts`: Allow tenants to use AI-powered chart creation
+  - `editMarketplace`: Allow tenants to edit marketplace charts
+  - `aiInsight`: Allow access to the AI insights chat sidebar
+
+### Getting Your Workspace ID
+1. In the Upsolve Hub, navigate to your workspace
+2. Click the "Deploy" button
+3. Copy the provided workspace ID and integration code
+
+---
+
+## Code Examples
+
+### Basic Workspace Component
+
+```tsx
+import { UpsolveWorkspace } from '@upsolve-labs/react';
+
+export function AnalyticsDashboard({ userToken }: { userToken: string }) {
+  return (
+    <div className="analytics-container">
+      <h1>Company Analytics</h1>
+      <UpsolveWorkspace
+        workspaceId="ws_abc123"
+        tenantJWT={userToken}
+        tenantEditingPermissions={{
+          addChart: true,
+          addFilter: true,
+          createChart: true,
+          editCharts: true,
+          removeChart: true,
+        }}
+        tabPlacement="top" // or "popover"
+      />
+    </div>
+  );
+}
+```
+
+### Advanced Configuration
+
+```tsx
+<UpsolveWorkspace
+  workspaceId="ws_abc123"
+  tenantJWT={userToken}
+  tenantEditingPermissions={{
+    addChart: true,
+    createChart: false, // Users can add existing charts but not create new ones
+    editCharts: true,
+    readOnly: false
+  }}
+  theme="dark" // or "light"
+  tabPlacement="popover" // Compact dropdown instead of tabs
+/>
+```
+
+![tenant-view](/images/workspaces/tenant-view.png)
+
+The screenshot below shows what happens when you set `tabPlacement="popover"` — a compact dropdown replaces tabs.
+
+![popover-mode](/images/workspaces/popover-mode.png)
+
+---
+
+## Technical Notes
+
+- `UpsolveWorkspace` wraps internal dashboard rendering to provide tabs and workspace context
+- Workspaces contain multiple dashboards identified by `workspaceId`
+- Each dashboard has a `tenant_id` (null for global, specific ID for tenant dashboards)
+- The component automatically handles tab creation and switching
+- Global dashboards (tenant_id = null) are read-only for embedded users
+- Tenant dashboards are fully editable based on `tenantEditingPermissions`
+- Empty workspaces automatically disappear from the Hub interface
+- The + button creates new dashboards within the current workspace
+- Tab placement can be `top` (traditional tabs) or `popover` (dropdown)
+
+
