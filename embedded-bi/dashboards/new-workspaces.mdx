@@ -182,6 +182,114 @@ The screenshot below shows what happens when you set `tabPlacement="popover"` �
 
 ---
 
+## Alternative Deployment: IFrame Embedding
+
+In addition to the React component approach, you can embed Upsolve Workspaces directly using an iframe. This method is useful for non-React applications or when you need quick integration without installing packages.
+
+### IFrame Deployment
+
+#### Basic IFrame Integration
+
+Instead of using the React component, you can embed workspaces using a standard HTML iframe:
+
+```html
+<iframe
+  src="https://hub.upsolve.ai/share/dashboard/[DASHBOARD_ID]?personalWorkspace=true&createChart=true"
+  width="100%"
+  height="600px"
+  frameborder="0">
+</iframe>
+```
+
+Replace `[DASHBOARD_ID]` with your actual dashboard ID from the Upsolve Hub.
+
+#### IFrame Configuration Parameters
+
+Control your workspace behavior using URL parameters:
+
+##### Essential Parameters
+- `personalWorkspace=true` - Required to enable workspace functionality with tabs
+- `jwt=[YOUR_JWT_TOKEN]` - Authentication token for your users
+
+##### Dashboard Creation Controls
+⚠️ Important: To show the "+" button for adding dashboards, you must set `personalWorkspace=true` AND at least one of these permissions:
+
+- `createChart=true` - Allow users to create new charts and dashboards
+- `addChart=true` - Allow users to add existing charts to dashboards
+- `addFilter=true` - Allow users to add filters to dashboards
+
+##### Additional Permissions
+- `editCharts=true` - Allow editing of chart configurations
+- `removeChart=true` - Allow removing charts from dashboards
+- `aiCharts=true` - Enable AI-powered chart creation
+- `readOnly=true` - Personal dashboards visible but read-only
+- `disableTabs=true` - Show single dashboard without tabs
+
+##### UI Customization
+- `hideHeader=true` - Hide the dashboard header
+- `hideDownloadButton=true` - Hide download functionality
+- `theme=dark` or `theme=light` - Set color theme
+- `globalDashboardName=Custom Name` - Override the global tab name
+
+### Complete IFrame Examples
+
+#### Full-Featured Workspace
+```html
+<iframe
+  src="https://hub.upsolve.ai/share/dashboard/your-dashboard-id?personalWorkspace=true&createChart=true&addChart=true&addFilter=true&editCharts=true&removeChart=true&aiCharts=true&jwt=your-jwt-token"
+  width="100%"
+  height="800px"
+  frameborder="0">
+</iframe>
+```
+
+#### Read-Only Workspace (No + Button)
+```html
+<iframe
+  src="https://hub.upsolve.ai/share/dashboard/your-dashboard-id?personalWorkspace=true&jwt=your-jwt-token"
+  width="100%"
+  height="600px"
+  frameborder="0">
+</iframe>
+```
+
+#### Single Dashboard (No Tabs)
+```html
+<iframe
+  src="https://hub.upsolve.ai/share/dashboard/your-dashboard-id?disableTabs=true&hideHeader=true&jwt=your-jwt-token"
+  width="100%"
+  height="500px"
+  frameborder="0">
+</iframe>
+```
+
+#### Dark Theme with Custom Global Name
+```html
+<iframe
+  src="https://hub.upsolve.ai/share/dashboard/your-dashboard-id?personalWorkspace=true&createChart=true&theme=dark&globalDashboardName=Company Analytics&jwt=your-jwt-token"
+  width="100%"
+  height="700px"
+  frameborder="0">
+</iframe>
+```
+
+### ⚠️ Important Requirements
+
+#### For Dashboard Creation (+ Button)
+The "+" button to add new dashboards will only appear when:
+1. `personalWorkspace=true` is set, AND
+2. At least one of these permissions is enabled:
+   - `createChart=true`
+   - `addChart=true`
+   - `addFilter=true`
+
+If both conditions aren't met, users will see a read-only workspace without the ability to create new dashboards.
+
+#### Workspace vs Single Dashboard
+- With `personalWorkspace=true`: Shows tabbed interface with global + tenant dashboards
+- With `disableTabs=true`: Shows single dashboard without tabs
+- Default behavior: Shows only the specified dashboard without workspace features
+
 ## Technical Notes
 
 - `UpsolveWorkspace` wraps internal dashboard rendering to provide tabs and workspace context
