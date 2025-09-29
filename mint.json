@@ -113,7 +113,8 @@
       "group": "Dashboards",
       "pages": [
         "embedded-bi/dashboards/create-dashboard",
-        "embedded-bi/dashboards/point-and-click-interface"
+        "embedded-bi/dashboards/point-and-click-interface",
+        "embedded-bi/dashboards/new-workspaces"
       ]
     },
     {
