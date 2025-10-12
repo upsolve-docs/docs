@@ -1,5 +1,5 @@
 ---
-title: "[NEW] Workspaces"
+title: "Workspaces"
 description: "Create, organize, and deploy collections of dashboards as a single unit"
 icon: "atom-simple"
 ---
@@ -71,6 +71,93 @@ You can reorganize dashboards between workspaces:
 ### Important Behaviors
 - **Empty Workspaces**: If you move all dashboards out of a workspace, it will automatically disappear from your home screen
 - **Workspace Inheritance**: When moved, dashboards adapt to their new workspace's configuration
+
+### Custom Only Workspaces
+
+Control which dashboards are visible to your end users with the Custom Only workspace feature. This is ideal when you want to provide a workspace where users can only see and work with their own personal dashboards, without any global/admin-created dashboards cluttering their view.
+
+#### What is Custom Only Mode?
+
+When a workspace is marked as "Custom Only":
+- **Tenant users** see ONLY their personal dashboards (no global dashboards)
+- **Admin users** still see all dashboards when in admin view
+- **Admins viewing as tenants** see only tenant dashboards (matching tenant experience)
+- Global dashboards are hidden from all non-admin users
+
+This feature is perfect for:
+- Personal analytics workspaces
+- User-specific data exploration environments
+- Custom reporting areas where you want complete tenant isolation
+
+#### Setting Up Custom Only Mode (Admin)
+
+1. **Navigate to Your Workspace**: Open the workspace you want to configure in the Upsolve Hub
+2. **Access Settings**: Click the settings gear icon in the dashboard header
+3. **Toggle Custom Only**: Find and enable the "Custom Only" switch in the settings menu
+4. **Confirmation**: The workspace is immediately marked as custom only
+
+![settings-menu-custom-only](/images/workspaces/settings-menu-custom-only.png)
+*Caption: The Custom Only toggle in the workspace settings menu*
+
+#### Admin Experience with Custom Only Workspaces
+
+When you mark a workspace as Custom Only, you'll see a prominent red banner on all global dashboards warning you:
+
+> **Custom Only Workspace**  
+> This workspace has been marked as "Custom Only". This dashboard will not be visible to any of your users.
+
+![custom-only-banner-admin](/images/workspaces/custom-only-banner-admin.png)
+*Caption: Red warning banner shown to admins on global dashboards in Custom Only workspaces*
+
+This banner serves as a visual reminder that any global/admin dashboards you create in this workspace will not be visible to your end users. You can still:
+- View and edit all global dashboards
+- Switch between admin view and tenant view
+- Create new dashboards (they won't be visible to tenants)
+
+#### Tenant Experience with Custom Only Workspaces
+
+When a tenant (end user) accesses a Custom Only workspace:
+
+**If they have created personal dashboards:**
+- They see ONLY their own dashboards in tabs
+- No global dashboards appear
+- They can create new dashboards using the "+" button
+- Full editing permissions on their own dashboards (based on your `tenantEditingPermissions`)
+
+![custom-only-tenant-with-dashboards](/images/workspaces/custom-only-tenant-with-dashboards.png)
+*Caption: Tenant view of Custom Only workspace showing only personal dashboards*
+
+**If they haven't created any dashboards yet:**
+- They see a welcoming empty state screen
+- Clear call-to-action to create their first dashboard
+- Message: "Welcome to your personal dashboard workspace for [Organization Name]. It looks like you haven't made any dashboards yet."
+- Prominent "Create Your First Dashboard" button
+
+![custom-only-empty-state](/images/workspaces/custom-only-empty-state.png)
+*Caption: Empty state shown to tenants with no personal dashboards in a Custom Only workspace*
+
+#### When to Use Custom Only Mode
+
+**Use Custom Only for:**
+- Personal analytics workspaces where each user builds their own views
+- Self-service exploration environments
+- Custom reporting areas with complete tenant isolation
+- User-specific data sandboxes
+
+**Don't use Custom Only for:**
+- Workspaces where you want to provide baseline dashboards to all users
+- Shared analytics environments
+- Standardized reporting where all users should see the same base dashboards
+
+#### Technical Implementation
+
+The Custom Only flag is stored on the workspace level (not per dashboard).
+
+**Important Notes:**
+- The Custom Only toggle affects the ENTIRE workspace
+- Existing global dashboards remain in the workspace but become hidden from tenants
+- Admins can switch back to admin view at any time to manage global dashboards
+- The setting can be toggled on/off without data loss
 
 ---
 
@@ -289,6 +376,8 @@ If both conditions aren't met, users will see a read-only workspace without the 
 - With `personalWorkspace=true`: Shows tabbed interface with global + tenant dashboards
 - With `disableTabs=true`: Shows single dashboard without tabs
 - Default behavior: Shows only the specified dashboard without workspace features
+
+> Looking to deploy multiple workspaces in one app? See the dedicated guide: [Multi-Workspace Deployment](/embedded-bi/dashboards/multi-workspace-deployment).
 
 ## Technical Notes
 

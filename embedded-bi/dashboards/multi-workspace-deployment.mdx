@@ -1,0 +1,265 @@
+---
+title: "Multi-Workspace Deployment"
+description: "Organize and deploy multiple Upsolve workspaces in a single application"
+icon: "atom-simple"
+---
+
+For more complex applications, you may want to deploy multiple workspaces simultaneously, each serving a different analytical purpose. This page shows you how to organize and deploy multiple workspaces in a single application.
+
+### Use Cases for Multiple Workspaces
+
+**Separate Workspaces by:**
+- **Department**: Sales, Marketing, Engineering dashboards
+- **Data Source**: Different databases or data warehouses
+- **User Type**: Executive dashboards vs operational dashboards
+- **Purpose**: Standard reporting vs custom exploration spaces
+
+### Creating a Multi-Workspace Experience
+
+Here's how to build a tabbed interface where each tab contains a different workspace:
+
+![mixed-workspace-tabs](/images/workspaces/mixed-workspace-tabs.png)
+*Caption: Application showing multiple workspaces in tabs: Sales Analytics, Marketing Insights, and Custom Reports*
+
+#### Combining Standard and Custom Only Workspaces
+
+A common pattern is to provide:
+1. **Standard Workspaces**: Pre-built dashboards for common use cases
+2. **Custom Only Workspace**: Personal analytics space for power users
+
+
+#### React Implementation
+
+```tsx
+import { UpsolveWorkspace } from '@upsolve-labs/react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+interface WorkspaceConfig {
+  id: string;
+  name: string;
+  description: string;
+  permissions: TenantEditingPermissions;
+  isCustomOnly?: boolean;
+}
+
+export function MultiWorkspaceApp({ userToken }: { userToken: string }) {
+  // Configure your workspaces
+  const workspaces: WorkspaceConfig[] = [
+    {
+      id: 'd982f3d1-d145-43b5-bbfe-1c3322bd43fb',
+      name: 'Sales Analytics',
+      description: 'Revenue, pipeline, and performance metrics',
+      permissions: {
+        addChart: true,
+        addFilter: true,
+        createChart: false, // Read-only for sales team
+        editCharts: false,
+        removeChart: false,
+      },
+    },
+    {
+      id: '8a620645-bad4-40d4-823b-7fb57aeb9f98',
+      name: 'Marketing Insights',
+      description: 'Campaign performance and customer engagement',
+      permissions: {
+        addChart: true,
+        addFilter: true,
+        createChart: true,
+        editCharts: true,
+        removeChart: true,
+      },
+    },
+    {
+      id: 'c48ce638-0c2c-44ff-8d35-2a5616f167e2',
+      name: 'Custom Reports',
+      description: 'Your personal analytics workspace',
+      permissions: {
+        addChart: true,
+        addFilter: true,
+        createChart: true,
+        editCharts: true,
+        removeChart: true,
+      },
+      isCustomOnly: true, // This is a Custom Only workspace
+    },
+  ];
+
+  return (
+    <div className="h-screen flex flex-col">
+      <header className="border-b p-4">
+        <h1 className="text-2xl font-bold">Company Analytics</h1>
+      </header>
+      
+      <Tabs defaultValue={workspaces[0].id} className="flex-1">
+        <div className="border-b">
+          <TabsList className="w-full justify-start">
+            {workspaces.map((workspace) => (
+              <TabsTrigger 
+                key={workspace.id} 
+                value={workspace.id}
+                className="relative"
+              >
+                {workspace.name}
+                {workspace.isCustomOnly && (
+                  <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">
+                    Personal
+                  </span>
+                )}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
+
+        {workspaces.map((workspace) => (
+          <TabsContent 
+            key={workspace.id} 
+            value={workspace.id}
+            className="flex-1 m-0"
+          >
+            <div className="h-full flex flex-col">
+              {/* Optional: Add description banner */}
+              {workspace.description && (
+                <div className="bg-gray-50 border-b px-4 py-2 text-sm text-gray-600">
+                  {workspace.description}
+                </div>
+              )}
+              
+              <div className="flex-1">
+                <UpsolveWorkspace
+                  workspaceId={workspace.id}
+                  tenantJWT={userToken}
+                  tenantEditingPermissions={workspace.permissions}
+                  tabPlacement="top"
+                  theme="light"
+                />
+              </div>
+            </div>
+          </TabsContent>
+        ))}
+      </Tabs>
+    </div>
+  );
+}
+```
+
+#### Key Implementation Details
+
+**1. Workspace Configuration**
+Store workspace metadata in a configuration object:
+```typescript
+const workspaces = [
+  {
+    id: 'd982f3d1-d145-43b5-bbfe-1c3322bd43fb',
+    name: 'Standard Reports',
+    permissions: { /* standard permissions */ },
+  },
+  {
+    id: 'c48ce638-0c2c-44ff-8d35-2a5616f167e2',
+    name: 'My Custom Reports',
+    permissions: { /* full permissions */ },
+    isCustomOnly: true, // Mark as Custom Only
+  },
+];
+```
+
+**2. Conditional Permissions**
+Different workspaces can have different permission levels:
+```typescript
+// Read-only workspace for standardized reports
+permissions: {
+  readOnly: true,
+}
+
+// Full-featured Custom Only workspace
+permissions: {
+  addChart: true,
+  createChart: true,
+  editCharts: true,
+}
+```
+
+**3. Visual Indicators**
+Add badges or styling to help users understand workspace types:
+```tsx
+{workspace.isCustomOnly && (
+  <Badge variant="purple">Personal</Badge>
+)}
+```
+
+### IFrame Multi-Workspace Implementation
+
+If you're using iframes instead of React components:
+
+```html
+<div class="workspace-tabs">
+  <div class="tab-buttons">
+    <button onclick="showWorkspace('sales')">Sales Analytics</button>
+    <button onclick="showWorkspace('marketing')">Marketing Insights</button>
+    <button onclick="showWorkspace('custom')">Custom Reports</button>
+  </div>
+  
+  <iframe 
+    id="workspace-frame"
+    src="https://hub.upsolve.ai/share/dashboard/DASHBOARD_ID?personalWorkspace=true&jwt=USER_JWT"
+    width="100%"
+    height="800px"
+    frameborder="0">
+  </iframe>
+</div>
+
+<script>
+  const workspaces = {
+    sales: {
+      url: 'https://hub.upsolve.ai/share/dashboard/SALES_DASHBOARD_ID?personalWorkspace=true&jwt=USER_JWT',
+    },
+    marketing: {
+      url: 'https://hub.upsolve.ai/share/dashboard/MARKETING_DASHBOARD_ID?personalWorkspace=true&createChart=true&jwt=USER_JWT',
+    },
+    custom: {
+      url: 'https://hub.upsolve.ai/share/dashboard/CUSTOM_DASHBOARD_ID?personalWorkspace=true&createChart=true&editCharts=true&jwt=USER_JWT',
+    },
+  };
+
+  function showWorkspace(workspaceKey) {
+    document.getElementById('workspace-frame').src = workspaces[workspaceKey].url;
+  }
+</script>
+```
+
+### Best Practices
+
+**Do:**
+- Limit the number of workspace tabs to 4-7 for better UX
+- Use clear, descriptive names for each workspace
+- Add visual indicators for Custom Only workspaces
+- Consider role-based access control for workspace visibility
+- Provide descriptions or tooltips explaining each workspace's purpose
+
+**Don't:**
+- Create too many workspaces (causes tab clutter)
+- Use generic names like "Workspace 1", "Workspace 2"
+- Give all workspaces the same permissions
+- Forget to handle loading states when switching workspaces
+
+### Performance Considerations
+
+**Lazy Loading**: Load workspace content only when the tab is selected:
+```tsx
+<TabsContent value={workspace.id}>
+  <Suspense fallback={<LoadingSpinner />}>
+    <UpsolveWorkspace {...workspaceProps} />
+  </Suspense>
+</TabsContent>
+```
+
+**Caching**: Maintain workspace state when switching tabs to avoid reloading:
+```tsx
+const [loadedWorkspaces, setLoadedWorkspaces] = useState<Set<string>>(new Set());
+
+// Mark workspace as loaded when first accessed
+onTabChange={(workspaceId) => {
+  setLoadedWorkspaces(prev => new Set(prev).add(workspaceId));
+}}
+```
+
+

@@ -114,7 +114,8 @@
       "pages": [
         "embedded-bi/dashboards/create-dashboard",
         "embedded-bi/dashboards/point-and-click-interface",
-        "embedded-bi/dashboards/new-workspaces"
+        "embedded-bi/dashboards/new-workspaces",
+        "embedded-bi/dashboards/multi-workspace-deployment"
       ]
     },
     {
