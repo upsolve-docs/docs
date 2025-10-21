@@ -1,14 +1,14 @@
 ---
-title: 'Controlled Filters'
-description: 'Controlling filters from your app'
-icon: 'arrow-down-to-bracket'
+title: "Controlled Filters"
+description: "Controlling filters from your app"
+icon: "arrow-down-to-bracket"
 ---
 
 ## Overview
 
 It is possible to control dashboard level filters from your application. This requires setup in the Upsolve Hub to configure a filter key, and then a prop to be set in your application to pass a filter value down to the filter through the key.
 
-Controlled filters and their set values are not visible to your end users. They are meant to be exclusively for your access.
+Controlled filters and their set values are not visible to your end users by default. They are meant to be exclusively for your access.
 
 ## Configuration in Upsolve Hub
 
@@ -26,7 +26,7 @@ Then, configure a key for the filter. In this case, we have chosen `city`
 
 Finally, when the control is added, note that the filter label changes color and the icon indicates that this filter will not be visible to your users
 
-![Controlled Filter 3](/images/filters/controlled-filters-4.png)
+![Controlled Filter 4](/images/filters/controlled-filters-4.png)
 
 ## Configuration in your application
 
@@ -34,10 +34,11 @@ Refer back to the in-product guide:
 
 ![Controlled Filter 3](/images/filters/controlled-filters-3.png)
 
-Following this guide, configure a prop on your `UpsovlveDashboard` component. Pass into the prop an object, where each key refers to a controlled filter key you have configured, and each value is the value the controlled filter should take.
+Following this guide, configure a prop on your `UpsolveDashboard` component. Pass into the prop an object, where each key refers to a controlled filter key you have configured, and each value is the value the controlled filter should take.
 
 In this example, the prop would be:
-```
+
+```tsx
 <UpsolveDashboard
     ...,
     controlledFilterValues={{
@@ -45,3 +46,120 @@ In this example, the prop would be:
     }}
 />
 ```
+
+## Controlled Filters in Embedded Contexts
+
+### Default Behavior
+
+By default, controlled filters are **hidden** when your dashboard is embedded in an iframe or used in tenant views. This is the intended behavior to keep controlled filters invisible to end users.
+
+### Showing Controlled Filters in Embedded Contexts
+
+If you need to show controlled filters in embedded contexts (such as admin panels or internal tools), you can use the `showControlledFilter` prop:
+
+```tsx
+<UpsolveDashboard
+    ...,
+    controlledFilterValues={{
+        city: 'Abu Dhabi'
+    }}
+    showControlledFilter={true}
+/>
+```
+
+## Deploying with Iframe and URL Parameters
+
+When deploying dashboards in iframes, controlled filters can be passed through URL parameters instead of using the `controlledFilterValues` prop.
+
+### URL Parameter Format
+
+```
+https://hub.upsolve.ai/share/dashboard/{dashboardId}?filter_{filterKey}={filterValue}
+```
+
+**Examples:**
+
+```
+# Single filter
+https://hub.upsolve.ai/share/dashboard/123?filter_region=North%20America
+
+# Multiple filters
+https://hub.upsolve.ai/share/dashboard/123?filter_region=North%20America&filter_department=Engineering
+
+# Complex values (JSON)
+https://hub.upsolve.ai/share/dashboard/123?filter_categories=["Electronics","Books"]
+```
+
+### Basic Iframe Implementation
+
+```html
+<iframe
+  src="https://hub.upsolve.ai/share/dashboard/123?filter_region=North%20America&filter_department=Engineering"
+  width="100%"
+  height="600px"
+  frameborder="0"
+>
+</iframe>
+```
+
+
+
+### Migration from Props to URL Parameters
+
+**Before (Props):**
+
+```tsx
+<UpsolveDashboard
+  controlledFilterValues={{
+    region: "North America",
+    department: "Engineering",
+  }}
+/>
+```
+
+**After (URL Parameters):**
+
+```tsx
+<iframe src="https://hub.upsolve.ai/share/dashboard/123?filter_region=North%20America&filter_department=Engineering" />
+```
+
+The dashboard automatically parses URL parameters and applies them as controlled filters.
+
+### Use Cases for `showControlledFilter`
+
+
+### Example:  Visible Controlled Filters
+
+```tsx
+
+
+// Customer-facing dashboard where controlled filters are seen
+<UpsolveDashboard
+    workspaceId="your-workspace-id"
+    tenantJWT="customer-jwt-token"
+    controlledFilterValues={{
+        region: 'North America',
+        department: 'Engineering'
+    }}
+        showControlledFilter={true} 
+/>
+```
+
+
+## Best Practices
+
+1. **Use Descriptive Keys**: Choose filter keys that clearly indicate their purpose (e.g., `userRegion`, `departmentFilter`)
+2. **Document Your Filters**: Keep track of which filters are controlled and their expected values
+3. **Test Both Contexts**: Test your dashboard both with and without `showControlledFilter` to ensure proper behavior
+
+## Troubleshooting
+
+### Controlled Filter Not Working
+
+- Verify the filter key matches exactly between Hub configuration and your `controlledFilterValues` prop
+- Check that the filter value type matches the filter configuration (string, number, array, etc.)
+
+
+### Controlled Filter Hidden When It Should Be Visible
+
+- Set `showControlledFilter={true}` to override the default hiding behavior
